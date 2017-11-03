@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1385320478 source:f:\analexpascal\main.cpp
+	<iostream>
+
+1509724280 source:f:\analexpascal\analisadorlexico.cpp
+	<string>
+	"AnalisadorLexico.h"
+
+1509724336 f:\analexpascal\analisadorlexico.h
+	<string>
+
