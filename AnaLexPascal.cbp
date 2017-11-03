@@ -32,6 +32,7 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="AnalisadorLexico.cpp" />
 		<Unit filename="AnalisadorLexico.h" />
 		<Unit filename="main.cpp" />
 		<Extensions>
