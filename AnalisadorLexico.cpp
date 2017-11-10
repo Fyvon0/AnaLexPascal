@@ -1,47 +1,40 @@
 #include <string>
+#include <vector>
+#include <fstream>
+#include <regex>
+#include <iostream>
+
+#include "Token.h"
 #include "AnalisadorLexico.h"
+
 using namespace std;
 
-//MACROS
-#define ehOperador (s) (((s) == "+" || (s) == "-" || (s) == "*" || (s) == "div" || (s) == "/" || (s) == "mod" || (s) == "not" || (s) == "and" || (s) == "or" || (s) == "xor" || (s) == "<<" || (s) == ">>")?1:0)
-
-string AnalisadorLexico::simbolos[] = {"Program","var","Begin","End",
-                                       "if","while","integer","boolean",
-                                       ":",":=","+","-","*","div","/",
-                                       "mod","procedure","function","=",
-                                       "<>",">","<",">=","<=","not","or",
-                                       "and","xor","<<",">>","(",")",".",
-                                       ",",";","write","read"};
+const regex AnalisadorLexico::regex_pattern("(?i)(unit|program|interface|implementation|var|begin|end|if|while|do|break|continue|integer|boolean|mod|procedure|function|div|not|or|and|xor|write|read)(?![A-z]+|[0-9]+)|(:=|:|\+\+|\-\-|\+|\-|\*|\/|\=|\<\>|\<\<|\>\>|\>|\<|\>\=|\<\=|\(|\)|\.|\,|\;)|([0-9]+[A-z]+)|([A-z][A-z0-9]*)|([0-9]+(?![A-z]+))|(\S+)(?-i)");
 
 AnalisadorLexico::AnalisadorLexico(string nomeArq)
 {
-    this -> myfile.open(nomeArq.c_str());
-    if (!myfile.is_open())
+    this->arq.open(nomeArq.c_str());
+    if (!this->arq.is_open())
         throw "Erro ao abrir o arquivo";
-}
 
-AnalisadorLexico::~AnalisadorLexico()
-{
-    this -> myfile.close();
+    stringstream strstream;
+    string tmp;
+    strstream << this->arq.rdbuf();
+    tmp = strstream.str();
+
+    for(regex_iterator<string> i = regex_iterator<string>(tmp.begin(), tmp.end(), AnalisadorLexico::regex_pattern); i != regex_iterator<string>(); ++i ) {
+        smatch match = *i;
+        cout << match.str();
+    }
 }
 
 //IMPLEMENTAR
-TipoPedaco AnalisadorLexico::proximoPedaco()
+Token AnalisadorLexico::proximoToken() const
 {
 
 }
 
-bool AnalisadorLexico::temMaisPedacos()
-{
-
-}
-
-string AnalisadorLexico::getNome()
-{
-
-}
-
-int AnalisadorLexico::getValor()
+bool AnalisadorLexico::temMaisTokens() const
 {
 
 }

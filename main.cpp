@@ -1,9 +1,14 @@
 #include <iostream>
+#include<string>
+#include "AnalisadorLexico.h"
+
+const string nomeArq("../../teste.txt");
 
 using namespace std;
 
 int main()
 {
-    cout << "Hello world!" << endl;
+    AnalisadorLexico a(nomeArq);
+
     return 0;
 }

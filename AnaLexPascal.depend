@@ -9,3 +9,32 @@
 1509724336 f:\analexpascal\analisadorlexico.h
 	<string>
 
+1510322054 source:c:\users\u16187\desktop\analexpascal\analisadorlexico.cpp
+	<string>
+	<vector>
+	<fstream>
+	<regex>
+	<iostream>
+	"Token.h"
+	"AnalisadorLexico.h"
+
+1510322110 c:\users\u16187\desktop\analexpascal\analisadorlexico.h
+	<string>
+	<vector>
+	<fstream>
+	<regex>
+	<iostream>
+	"Token.h"
+
+1510315114 c:\users\u16187\desktop\analexpascal\token.h
+	<string>
+
+1510321581 source:c:\users\u16187\desktop\analexpascal\main.cpp
+	<iostream>
+	<string>
+	"AnalisadorLexico.h"
+
+1510314766 source:c:\users\u16187\desktop\analexpascal\token.cpp
+	<string>
+	"Token.h"
+
