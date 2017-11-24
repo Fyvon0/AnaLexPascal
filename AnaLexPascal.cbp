@@ -34,6 +34,9 @@
 		</Compiler>
 		<Unit filename="AnalisadorLexico.cpp" />
 		<Unit filename="AnalisadorLexico.h" />
+		<Unit filename="Simbolo.cpp" />
+		<Unit filename="Simbolo.h" />
+		<Unit filename="TabelaDeSimbolos.h" />
 		<Unit filename="Token.cpp" />
 		<Unit filename="Token.h" />
 		<Unit filename="main.cpp" />

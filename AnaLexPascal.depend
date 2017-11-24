@@ -1,23 +1,21 @@
 # depslib dependency file v1.0
-1510413414 source:f:\analexpascal\main.cpp
+1510409814 source:f:\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"AnalisadorLexico.h"
 
-1510415670 source:f:\analexpascal\analisadorlexico.cpp
+1511353852 source:f:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
-	<regex>
 	<iostream>
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1510398810 f:\analexpascal\analisadorlexico.h
+1511356416 f:\analexpascal\analisadorlexico.h
 	<string>
 	<vector>
 	<fstream>
-	<regex>
 	<iostream>
 	"Token.h"
 
@@ -50,10 +48,41 @@
 	<string>
 	"Token.h"
 
-1510398812 f:\analexpascal\token.h
+1511354088 f:\analexpascal\token.h
 	<string>
 
-1510398810 source:f:\analexpascal\token.cpp
+1511355666 source:f:\analexpascal\token.cpp
 	<string>
+	<stdlib.h>
+	<algorithm>
 	"Token.h"
+
+1511517926 source:e:\analexpascal\main.cpp
+	<iostream>
+	<string>
+	"AnalisadorLexico.h"
+
+1511522552 e:\analexpascal\analisadorlexico.h
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+
+1511516902 e:\analexpascal\token.h
+	<string>
+
+1511521406 source:e:\analexpascal\token.cpp
+	<string>
+	<stdlib.h>
+	<algorithm>
+	"Token.h"
+
+1511517910 source:e:\analexpascal\analisadorlexico.cpp
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+	"AnalisadorLexico.h"
 

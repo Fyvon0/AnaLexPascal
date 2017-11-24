@@ -5,23 +5,59 @@
 
 using namespace std;
 
-typedef
-    enum TipoToken {
-        Comando,
-        Operador,
-        Constante,
-        Identificador,
-        Erro
-    } TipoToken;
+enum class TipoToken{
+     programa,       // Program
+     variavel,       // var
+     comeco,         // Begin
+     fim,            // End
+     se,             // if
+     enquanto,       // while
+     inteiro,        // integer
+     booleano,       // boolean
+     tipoVariavel,   // :
+     atribuicao,     // :=
+     soma,           // +
+     subtracao,      // -
+     multiplicacao,  // *
+     divisaoInteira, // div
+     divisaoReal,    // /
+     modulo,         // mod
+     procedimento,   // procedure
+     funcao,         // function
+     igual,          // =
+     diferente,      // <>
+     maiorQue,       // >
+     menorQue,       // <
+     maiorIgual,     // >=
+     menorIgual,     // <=
+     nao,            // not -- operadores binários e lógicos são iguais
+     ou,             // or
+     e,              // and
+     exclOr,         // xor
+     bitsPraEsquerda,// << ou shl
+     bitsPraDireita, // >> ou shr
+     abreParenteses, // (
+     fechaParenteses,// )
+     ponto,          // . -- identifica o fim do programa
+     virgula,        // , -- divide declaração de variáveis
+     pontoEVirgula,  // ;
+     escrita,        // write
+     leitura,        // read
+     identificador,  // nome da var ou função que não as duas acima
+     numero,         // número constante no meio do código
+     desconhecido    // símbolo que não consta acima
+ };
 
 class Token {
 private:
     TipoToken tipo;
     string token;
+    static vector<string> simbolos;
 
 public:
-    string getToken() const;
-    TipoToken getTipo() const;
+    Token(string) throw ();
+    string getToken() const throw ();
+    TipoToken getTipo() const throw ();
 };
 
 #endif // TOKEN

@@ -1,16 +1,18 @@
 #include <string>
 #include <vector>
 #include <fstream>
-#include <regex>
 #include <iostream>
 
 #include "Token.h"
 #include "AnalisadorLexico.h"
 
+#define ehIgnoravel(c) (((c)=='\n')||((c)=='\t')||((c)==' '))?true:false
+
 using namespace std;
 
-const regex AnalisadorLexico::regex_pattern("(?i)(unit|program|interface|implementation|var|begin|end|if|while|do|break|continue|integer|boolean|mod|procedure|function|div|not|or|and|xor|write|read)(?![A-z]+|[0-9]+)|(:=|:|\+\+|\-\-|\+|\-|\*|\/|\=|\<\>|\<\<|\>\>|\>|\<|\>\=|\<\=|\(|\)|\.|\,|\;)|([0-9]+[A-z]+)|([A-z][A-z0-9]*)|([0-9]+(?![A-z]+))|(\S+)(?-i)");
+//const regex AnalisadorLexico::regex_pattern("(?i)(unit|program|interface|implementation|var|begin|end|if|while|do|break|continue|integer|boolean|mod|procedure|function|div|not|or|and|xor|write|read)(?![A-z]+|[0-9]+)|(:=|:|\+\+|\-\-|\+|\-|\*|\/|\=|\<\>|\<\<|\>\>|\>|\<|\>\=|\<\=|\(|\)|\.|\,|\;)|([0-9]+[A-z]+)|([A-z][A-z0-9]*)|([0-9]+(?![A-z]+))|(\S+)(?-i)");
 
+/*
 AnalisadorLexico::AnalisadorLexico(string nomeArq)
 {
     this->arq.open(nomeArq.c_str());
@@ -21,11 +23,6 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq)
     string tmp;
     strstream << this->arq.rdbuf();
     tmp = strstream.str();
-
-    /*for(regex_iterator<string> i = regex_iterator<string>(tmp.begin(), tmp.end(), AnalisadorLexico::regex_pattern); i != regex_iterator<string>(); ++i ) {
-        smatch match = *i;
-        cout << match.str();
-    }*/
 
     try {
         //regex re("\\w+");
@@ -49,14 +46,56 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq)
         //Vai saber
     }
 }
-
-//IMPLEMENTAR
-Token AnalisadorLexico::proximoToken() const
+*/
+// https://docs.microsoft.com/pt-br/cpp/ide/xml-documentation-visual-cpp - Documentação
+/// <summary> Lê o arquivo indicado e guarda seus dados para que depois sejam iterados
+///</summary>
+AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
 {
+    ifstream arq(nomeArq);
+    if (arq.fail())
+        throw string("Nao foi possivel abrir o arquivo indicado");
 
+    char c = tolower(arq.get());
+    string word;
+
+    while (arq.good())
+    {
+        if (isspace(c))
+        {
+            Token newToken(word);
+            this -> tokens.push_back(newToken);
+            word.clear();
+        }
+        else
+            word += c;
+
+        c = tolower(arq.get());
+    }
+
+    arq.close();
+    this -> iterador = tokens.cbegin();
 }
 
-bool AnalisadorLexico::temMaisTokens() const
+//IMPLEMENTAR
+Token AnalisadorLexico::leToken() const throw (string)
 {
+    if (!this -> temMaisTokens())
+        throw string("Não existem mais tokens a serem buscados");
+    Token t = *(this -> iterador);
+    return t;
+}
 
+Token AnalisadorLexico::consomeToken() throw (string)
+{
+    if (!this -> temMaisTokens())
+        throw string("Não existem mais tokens a serem buscados");
+    Token t = *(this -> iterador);
+    ++(this -> iterador);
+    return t;
+}
+
+bool AnalisadorLexico::temMaisTokens() const throw ()
+{
+    return this -> iterador != this -> tokens.cend();
 }
