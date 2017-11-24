@@ -1,15 +1,21 @@
 #ifndef TABELADESIMBOLOS
 #define TABELADESIMBOLOS
 
+using namespace std;
+
 class TabelaDeSimbolos
 {
 private:
     //armazenar simbolos
-    vector<vector<Simbolo>> simbolos; // o primeiro vetor agrupa os símbolos por nível, enquanto o segundo os armazenada de fato
+    set<Simbolo> simbolos; // o primeiro vetor agrupa os símbolos por nível, enquanto o segundo os armazenada de fato
+    char ultimoNivel;
 public:
     bool inserirSimbolo (Simbolo, char) throw (string);
-    bool eliminaNivel (unsigned int) throw (string);
-    bool existe (Simbolo) const throw ();
+    bool eliminaNivel (char) throw (string);
+    bool existe (Simbolo, char) const throw ();
+    char getUltimoNivel() const throw ();
+
+    TabelaDeSimbolos()
 };
 
 #endif // TABELADESIMBOLOS
