@@ -18,12 +18,12 @@ TabelaDeSimbolos::eliminaNivel(char nivel) { // Nojinho
     this->simbolos.erase(b, e);
 }
 
-TabelaDeSimbolos::existe(Simbolo s, char nivel) const {
+TabelaDeSimbolos::existe(Simbolo s) const {
     return this->simbolos.find(s) == this->simbolos.end();
 }
 
-TabelaDeSimbolos::inserirSimbolo(Simbolo s, char nivel) const {
-
+TabelaDeSimbolos::inserirSimbolo(Simbolo s) const {
+    this->simbolos.insert(s);
 }
 
 TabelaDeSimbolos::getUltimoNivel() const {
