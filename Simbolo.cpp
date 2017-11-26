@@ -32,7 +32,8 @@ bool Simbolo::operator==(Simbolo other) const throw ()
 //VARIAVEL
 Variavel::Variavel(string s, TipoVariavel t, char n) throw ()
 {
-    this -> nome (s);
+    string nom (s);
+    this -> nome = nom;
     this -> tipo = t;
     this -> nivel = n;
 }
@@ -56,7 +57,8 @@ bool Variavel::operator== (Simbolo other) const throw ()
 //PARAMETRO
 Parametro::Parametro(string s, TipoVariavel t, char n) throw ()
 {
-    this -> nome (s);
+    string nom (s);
+    this -> nome = nom;
     this -> tipo = t;
     this -> nivel = n;
 }
@@ -88,9 +90,11 @@ bool Parametro::operator== (Parametro p) const throw ()
 //PROCEDIMENTO
 Procedimento::Procedimento(string s, char n, vector<Parametro> pars) throw ()
 {
-    this -> nome (s);
+    string nom (s);
+    this -> nome = nom;
     this -> nivel = n;
-    this -> params (pars);
+    vector<Parametro> p (pars);
+    this -> params = p;
 }
 
 unsigned int Procedimento::getQuantidadeParametros() const throw ()
@@ -117,10 +121,12 @@ bool Procedimento::operator==(Simbolo other) const throw ()
 //FUNCAO
 Funcao::Funcao(string s, TipoVariavel t, char n, vector<Parametro> pars) throw()
 {
-    this->nome (s);
-    this->tipo = t;
+    string nom (s);
+    this->nome = nom;
+    this->retorno = t;
     this->nivel = n;
-    this -> params = pars;
+    vector<Parametro> p (pars);
+    this -> params = p;
 }
 
 unsigned int Funcao::getQuantidadeParametros() const throw ()
@@ -137,7 +143,7 @@ TipoVariavel Funcao::getTipoParametro(unsigned int i) const throw (string)
 
 TipoVariavel Funcao::getTipoDeRetorno() const throw ()
 {
-    return retorno.getTipoVariavel();
+    return retorno;
 }
 
 bool Funcao::operator==(Simbolo other) const throw ()

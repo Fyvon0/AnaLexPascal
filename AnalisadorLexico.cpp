@@ -56,12 +56,13 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
     if (arq.fail())
         throw string("Nao foi possivel abrir o arquivo indicado");
 
-    char c = tolower(arq.get());
     string word;
     int linha = 1;
 
-    while (arq.good())
+    do
     {
+        char c = tolower(arq.get());
+
         if (c == '\n')
             linha++;
         if (isspace(c) && !word.empty())
@@ -71,11 +72,12 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
             word.clear();
         }
         else
-            word += c;
+            if(!isspace(c))
+                word += c;
+    }while (arq.good());
 
-        c = tolower(arq.get());
-    }
-
+    Token newToken(word, linha);
+    this -> tokens.push_back(newToken);
     arq.close();
     this -> iterador = 0;
 }

@@ -1,18 +1,18 @@
-program Programa
+program Programa ;
 
-function fib(integer n) : integer
+procedure fib ( n : integer )
 var
 	a , b : integer ;
 begin
 	a := 0 ;
 	b := 1 ;
-		
-	while n > 0 do
+	while n < 0
 	begin
-		a := b ;
-		b := a + b ;
-		n -- ;
-	end;
-end;
-	
-end.
+		writeln ( b ) ;
+		b = a + b ;
+		a = b ;
+	end ;
+end ;
+begin
+	fib ( 10 ) ;
+end .

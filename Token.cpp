@@ -57,7 +57,7 @@ Token::Token(string word, int lin) throw ()
                 this -> tipo = TipoToken::desconhecido;
     }
     else // é um símbolo da linguagem
-        this -> token = i;
+        this -> tipo = (TipoToken)i;
 }
 
 string Token::getToken () const throw ()

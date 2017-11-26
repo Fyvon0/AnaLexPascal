@@ -303,6 +303,7 @@ void AnalisadorSintatico::compilaDeclaracaoDePP() throw (string)
         throw string ("\".\" expected at line " + prox.getLinha());
 }
 
+
 void AnalisadorSintatico::compilaSe () throw (string)
 {
 	Token prox = this->AnaLex->avancaToken();
@@ -377,7 +378,7 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 	prox = AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::fim)
 		throw string ("\"end\" expected at line " + prox.getLinha());
-}
+}*/
 
 
 
@@ -527,4 +528,4 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 
     nivel--;
     ts.inserirSimbolo(Procedimento(nome,nivel,params));
-}*/
+}
