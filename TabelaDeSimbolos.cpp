@@ -1,3 +1,5 @@
+#include <typeinfo>
+
 #include "TabelaDeSimbolos.h"
 
 TabelaDeSimbolos::TabelaDeSimbolos() {
@@ -28,4 +30,24 @@ void TabelaDeSimbolos::inserirSimbolo(Simbolo s) throw () {
 
 char TabelaDeSimbolos::getUltimoNivel() const throw (){
     return this->ultimoNivel;
+}
+
+TipoSimbolo TabelaDeSimbolos::getTipo(string nome) const throw (){
+    for (auto it = set.cbegin(); it != set.cend(); it++)
+        if ((*it).getNome() == nome)
+        {
+            switch (typeid(*it))
+            {
+            case typeid(Variavel):
+                return TipoSimbolo::Variavel;
+            case typeid(Parametro):
+                return TipoSimbolo::Parametro;
+            case typeid(Procedimento):
+                return TipoSimbolo::Procedimento;
+            case typeid(Funcao):
+                return TipoSimbolo::Funcao;
+            }
+        }
+
+    return TipoSimbolo::Nenhum;
 }

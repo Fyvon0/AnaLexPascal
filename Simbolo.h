@@ -11,6 +11,14 @@ enum class TipoVariavel {
     integer
 };
 
+enum class TipoSimbolo {
+    Variavel,
+    Procedimento,
+    Funcao,
+    Parametro,
+    Nenhum
+};
+
 class Simbolo
 {
 protected:

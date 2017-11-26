@@ -30,6 +30,7 @@ public:
     void eliminaNivel (char) throw (); // E se o nível for inválido?
     bool existe (Simbolo) const throw ();
     char getUltimoNivel() const throw ();
+    TipoSimbolo getTipo (string) const throw ();
 
     TabelaDeSimbolos();
 };

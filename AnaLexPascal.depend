@@ -4,7 +4,7 @@
 	<string>
 	"AnalisadorLexico.h"
 
-1511729494 source:f:\analexpascal\analisadorlexico.cpp
+1511730782 source:f:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -102,7 +102,7 @@
 	<typeinfo>
 	"Simbolo.h"
 
-1511720262 f:\analexpascal\simbolo.h
+1511739002 f:\analexpascal\simbolo.h
 	<string>
 	<vector>
 

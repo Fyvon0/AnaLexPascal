@@ -346,14 +346,22 @@ void AnalisadorSintatico::compilaComando() throw (string)
     Token prox = this->AnaLex->tokenAtual();
 	if (prox.getTipo() == TipoToken::identificador) // MUDAR ISSO
 	{
-		//achar id na tabela de simbolos
-		if (for id de var)
-			compilaAtribuicao();
-		else
-			if (for id de proc)
-				compilaChamadaDeProc();
-			else
-				erro
+		TipoSimbolo simb = this->ts.getTipo(prox.getToken());
+		switch (simb)
+		{
+        case TipoSimbolo::Parametro:
+        case TipoSimbolo::Variavel:
+            this->compilaAtribuicao();
+            break;
+        case TipoSimbolo::Procedimento:
+            this->compilaChamadaDeProc();
+            break;
+        case TipoSimbolo::Funcao:
+            this->compilaChamadaDeFuncao();
+            break;
+        default:
+            throw string("Call to undeclared identifier at line " + prox.getLinha());
+		}
 	}
 	else
 	{
@@ -371,7 +379,7 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 	Token prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::comeco)
 		throw string ("\"begin\" expected at line " + prox.getLinha());
-	while (true) //MUDAR ISSO
+	while (this->AnaLex->proximoToken().getTipo() != TipoToken::fim)
 	{
 		this->compilaComando();
 	}
@@ -382,7 +390,8 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 
 
 
-/*void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
+/*
+void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
 {
     nivel++;
     Token prox = this->AnaLex->avancaToken();
@@ -529,3 +538,4 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
     nivel--;
     ts.inserirSimbolo(Procedimento(nome,nivel,params));
 }
+*/
