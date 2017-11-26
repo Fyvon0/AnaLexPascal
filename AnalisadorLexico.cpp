@@ -77,28 +77,36 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
     }
 
     arq.close();
-    this -> iterador = tokens.cbegin();
+    this -> iterador = 0;
 }
 
 //IMPLEMENTAR
-Token AnalisadorLexico::leToken() const throw (string)
+Token AnalisadorLexico::tokenAtual() const throw (string)
 {
     if (!this -> temMaisTokens())
         throw string("Não existem mais tokens a serem buscados");
-    Token t = *(this -> iterador);
+    Token t = this->tokens[this -> iterador];
     return t;
 }
 
-Token AnalisadorLexico::consomeToken() throw (string)
+Token AnalisadorLexico::avancaToken() throw (string)
 {
     if (!this -> temMaisTokens())
         throw string("Não existem mais tokens a serem buscados");
-    Token t = *(this -> iterador);
+    Token t = this->tokens[this -> iterador];
     ++(this -> iterador);
+    return t;
+}
+
+Token AnalisadorLexico::proximoToken() const throw (string)
+{
+    if (!this -> temMaisTokens())
+        throw string("Não existem mais tokens a serem buscados");
+    Token t = this->tokens[this -> iterador + 1];
     return t;
 }
 
 bool AnalisadorLexico::temMaisTokens() const throw ()
 {
-    return this -> iterador != this -> tokens.cend();
+    return this -> iterador < this -> tokens.size();
 }

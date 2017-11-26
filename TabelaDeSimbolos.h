@@ -19,15 +19,15 @@ private:
             if (nA != nB)
                 return nA < nB;
 
-            return a.getToken() < b.getToken();
+            return a.getNome() < b.getNome();
         }
     };
-    set<Simbolo, comparador> simbolos; // o primeiro vetor agrupa os símbolos por nível, enquanto o segundo os armazenada de fato
+    set<Simbolo, comparador> simbolos;
     char ultimoNivel;
 
 public:
-    bool inserirSimbolo (Simbolo) throw (string);
-    bool eliminaNivel (char) throw (string);
+    void inserirSimbolo (Simbolo) throw (); // E se o símbolo já existir
+    void eliminaNivel (char) throw (); // E se o nível for inválido?
     bool existe (Simbolo) const throw ();
     char getUltimoNivel() const throw ();
 

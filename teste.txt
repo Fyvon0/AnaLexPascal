@@ -1,24 +1,18 @@
-unit Matematica;
-
 program Programa
-interface
-	function fib(integer n) : integer;
 
-implementation
-	function fib(integer n) : integer;
-	var
-		a, b : integer;
+function fib(integer n) : integer
+var
+	a , b : integer ;
+begin
+	a := 0 ;
+	b := 1 ;
+		
+	while n > 0 do
 	begin
-		a := 0;
-		b := 1;
-		
-		
-		while n > 0 do
-		begin
-			a := b;
-			b := a+b;
-			n--;
-		end;
+		a := b ;
+		b := a + b ;
+		n -- ;
 	end;
+end;
 	
 end.

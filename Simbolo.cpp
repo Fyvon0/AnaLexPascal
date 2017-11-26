@@ -21,6 +21,13 @@ bool Simbolo::operator!=(Simbolo other) const throw ()
     return !this -> operator==(other);
 }
 
+bool Simbolo::operator==(Simbolo other) const throw ()
+{
+    if (this -> nivel != other.getNivel())
+        return false;
+    return this->nome != other.getNome();
+}
+
 //VARIAVEL
 TipoVariavel Variavel::getTipoVariavel() const throw ()
 {
@@ -48,8 +55,21 @@ bool Parametro::operator== (Simbolo other) const throw ()
 {
     if (typeid(*this) != typeid(other))
         return false;
+
+    if (this -> nivel != other.getNivel())
+        return false;
+
     return this -> nome == other.getNome();
 }
+
+bool Parametro::operator== (Parametro p) const throw ()
+{
+    if (this -> nivel != p.getNivel())
+        return false;
+
+    return this -> nome == p.getNome();
+}
+
 
 //PROCEDIMENTO
 unsigned int Procedimento::getQuantidadeParametros() const throw ()
@@ -95,7 +115,7 @@ bool Funcao::operator==(Simbolo other) const throw ()
 {
     if (typeid(*this) != typeid(other))
         return false;
-    //if (this -> params != (Procedimento)other.params)
-      //  return false;
+    if (this -> params != static_cast<Funcao*>(&other) -> params)
+        return false;
     return this -> nome == other.getNome();
 }

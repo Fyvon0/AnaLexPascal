@@ -14,7 +14,7 @@ enum class TipoToken{
      enquanto,       // while
      inteiro,        // integer
      booleano,       // boolean
-     tipoVariavel,   // :
+     doisPontos,     // :
      atribuicao,     // :=
      soma,           // +
      subtracao,      // -

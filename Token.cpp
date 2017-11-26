@@ -12,7 +12,7 @@ vector<string> Token::simbolos ({"program","var","begin","end",
                                  "mod","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",
                                  "and","xor","<<",">>","(",")",".",
-                                 ",",";","write","read"});
+                                 ",",";","writeln","readln"});
 
 static bool ehInteiro (const string & s)
 {

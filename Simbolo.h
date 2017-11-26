@@ -43,6 +43,7 @@ public:
     TipoVariavel getTipoVariavel () const throw ();
     bool operator== (Simbolo) const throw ();
     bool operator!= (Simbolo) const throw ();
+    bool operator== (Parametro) const throw ();
 };
 
 class Procedimento : public Simbolo

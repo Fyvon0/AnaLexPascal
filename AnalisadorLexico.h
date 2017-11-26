@@ -15,12 +15,13 @@ class AnalisadorLexico
 private:
     vector<Token> tokens; // trocar por forward_list
     //static const regex regex_pattern;
-    vector<Token>::const_iterator iterador;
+    int iterador;
 
 public:
     AnalisadorLexico(string) throw (string);
-    Token leToken() const throw (string);
-    Token consomeToken() throw (string);
+    Token tokenAtual() const throw (string);
+    Token avancaToken() throw (string);
+    Token proximoToken() const throw (string);
     bool temMaisTokens() const throw ();
 };
 

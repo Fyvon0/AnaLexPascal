@@ -4,7 +4,7 @@
 	<string>
 	"AnalisadorLexico.h"
 
-1511695356 source:f:\analexpascal\analisadorlexico.cpp
+1511712290 source:f:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -12,7 +12,7 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511526152 f:\analexpascal\analisadorlexico.h
+1511712144 f:\analexpascal\analisadorlexico.h
 	<string>
 	<vector>
 	<fstream>
@@ -48,10 +48,10 @@
 	<string>
 	"Token.h"
 
-1511695376 f:\analexpascal\token.h
+1511708772 f:\analexpascal\token.h
 	<string>
 
-1511521406 source:f:\analexpascal\token.cpp
+1511706646 source:f:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
@@ -86,20 +86,30 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511695778 source:f:\analexpascal\analisadorsintatico.cpp
+1511712386 source:f:\analexpascal\analisadorsintatico.cpp
+	<forward_list>
+	<string>
 	"AnalisadorSintatico.h"
 
-1511695704 f:\analexpascal\analisadorsintatico.h
+1511709502 f:\analexpascal\analisadorsintatico.h
 	<list>
 	<string>
 	"AnalisadorLexico.h"
+	"TabelaDeSimbolos.h"
 
-1511695904 source:f:\analexpascal\simbolo.cpp
+1511714856 source:f:\analexpascal\simbolo.cpp
 	<string>
 	<typeinfo>
 	"Simbolo.h"
 
-1511528252 f:\analexpascal\simbolo.h
+1511714838 f:\analexpascal\simbolo.h
 	<string>
 	<vector>
+
+1511714894 f:\analexpascal\tabeladesimbolos.h
+	<set>
+	"Simbolo.h"
+
+1511712332 source:f:\analexpascal\tabeladesimbolos.cpp
+	"TabelaDeSimbolos.h"
 
