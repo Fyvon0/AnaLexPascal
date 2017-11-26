@@ -378,7 +378,7 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 	prox = AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::fim)
 		throw string ("\"end\" expected at line " + prox.getLinha());
-}*/
+}
 
 
 
