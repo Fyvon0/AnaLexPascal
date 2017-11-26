@@ -62,9 +62,9 @@ class Funcao : public Simbolo
 {
 private:
     vector<Parametro> params;
-    Variavel retorno;
+    TipoVariavel retorno;
 public:
-    Funcao (string, char, vector<Parametro>) throw ();
+    Funcao (string, TipoVariavel, char, vector<Parametro>) throw ();
     unsigned int getQuantidadeParametros () const throw ();
     TipoVariavel getTipoParametro (unsigned int) const throw (string);
     TipoVariavel getTipoDeRetorno () const throw ();

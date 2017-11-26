@@ -6,6 +6,7 @@
 using namespace std;
 
 //SIMBOLO
+
 string Simbolo::getNome() const throw ()
 {
     return string(this -> nome);
@@ -29,6 +30,13 @@ bool Simbolo::operator==(Simbolo other) const throw ()
 }
 
 //VARIAVEL
+Variavel::Variavel(string s, TipoVariavel t, char n) throw ()
+{
+    this -> nome (s);
+    this -> tipo = t;
+    this -> nivel = n;
+}
+
 TipoVariavel Variavel::getTipoVariavel() const throw ()
 {
     return this -> tipo;
@@ -46,6 +54,12 @@ bool Variavel::operator== (Simbolo other) const throw ()
 }
 
 //PARAMETRO
+Parametro::Parametro(string s, TipoVariavel t, char n) throw ()
+{
+    this -> nome (s);
+    this -> tipo = t;
+    this -> nivel = n;
+}
 TipoVariavel Parametro::getTipoVariavel() const throw ()
 {
     return this -> tipo;
@@ -72,6 +86,13 @@ bool Parametro::operator== (Parametro p) const throw ()
 
 
 //PROCEDIMENTO
+Procedimento::Procedimento(string s, char n, vector<Parametro> pars) throw ()
+{
+    this -> nome (s);
+    this -> nivel = n;
+    this -> params (pars);
+}
+
 unsigned int Procedimento::getQuantidadeParametros() const throw ()
 {
     return this -> params.size();
@@ -94,6 +115,14 @@ bool Procedimento::operator==(Simbolo other) const throw ()
 }
 
 //FUNCAO
+Funcao::Funcao(string s, TipoVariavel t, char n, vector<Parametro> pars) throw()
+{
+    this->nome (s);
+    this->tipo = t;
+    this->nivel = n;
+    this -> params = pars;
+}
+
 unsigned int Funcao::getQuantidadeParametros() const throw ()
 {
     return this -> params.size();
