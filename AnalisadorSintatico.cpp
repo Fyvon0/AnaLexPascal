@@ -309,9 +309,7 @@ void AnalisadorSintatico::compilaSe () throw (string)
 	Token prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::se)
 		throw string ("\"if\" expected at line " + prox.getLinha());
-	tipo = this->compilarExpressao();
-	if (tipo != booleano)
-		erro
+	this->compilaExpressaoRelacional();
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() == TipoToken::comeco)
 		this -> compilaComandoComposto();
@@ -388,7 +386,29 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 		throw string ("\"end\" expected at line " + prox.getLinha());
 }
 
+void AnalisadorSintatico::compilaExpressaoRelacional() throw (string)
+{
+    this->compilaExpressaoAritmetica();
+    //parenteses
+    Token prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::menorQue)
+}
 
+void AnalisadorSintatico::compilaEnquanto() throw (string)
+{
+	Token prox = this->AnaLex->avancaToken();
+	if (prox.getTipo() != TipoToken::enquanto)
+		throw string ("\"if\" expected at line " + prox.getLinha());
+	this->compilaExpressaoRelacional();
+	prox = this->AnaLex->avancaToken();
+	if (prox.getTipo() == TipoToken::comeco)
+		this -> compilaComandoComposto();
+	else
+		this -> compilaComando();
+	prox = this->AnaLex->avancaToken();
+	if (prox.getTipo() != TipoToken::pontoEVirgula)
+		throw ("\";\" expected at line " + prox.getLinha());
+}
 
 /*
 void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)

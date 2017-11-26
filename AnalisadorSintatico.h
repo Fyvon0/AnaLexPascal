@@ -25,6 +25,8 @@ public:
     void compilaDeclaracaoDeWhile() throw (string);
     void compilaComando() throw (string);
     void compilaComandoComposto() throw (string);
+    void compilaExpressaoRelacional() throw (string);
+    void compilaEnquanto() throw (string);
 };
 
 #endif // ANALISADORSINTATICO
