@@ -1,14 +1,16 @@
 #ifndef TABELADESIMBOLOS
 #define TABELADESIMBOLOS
 
+#include <set>
+
+#include "Simbolo.h"
+
 using namespace std;
 
 class TabelaDeSimbolos
 {
 private:
     //armazenar simbolos
-    set<Simbolo, comparador> simbolos; // o primeiro vetor agrupa os símbolos por nível, enquanto o segundo os armazenada de fato
-    char ultimoNivel;
     struct comparador { // Functor comparador
         bool operator() (Simbolo a, Simbolo b) const {
             char nA = a.getNivel(),
@@ -20,6 +22,8 @@ private:
             return a.getToken() < b.getToken();
         }
     };
+    set<Simbolo, comparador> simbolos; // o primeiro vetor agrupa os símbolos por nível, enquanto o segundo os armazenada de fato
+    char ultimoNivel;
 
 public:
     bool inserirSimbolo (Simbolo) throw (string);
@@ -27,7 +31,7 @@ public:
     bool existe (Simbolo) const throw ();
     char getUltimoNivel() const throw ();
 
-    TabelaDeSimbolos()
+    TabelaDeSimbolos();
 };
 
 #endif // TABELADESIMBOLOS

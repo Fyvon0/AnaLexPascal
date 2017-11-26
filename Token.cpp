@@ -35,9 +35,10 @@ bool ehStringAlfanumerica(const std::string &str)
     return find_if(str.begin(), str.end(), ehCharAlfanumerico) == str.end();
 }
 
-Token::Token(string word) throw ()
+Token::Token(string word, int lin) throw ()
 {
     this -> token = word;
+    this -> linha = lin;
     unsigned int i;
     for (i = 0; i < this -> simbolos.size(); i++)
         if (this -> token == this -> simbolos[i])
@@ -67,4 +68,9 @@ string Token::getToken () const throw ()
 TipoToken Token::getTipo () const throw ()
 {
     return this -> tipo;
+}
+
+int Token::getLinha() const throw ()
+{
+    return this -> linha;
 }

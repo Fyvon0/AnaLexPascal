@@ -53,11 +53,13 @@ private:
     TipoToken tipo;
     string token;
     static vector<string> simbolos;
+    int linha;
 
 public:
-    Token(string) throw ();
+    Token(string, int) throw ();
     string getToken() const throw ();
     TipoToken getTipo() const throw ();
+    int getLinha() const throw ();
 };
 
 #endif // TOKEN

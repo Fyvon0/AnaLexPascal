@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1510409814 source:f:\analexpascal\main.cpp
+1511521526 source:f:\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"AnalisadorLexico.h"
 
-1511353852 source:f:\analexpascal\analisadorlexico.cpp
+1511695356 source:f:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -12,7 +12,7 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511356416 f:\analexpascal\analisadorlexico.h
+1511526152 f:\analexpascal\analisadorlexico.h
 	<string>
 	<vector>
 	<fstream>
@@ -48,10 +48,10 @@
 	<string>
 	"Token.h"
 
-1511354088 f:\analexpascal\token.h
+1511695376 f:\analexpascal\token.h
 	<string>
 
-1511355666 source:f:\analexpascal\token.cpp
+1511521406 source:f:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
@@ -85,4 +85,21 @@
 	<iostream>
 	"Token.h"
 	"AnalisadorLexico.h"
+
+1511695778 source:f:\analexpascal\analisadorsintatico.cpp
+	"AnalisadorSintatico.h"
+
+1511695704 f:\analexpascal\analisadorsintatico.h
+	<list>
+	<string>
+	"AnalisadorLexico.h"
+
+1511695904 source:f:\analexpascal\simbolo.cpp
+	<string>
+	<typeinfo>
+	"Simbolo.h"
+
+1511528252 f:\analexpascal\simbolo.h
+	<string>
+	<vector>
 

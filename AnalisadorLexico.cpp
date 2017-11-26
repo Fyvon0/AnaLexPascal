@@ -58,12 +58,15 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
 
     char c = tolower(arq.get());
     string word;
+    int linha = 1;
 
     while (arq.good())
     {
-        if (isspace(c))
+        if (c == '\n')
+            linha++;
+        if (isspace(c) && !word.empty())
         {
-            Token newToken(word);
+            Token newToken(word, linha);
             this -> tokens.push_back(newToken);
             word.clear();
         }

@@ -31,6 +31,10 @@ bool Variavel::operator== (Simbolo other) const throw ()
 {
     if (typeid(*this) != typeid(other))
         return false;
+
+    if (this -> nivel != other.getNivel())
+        return false;
+
     return this -> nome == other.getNome();
 }
 
@@ -91,7 +95,7 @@ bool Funcao::operator==(Simbolo other) const throw ()
 {
     if (typeid(*this) != typeid(other))
         return false;
-    if (this -> params != (Procedimento)other.params)
-        return false;
+    //if (this -> params != (Procedimento)other.params)
+      //  return false;
     return this -> nome == other.getNome();
 }
