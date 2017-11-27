@@ -179,6 +179,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
 		throw string("\";\" after end of procedure at line " + prox.getLinha());
+    this->ts.eliminaNivel(nivel);
     this->nivel--;
     this->ts.inserirSimbolo(Procedimento(nome, this->nivel, params));
 }
@@ -291,6 +292,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeFuncao() throw (string)
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
 		throw string("\";\" after end of procedure at line " + prox.getLinha());
+    this->ts.eliminaNivel(nivel);
     this->nivel--;
 }
 
@@ -424,6 +426,19 @@ void AnalisadorSintatico::compilaExpressaoAritmetica() throw (string)
         prox = this->AnaLex->avancaToken();
         this->compilaFator();
         prox = this->AnaLex->proximoToken();
+    }
+}
+
+void AnalisadorSintatico::compilaFator() throw (string)
+{
+    Token prox = this->AnaLex->proximoToken();
+    if (prox.getTipo() == TipoToken::subtracao || prox.getTipo() == TipoToken::soma)
+        prox = this->AnaLex->proximoToken();
+
+    if (prox.getTipo() == TipoToken::identificador)
+    {
+        if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Nenhum)
+            throw ("Call to undeclared identifier at line " + prox.getLinha());
     }
 }
 

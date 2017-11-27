@@ -28,6 +28,7 @@ public:
     void compilaExpressaoRelacional() throw (string);
     void compilaEnquanto() throw (string);
     void compilaExpressaoAritmetica() throw (string);
+    void compilaFator() throw (string);
 };
 
 #endif // ANALISADORSINTATICO
