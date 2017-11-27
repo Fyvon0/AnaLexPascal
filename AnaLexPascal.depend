@@ -86,27 +86,28 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511727924 source:f:\analexpascal\analisadorsintatico.cpp
+1511755872 source:f:\analexpascal\analisadorsintatico.cpp
 	<forward_list>
 	<string>
+	<typeinfo>
 	"AnalisadorSintatico.h"
 
-1511715816 f:\analexpascal\analisadorsintatico.h
+1511755356 f:\analexpascal\analisadorsintatico.h
 	<list>
 	<string>
 	"AnalisadorLexico.h"
 	"TabelaDeSimbolos.h"
 
-1511727866 source:f:\analexpascal\simbolo.cpp
+1511749528 source:f:\analexpascal\simbolo.cpp
 	<string>
 	<typeinfo>
 	"Simbolo.h"
 
-1511739002 f:\analexpascal\simbolo.h
+1511755914 f:\analexpascal\simbolo.h
 	<string>
 	<vector>
 
-1511714894 f:\analexpascal\tabeladesimbolos.h
+1511755946 f:\analexpascal\tabeladesimbolos.h
 	<set>
 	"Simbolo.h"
 

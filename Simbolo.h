@@ -30,6 +30,7 @@ public:
     char setNivel() throw (string);
     virtual bool operator== (Simbolo) const throw ();
     bool operator!= (Simbolo) const throw ();
+    void setNivel(char) throw (string);
 };
 
 class Variavel : public Simbolo

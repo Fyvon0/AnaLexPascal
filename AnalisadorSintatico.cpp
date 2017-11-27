@@ -346,25 +346,6 @@ void AnalisadorSintatico::compilaSe () throw (string)
 		throw string("\";\" expected at line " + prox.getLinha());
 }
 
-void AnalisadorSintatico::compilaDeclaracaoDeWhile() throw (string)
-{
-    Token prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::enquanto)
-        throw ("\"while\" expected at line " + prox.getLinha());
-	tipo = this->compilaExpressao();
-	if (tipo != booleano)
-		erro
-	prox = this->AnaLex->avancaToken();
-	if (prox.getTipo() == TipoToken::comeco)
-		this -> compilaComandoComposto();
-	else
-		this -> compilaComando();
-	prox = this->AnaLex->avancaToken();
-	if (prox.getTipo() != TipoToken::pontoEVirgula)
-		throw ("\";\" expected at line " + prox.getLinha());
-
-}
-
 void AnalisadorSintatico::compilaComando() throw (string)
 {
     Token prox = this->AnaLex->proximoToken();
@@ -476,7 +457,7 @@ bool AnalisadorSintatico::isNumberOrIdentifier(Token t) const throw ()
 
 void AnalisadorSintatico::compilaExpressaoAritmetica() throw (string)
 {
-    this->compilarFator();
+    this->compilaFator();
 
     Token prox = this->AnaLex->proximoToken();
     while (prox.getTipo() == TipoToken::soma ||
@@ -581,16 +562,17 @@ void AnalisadorSintatico::compilaAtribuicao() throw (string)
 {
     Token prox = this->AnaLex->avancaToken();
 
-    if (ts.getTipo(prox.getToken()) != TipoSimbolo::Variavel)
-        throw string ("Call to undefined identifier \""+prox.getToken()+"\" at line "+prox.getLinha());
+    if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Variavel)
+        throw string ("Call to undefined identifier at line "+prox.getLinha());
 
-    Variavel v = *(static_cast<Variavel*>(&ts->getSimbolo(prox.getToken())));
+    Simbolo s = this->ts.getSimbolo(prox.getToken());
+    Variavel v = *(static_cast<Variavel*>(&s));
 
     prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::atribuicao)
         throw string("\":=\" expected at line " + prox.getLinha());
 
-    if (this->compilaExpressao() != v->getTipoVariavel())
+    if (this->compilaExpressao() != v.getTipoVariavel())
         throw (string ("Wrong type given at line " + prox.getLinha()));
 }
 
@@ -606,11 +588,13 @@ TipoVariavel AnalisadorSintatico::compilaExpressao() throw (string)
         return TipoVariavel::integer;
     }
 
-    if (ts.getTipo(this->AnaLex->proximoToken()) != TipoSimbolo::Variavel)
-        throw string ("number or identifier expected at line "+this->AnaLex->proximoToken().getLinha())
+    if (ts.getTipo(this->AnaLex->proximoToken().getToken()) != TipoSimbolo::Variavel)
+        throw string ("number or identifier expected at line "+this->AnaLex->proximoToken().getLinha());
 
-    Variavel v = *static_cast<Variavel*>(&ts.getSimbolo(this->AnaLex->avancaToken().getToken()))
-    return v->getTipoVariavel();
+    Token prox = this->AnaLex->avancaToken();
+    Simbolo s = (this->ts.getSimbolo(prox.getToken()));
+    Variavel v = *static_cast<Variavel*>(&s);
+    return v.getTipoVariavel();
     // TODO: Expressões relacionais
 }
 

@@ -27,6 +27,7 @@ private:
 
 public:
     void inserirSimbolo (Simbolo) throw (string); // E se o símbolo já existir
+    void inserirSimbolo (Simbolo, char) throw (string);
     void voltarNivel() throw (string); // E se o nível for inválido?
     void avancarNivel() throw ();
     bool existe (Simbolo) const throw ();

@@ -32,7 +32,9 @@ bool TabelaDeSimbolos::existe(Simbolo s) const throw () {
     return this->simbolos.find(s) == this->simbolos.end();
 }
 
-void TabelaDeSimbolos::inserirSimbolo(Simbolo s) throw () {
+void TabelaDeSimbolos::inserirSimbolo(Simbolo s) throw (string) {
+    if (existe(s))
+        throw string ("Não pode inserir símbolo repetido.");
     this->inserirSimbolo(s, this->ultimoNivel);
 }
 
