@@ -380,7 +380,7 @@ void AnalisadorSintatico::compilaComando() throw (string)
             this->compilaChamadaDeProc();
             break;
         case TipoSimbolo::Funcao:
-            this->compilaChamadaDeFuncao();
+            this->compilaChamadaDeFunc();
             break;
         default:
             throw string("Call to undeclared identifier at line " + prox.getLinha());
@@ -523,6 +523,37 @@ void AnalisadorSintatico::compilaChamadaDeProc() throw (string)
         {
             case
         }
+    }
+}
+
+void AnalisadorSintatico::compilaAtribuicao() throw (string)
+{
+    Token prox = this->AnaLex->avancaToken();
+
+    if (ts->getTipo(prox.getToken()) != TipoSimbolo::Variavel)
+        throw string ("Call to undefined identifier \""+prox.getToken()+"\" at line "+prox.getLinha());
+
+    Variavel v = *(static_cast<Variavel*>(&ts->getSimbolo(prox.getToken())));
+
+    prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::atribuicao)
+        throw string("\":=\" expected at line " + prox.getLinha());
+
+    prox = this->AnaLex->proximoToken();
+    switch(ts->getTipo(prox.getToken()))
+    {
+    case TipoSimbolo::Funcao:
+        if(this->compilaChamadaDeFunc() != v->getTipoVariavel())
+            throw string ("Wrong type given at line "+prox.getLinha());
+        break;
+    case TipoSimbolo::Variavel:
+        Variavel v2 = *(static_cast<Variavel*>(&ts->getSimbolo(prox.getToken()))); // foudase
+        if (v->getTipoVariavel() != v2->getTipoVariavel())
+            throw string ("Wrong type given at line "+prox.getLinha());
+        break;
+    default:
+        throw string ("Unexpected type at " + prox.getLinha());
+        break;
     }
 }
 
