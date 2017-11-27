@@ -14,6 +14,8 @@ private:
     AnalisadorLexico *AnaLex;
     TabelaDeSimbolos ts;
     char nivel;
+
+    bool isNumberOrIdentifier(Token t) throw() const
 public:
     AnalisadorSintatico (string) throw ();
     void compilaInicioDePrograma () throw (string);
