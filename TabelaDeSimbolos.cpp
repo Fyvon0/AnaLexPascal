@@ -12,7 +12,7 @@ void TabelaDeSimbolos::voltarNivel() throw (string) { // Nojinho
 
     set<Simbolo>::iterator b, e;
     bool achouComeco = false;
-    for (set<Simbolo>::iterator it = this->simbolos.begin(); it != this->simbolos.end(); it++)
+    for (set<Simbolo>::iterator it = this->simbolos.cbegin(); it != this->simbolos.cend(); it++)
         if (!achouComeco && it->getNivel() == this->ultimoNivel)
             b = it;
         else if (achouComeco && it->getNivel() != this->ultimoNivel) {
@@ -47,8 +47,18 @@ char TabelaDeSimbolos::getUltimoNivel() const throw () {
     return this->ultimoNivel;
 }
 
+Simbolo TabelaDeSimbolos::getSimbolo(string nome) const throw (string) {
+    for (auto it = simbolos.cbegin(); it != simbolos.cend(); it++)
+        if (it->getNivel() != this->ultimoNivel)
+            continue;
+        else if (it->getNome() == nome)
+            return *it;
+
+    throw string ("Tipo não declarado");
+}
+
 TipoSimbolo TabelaDeSimbolos::getTipo(string nome) const throw (){
-    for (auto it = set.cbegin(); it != set.cend(); it++)
+    for (auto it = simbolos.cbegin(); it != simbolos.cend(); it++)
         if (it->getNivel() != this->ultimoNivel) // Só para símbolos do nível atual
             continue;
         else if (it->getNome() == nome)
