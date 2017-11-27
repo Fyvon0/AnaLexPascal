@@ -30,6 +30,7 @@ private:
     void compilaFator() throw (string);
     void compilaChamadaDeProc() throw (string);
     void compilaAtribuicao() throw (string);
+    TipoVariavel compilaExpressao() throw (string);
     TipoVariavel compilaChamadaDeFunc() throw (string);
 public:
     AnalisadorSintatico (string) throw ();
