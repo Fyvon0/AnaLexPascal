@@ -28,6 +28,8 @@ private:
     void compilaEnquanto() throw (string);
     void compilaExpressaoAritmetica() throw (string);
     void compilaFator() throw (string);
+    void compilaChamadaDeProc() throw (string);
+    TipoVariavel compilaChamadaDeFunc() throw (string);
 public:
     AnalisadorSintatico (string) throw ();
     void compilarAPorraToda() throw (string);

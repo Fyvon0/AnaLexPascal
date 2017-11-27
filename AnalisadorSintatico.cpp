@@ -366,7 +366,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeWhile() throw (string)
 
 void AnalisadorSintatico::compilaComando() throw (string)
 {
-    Token prox = this->AnaLex->tokenAtual();
+    Token prox = this->AnaLex->proximoToken();
 	if (prox.getTipo() == TipoToken::identificador) // MUDAR ISSO
 	{
 		TipoSimbolo simb = this->ts.getTipo(prox.getToken());
@@ -500,6 +500,44 @@ void AnalisadorSintatico::compilaFator() throw (string)
     {
         if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Nenhum)
             throw ("Call to undeclared identifier at line " + prox.getLinha());
+    }
+}
+
+void AnalisadorSintatico::compilaChamadaDeProc() throw (string)
+{
+    Token prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::identificador)
+        throw ("Identifier expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    Procedimento proc = this->ts.getSimbolo(prox.getToken());
+    if (prox.getTipo() != TipoToken::abreParenteses)
+        throw ("\"(\" expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    while (prox.getTipo() != TipoToken::fechaParenteses)
+    {
+        switch (prox.getTipo())
+        {
+            case
+        }
+    }
+}
+
+TipoVariavel AnalisadorSintatico::compilaChamadaDeFunc() throw (string)
+{
+    Token prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::identificador)
+        throw ("Identifier expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    Funcao proc = this->ts.getSimbolo(prox.getToken());
+    if (prox.getTipo() != TipoToken::abreParenteses)
+        throw ("\"(\" expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    while (prox.getTipo() != TipoToken::fechaParenteses)
+    {
+        switch (prox.getTipo())
+        {
+            case
+        }
     }
 }
 
