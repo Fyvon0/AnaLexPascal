@@ -13,9 +13,8 @@ private:
     std::list<std::string> erros;
     AnalisadorLexico *AnaLex;
     TabelaDeSimbolos ts;
-    char nivel;
 
-    bool isNumberOrIdentifier(Token t) throw() const
+    bool isNumberOrIdentifier(Token t)const throw();
 public:
     AnalisadorSintatico (string) throw ();
     void compilaInicioDePrograma () throw (string);
