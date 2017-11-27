@@ -410,6 +410,23 @@ void AnalisadorSintatico::compilaEnquanto() throw (string)
 		throw ("\";\" expected at line " + prox.getLinha());
 }
 
+void AnalisadorSintatico::compilaExpressaoAritmetica() throw (string)
+{
+    this->compilarFator();
+
+    Token prox = this->AnaLex->proximoToken();
+    while (prox.getTipo() == TipoToken::soma ||
+           prox.getTipo() == TipoToken::subtracao ||
+           prox.getTipo() == TipoToken::multiplicacao ||
+           prox.getTipo() == TipoToken::divisaoInteira ||
+           prox.getTipo() == TipoToken::modulo)
+    {
+        prox = this->AnaLex->avancaToken();
+        this->compilaFator();
+        prox = this->AnaLex->proximoToken();
+    }
+}
+
 /*
 void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
 {

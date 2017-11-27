@@ -27,6 +27,7 @@ public:
     void compilaComandoComposto() throw (string);
     void compilaExpressaoRelacional() throw (string);
     void compilaEnquanto() throw (string);
+    void compilaExpressaoAritmetica() throw (string);
 };
 
 #endif // ANALISADORSINTATICO
