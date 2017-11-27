@@ -416,7 +416,7 @@ void AnalisadorSintatico::compilaExpressaoRelacional() throw (string)
     this->compilaExpressaoAritmetica();
 
     // Se tiver E/OU, compila expressão relacional novamente (expressão atual foi o operando esquerdo)
-    prox = this->AnaLex->avancaToken()();
+    prox = this->AnaLex->avancaToken();
     tipo = prox.getTipo();
     if (tipo != TipoToken::e && tipo != TipoToken::ou)
         this->compilaExpressaoRelacional(); // Compila o operando direito
