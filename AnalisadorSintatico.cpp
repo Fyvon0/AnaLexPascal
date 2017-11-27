@@ -6,7 +6,6 @@
 AnalisadorSintatico::AnalisadorSintatico(string nomeArq) throw ()
 {
     this -> AnaLex = new AnalisadorLexico(nomeArq);
-    nivel = 0;
 }
 
 void AnalisadorSintatico::compilaInicioDePrograma() throw (string)
@@ -54,7 +53,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeVariavel() throw (string)
         {
             for (auto it = pars.cbegin(); it != pars.cend(); it++)
             {
-                Parametro p ((*it).getToken(), TipoVariavel::integer ,nivel);
+                Parametro p ((*it).getToken(), TipoVariavel::integer ,this->ts.getNivel());
                 params.push_back(p);
                 this->ts.inserirSimbolo(p);
 
@@ -65,7 +64,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeVariavel() throw (string)
         {
             for (auto it = pars.cbegin(); it != pars.cend(); it++)
             {
-                Parametro p ((*it).getToken(), TipoVariavel::boolean ,nivel);
+                Parametro p ((*it).getToken(), TipoVariavel::boolean ,this->ts.getNivel());
                 params.push_back(p);
                 this->ts.inserirSimbolo(p);
             }
@@ -87,7 +86,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeVariavel() throw (string)
 
 void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
 {
-    this->nivel++;
+    this->ts.avancarNivel();
 	Token prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::procedimento)
 		throw string("\"procedure\" expected at line " + prox.getLinha());
@@ -179,14 +178,13 @@ void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
 		throw string("\";\" after end of procedure at line " + prox.getLinha());
-    this->ts.eliminaNivel(nivel);
-    this->nivel--;
+    this->ts.voltarNivel();
     this->ts.inserirSimbolo(Procedimento(nome, this->nivel, params));
 }
 
 void AnalisadorSintatico::compilaDeclaracaoDeFuncao() throw (string)
 {
-    this->nivel++;
+    this->ts.avancarNivel();
 	Token prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::procedimento)
 		throw string("\"procedure\" expected at line " + prox.getLinha());
@@ -259,10 +257,10 @@ void AnalisadorSintatico::compilaDeclaracaoDeFuncao() throw (string)
     switch (prox.getTipo())
     {
     case TipoToken::inteiro:
-        this->ts.inserirSimbolo(Funcao(nome,TipoVariavel::integer,this->nivel-1,params));
+        this->ts.inserirSimbolo(Funcao(nome,TipoVariavel::integer,this->nivel-1,params, this->ts.nivelAtual()-1));
         break;
     case TipoToken::booleano:
-        this->ts.inserirSimbolo(Funcao(nome,TipoVariavel::boolean,this->nivel-1,params));
+        this->ts.inserirSimbolo(Funcao(nome,TipoVariavel::boolean,this->nivel-1,params, this->ts.nivelAtual()-1));
         break;
     default:
         throw string ("Return type expected at line " + prox.getLinha());
@@ -292,8 +290,7 @@ void AnalisadorSintatico::compilaDeclaracaoDeFuncao() throw (string)
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
 		throw string("\";\" after end of procedure at line " + prox.getLinha());
-    this->ts.eliminaNivel(nivel);
-    this->nivel--;
+    this->ts.voltarNivel;
 }
 
 void AnalisadorSintatico::compilaDeclaracaoDePP() throw (string)
@@ -376,6 +373,7 @@ void AnalisadorSintatico::compilaComando() throw (string)
 
 void AnalisadorSintatico::compilaComandoComposto() throw (string)
 {
+    this->ts.avancarNivel();
 	Token prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::comeco)
 		throw string ("\"begin\" expected at line " + prox.getLinha());
@@ -386,6 +384,7 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 	prox = AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::fim)
 		throw string ("\"end\" expected at line " + prox.getLinha());
+    this->ts.voltarNivel();
 }
 
 void AnalisadorSintatico::compilaExpressaoRelacional() throw (string)
