@@ -15,8 +15,6 @@ private:
     TabelaDeSimbolos ts;
 
     bool isNumberOrIdentifier(Token t)const throw();
-public:
-    AnalisadorSintatico (string) throw ();
     void compilaInicioDePrograma () throw (string);
     void compilaDeclaracaoDeVariavel () throw (string);
     void compilaDeclaracaoDeProcedimento () throw (string);
@@ -30,6 +28,9 @@ public:
     void compilaEnquanto() throw (string);
     void compilaExpressaoAritmetica() throw (string);
     void compilaFator() throw (string);
+public:
+    AnalisadorSintatico (string) throw ();
+    void compilarAPorraToda() throw (string);
 };
 
 #endif // ANALISADORSINTATICO
