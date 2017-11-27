@@ -8,7 +8,7 @@ using namespace std;
 
 vector<string> Token::simbolos ({"program","var","begin","end",
                                  "if","while","integer","boolean",
-                                 ":",":=","+","-","*","div","/",
+                                 ":",":=","+","-","*","div",
                                  "mod","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",
                                  "and","xor","<<",">>","(",")",".",

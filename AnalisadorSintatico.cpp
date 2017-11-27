@@ -444,6 +444,22 @@ bool AnalisadorSintatico::isNumberOrIdentifier(Token t) throw () const
     return tipo == TipoToken::inteiro ||
            tipo == TipoToken::numero ||
            tipo == TipoToken::identificador;
+
+void AnalisadorSintatico::compilaExpressaoAritmetica() throw (string)
+{
+    this->compilarFator();
+
+    Token prox = this->AnaLex->proximoToken();
+    while (prox.getTipo() == TipoToken::soma ||
+           prox.getTipo() == TipoToken::subtracao ||
+           prox.getTipo() == TipoToken::multiplicacao ||
+           prox.getTipo() == TipoToken::divisaoInteira ||
+           prox.getTipo() == TipoToken::modulo)
+    {
+        prox = this->AnaLex->avancaToken();
+        this->compilaFator();
+        prox = this->AnaLex->proximoToken();
+    }
 }
 
 /*
