@@ -31,6 +31,7 @@ public:
     void avancarNivel() throw ();
     bool existe (Simbolo) const throw ();
     char getUltimoNivel() const throw ();
+    Simbolo getSimbolo(string) const throw (string);
     TipoSimbolo getTipo (string) const throw ();
 
     TabelaDeSimbolos();

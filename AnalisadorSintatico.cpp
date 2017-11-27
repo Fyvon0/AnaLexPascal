@@ -493,14 +493,18 @@ void AnalisadorSintatico::compilaExpressaoAritmetica() throw (string)
 void AnalisadorSintatico::compilaFator() throw (string)
 {
     Token prox = this->AnaLex->proximoToken();
+    // Operador unário
     if (prox.getTipo() == TipoToken::subtracao || prox.getTipo() == TipoToken::soma)
         prox = this->AnaLex->proximoToken();
 
-    if (prox.getTipo() == TipoToken::identificador)
+    TipoToken tipo = prox.getTipo();
+    if (tipo == TipoToken::identificador)
     {
         if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Nenhum)
             throw ("Call to undeclared identifier at line " + prox.getLinha());
     }
+    else if (tipo != TipoToken::inteiro && tipo != TipoToken::numero)
+        throw string ("identifier or number expected at line " + prox.getLinha());
 }
 
 /*
