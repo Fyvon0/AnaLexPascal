@@ -368,7 +368,7 @@ void AnalisadorSintatico::compilaComando() throw (string)
 		else if (prox.getTipo() == TipoToken::enquanto)
 				this -> compilaEnquanto();
 		else
-            throw string ("How did you even manage to come up with this?");
+            throw string ("How did you even manage to come up with this?"); // lul
 	}
 }
 
@@ -388,10 +388,38 @@ void AnalisadorSintatico::compilaComandoComposto() throw (string)
 
 void AnalisadorSintatico::compilaExpressaoRelacional() throw (string)
 {
-    this->compilaExpressaoAritmetica();
-    //parenteses
     Token prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::menorQue)
+
+    // OPERANDO ESQUERDO
+    if (prox->getTipo() == TipoToken::abreParenteses) { // Parênteses é opcional
+        this->compilaExpressaoRelacional(); // Se achou parênteses, encara como outra expressão
+
+        prox = this->AnaLex->avancaToken();
+        if (prox.getTipo() != TipoToken::fechaParenteses) // Deve fechar o parênteses após a chamada
+            throw string ("\")\" expected at line " + prox.getLinha());
+    }
+    else
+        this->compilaExpressaoAritmetica(); // Identificador ou constante sozinhos são expressoes aritmeticas
+
+    // OPERADOR
+    prox = this->AnaLex->avancaToken();
+    TipoToken tipo = prox->getTipo();
+    if (tipo != TipoToken::menorQue  &&
+        tipo != TipoToken::menorIgual &&
+        tipo != TipoToken::diferente &&
+        tipo != TipoToken::igual &&
+        tipo != TipoToken::maiorIgual &&
+        tipo != TipoToken::maiorQue)
+        throw string ("relational operator expected at line " + prox.getLinha());
+
+    // OPERANDO DIREITO
+    this->compilaExpressaoAritmetica();
+
+    // Se tiver E/OU, compila expressão relacional novamente (expressão atual foi o operando esquerdo)
+    prox = this->AnaLex->avancaToken()();
+    tipo = prox.getTipo();
+    if (tipo != TipoToken::e && tipo != TipoToken::ou)
+        this->compilaExpressaoRelacional(); // Compila o operando direito
 }
 
 void AnalisadorSintatico::compilaEnquanto() throw (string)
@@ -408,6 +436,14 @@ void AnalisadorSintatico::compilaEnquanto() throw (string)
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
 		throw ("\";\" expected at line " + prox.getLinha());
+}
+
+bool AnalisadorSintatico::isNumberOrIdentifier(Token t) throw () const
+{
+    TipoToken tipo = t->getTipo();
+    return tipo == TipoToken::inteiro ||
+           tipo == TipoToken::numero ||
+           tipo == TipoToken::identificador;
 }
 
 /*
