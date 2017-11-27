@@ -368,7 +368,7 @@ void AnalisadorSintatico::compilaComando() throw (string)
 		if (prox.getTipo() == TipoToken::se)
 			this -> compilaSe();
 		else if (prox.getTipo() == TipoToken::enquanto)
-				this -> compilaEnquanto();
+			this -> compilaEnquanto();
 		else
             throw string ("How did you even manage to come up with this?"); // lul
 	}
@@ -406,7 +406,7 @@ void AnalisadorSintatico::compilaExpressaoRelacional() throw (string)
     // OPERADOR
     prox = this->AnaLex->avancaToken();
     TipoToken tipo = prox->getTipo();
-    if (tipo != TipoToken::menorQue  &&
+    if (tipo != TipoToken::menorQue &&
         tipo != TipoToken::menorIgual &&
         tipo != TipoToken::diferente &&
         tipo != TipoToken::igual &&
@@ -420,7 +420,7 @@ void AnalisadorSintatico::compilaExpressaoRelacional() throw (string)
     // Se tiver E/OU, compila expressão relacional novamente (expressão atual foi o operando esquerdo)
     prox = this->AnaLex->avancaToken();
     tipo = prox.getTipo();
-    if (tipo != TipoToken::e && tipo != TipoToken::ou)
+    if (tipo != TipoToken::e && tipo != TipoToken::ou && tipo != TipoToken::exclOr)
         this->compilaExpressaoRelacional(); // Compila o operando direito
 }
 

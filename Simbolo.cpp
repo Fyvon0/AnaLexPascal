@@ -17,6 +17,13 @@ char Simbolo::getNivel() const throw ()
     return this -> nivel;
 }
 
+void Simbolo::setNivel(char nivel) throw (string) {
+    if (nivel < 0)
+        throw string ("Nível inválido.");
+
+    this->nivel = nivel;
+}
+
 bool Simbolo::operator!=(Simbolo other) const throw ()
 {
     return !this -> operator==(other);

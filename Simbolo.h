@@ -27,6 +27,7 @@ protected:
 public:
     string getNome() const throw ();
     char getNivel() const throw ();
+    char setNivel() throw (string);
     virtual bool operator== (Simbolo) const throw ();
     bool operator!= (Simbolo) const throw ();
 };
