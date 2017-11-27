@@ -36,7 +36,9 @@ void TabelaDeSimbolos::inserirSimbolo(Simbolo s) throw () {
     this->inserirSimbolo(s, this->ultimoNivel);
 }
 
-void TabelaDeSimbolos::inserirSimbolo(Simbolo s, char nivel) throw () {
+void TabelaDeSimbolos::inserirSimbolo(Simbolo s, char nivel) throw (string) {
+    if (existe(s))
+        throw string ("Não pode inserir símbolo repetido.");
     s.setNivel(nivel);
     this->simbolos.insert(s);
 }
