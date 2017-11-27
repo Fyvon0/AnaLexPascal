@@ -43,6 +43,8 @@ enum class TipoToken{
      pontoEVirgula,  // ;
      escrita,        // write
      leitura,        // read
+     verdadeiro,     // true
+     falso,          // false
      identificador,  // nome da var ou função que não as duas acima
      numero,         // número constante no meio do código
      desconhecido    // símbolo que não consta acima

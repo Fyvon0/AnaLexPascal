@@ -1,5 +1,6 @@
 #include <forward_list>
 #include <string>
+#include <typeinfo>
 
 #include "AnalisadorSintatico.h"
 
@@ -267,21 +268,21 @@ void AnalisadorSintatico::compilaDeclaracaoDeFuncao() throw (string)
                 if (prox.getTipo() == TipoToken::pontoEVirgula)
                     prox = this->AnaLex->avancaToken();
                 else if (prox.getTipo() != TipoToken::fechaParenteses)
-                    throw ("\")\" expected after variable declaration at line " + prox.getLinha());
+                    throw string("\")\" expected after variable declaration at line " + prox.getLinha());
             }
             else
-                throw ("Identifier expected at line " + prox.getLinha());
+                throw string("Identifier expected at line " + prox.getLinha());
         }
         if (prox.getTipo() != TipoToken::fechaParenteses)
             throw string ("\")\" expected at line " + prox.getLinha());
     }
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::doisPontos)
-        throw ("\":\" expected at line " + prox.getLinha());
+        throw string("\":\" expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
     TipoToken tipo = prox.getTipo();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
-		throw ("\";\" expected at line " + prox.getLinha());
+		throw string("\";\" expected at line " + prox.getLinha());
 	prox = this->AnaLex->proximoToken();
 	if (prox.getTipo() == TipoToken::variavel)
 		this->compilaDeclaracaoDeVariavel();
@@ -342,7 +343,7 @@ void AnalisadorSintatico::compilaSe () throw (string)
 		this -> compilaComando();
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
-		throw ("\";\" expected at line " + prox.getLinha());
+		throw string("\";\" expected at line " + prox.getLinha());
 }
 
 void AnalisadorSintatico::compilaDeclaracaoDeWhile() throw (string)
@@ -462,7 +463,7 @@ void AnalisadorSintatico::compilaEnquanto() throw (string)
 		this -> compilaComando();
 	prox = this->AnaLex->avancaToken();
 	if (prox.getTipo() != TipoToken::pontoEVirgula)
-		throw ("\";\" expected at line " + prox.getLinha());
+		throw string("\";\" expected at line " + prox.getLinha());
 }
 
 bool AnalisadorSintatico::isNumberOrIdentifier(Token t) const throw ()
@@ -501,7 +502,7 @@ void AnalisadorSintatico::compilaFator() throw (string)
     if (tipo == TipoToken::identificador)
     {
         if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Nenhum)
-            throw ("Call to undeclared identifier at line " + prox.getLinha());
+            throw string ("Call to undeclared identifier at line " + prox.getLinha());
     }
     else if (tipo != TipoToken::inteiro && tipo != TipoToken::numero)
         throw string ("identifier or number expected at line " + prox.getLinha());
@@ -511,38 +512,136 @@ void AnalisadorSintatico::compilaChamadaDeProc() throw (string)
 {
     Token prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::identificador)
-        throw ("Identifier expected at line " + prox.getLinha());
+        throw string ("Identifier expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
-    Procedimento proc = this->ts.getSimbolo(prox.getToken());
+    if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Procedimento)
+        throw string ("Call to undeclared procedure at line " + prox.getLinha());
+    Simbolo s = this->ts.getSimbolo(prox.getToken());
+    Procedimento proc = *(static_cast<Procedimento*>(&(s)));
     if (prox.getTipo() != TipoToken::abreParenteses)
-        throw ("\"(\" expected at line " + prox.getLinha());
+        throw string ("\"(\" expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
+    if (proc.getQuantidadeParametros() <= 0 && prox.getTipo() != TipoToken::fechaParenteses)
+        throw string ("\")\" expected at line " + prox.getLinha());
+    int param = 0;
     while (prox.getTipo() != TipoToken::fechaParenteses)
     {
+        if (param >= proc.getQuantidadeParametros())
+            throw string ("No matching definition for call to procedure at line " + prox.getLinha());
         switch (prox.getTipo())
         {
-            case
+        case TipoToken::identificador:
+            if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Variavel && this->ts.getTipo(prox.getToken()) != TipoSimbolo::Parametro && this->ts.getTipo(prox.getToken()) != TipoSimbolo::Parametro)
+                throw string("Identifier with no return value passed as a parameter at line " + prox.getLinha());
+            if (this->ts.getTipo(prox.getToken()) == TipoSimbolo::Variavel)
+            {
+                Simbolo par = this->ts.getSimbolo(prox.getToken());
+                Variavel var = *(static_cast<Variavel*>(&(par)));
+                if (var.getTipoVariavel() != proc.getTipoParametro(param))
+                    throw string("No matching definition for call to procedure at line " + prox.getLinha());
+            }
+            else if (this->ts.getTipo(prox.getToken()) == TipoSimbolo::Parametro)
+            {
+                Simbolo par = this->ts.getSimbolo(prox.getToken());
+                Parametro var = *(static_cast<Parametro*>(&(par)));
+                if (var.getTipoVariavel() != proc.getTipoParametro(param))
+                    throw string("No matching definition for call to procedure at line " + prox.getLinha());
+            }
+            else if (this->ts.getTipo(prox.getToken()) == TipoSimbolo::Funcao)
+            {
+                Simbolo par = this->ts.getSimbolo(prox.getToken());
+                Funcao var = *(static_cast<Funcao*>(&(par)));
+                if (var.getTipoDeRetorno() != proc.getTipoParametro(param))
+                    throw string("No matching definition for call to procedure at line " + prox.getLinha());
+            }
+            param++;
+            break;
+        case TipoToken::verdadeiro:
+        case TipoToken::falso:
+            if (proc.getTipoParametro(param) != TipoVariavel::boolean)
+                throw string("No matching definition for call to procedure at line " + prox.getLinha());
+            param++;
+            break;
+        case TipoToken::numero:
+            if (proc.getTipoParametro(param) != TipoVariavel::integer)
+                throw string("No matching definition for call to procedure at line "  + prox.getLinha());
+        case TipoToken::virgula:
+            break;
+        default:
+            throw string("Identifier expected at line " + prox.getLinha());
         }
+        prox = this->AnaLex->avancaToken();
     }
+    prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::pontoEVirgula)
+        throw string("\";\" expected at line " + prox.getLinha());
 }
 
 TipoVariavel AnalisadorSintatico::compilaChamadaDeFunc() throw (string)
 {
     Token prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::identificador)
-        throw ("Identifier expected at line " + prox.getLinha());
+        throw string("Identifier expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
-    Funcao proc = this->ts.getSimbolo(prox.getToken());
+    if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Funcao)
+        throw string ("Call to undeclared procedure at line " + prox.getLinha());
+    Simbolo s = this->ts.getSimbolo(prox.getToken());
+    Funcao func = *(static_cast<Funcao*>(&(s)));
     if (prox.getTipo() != TipoToken::abreParenteses)
-        throw ("\"(\" expected at line " + prox.getLinha());
+        throw string ("\"(\" expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
+    if (func.getQuantidadeParametros() <= 0 && prox.getTipo() != TipoToken::fechaParenteses)
+        throw string ("\")\" expected at line " + prox.getLinha());
+    int param = 0;
     while (prox.getTipo() != TipoToken::fechaParenteses)
     {
+        if (param >= func.getQuantidadeParametros())
+            throw string ("No matching definition for call to function at line " + prox.getLinha());
         switch (prox.getTipo())
         {
-            case
+        case TipoToken::identificador:
+            if (this->ts.getTipo(prox.getToken()) != TipoSimbolo::Variavel && this->ts.getTipo(prox.getToken()) != TipoSimbolo::Parametro && this->ts.getTipo(prox.getToken()) != TipoSimbolo::Parametro)
+                throw string("Identifier with no return value passed as a parameter at line " + prox.getLinha());
+            if (this->ts.getTipo(prox.getToken()) == TipoSimbolo::Variavel)
+            {
+                Simbolo par = this->ts.getSimbolo(prox.getToken());
+                Variavel var = *(static_cast<Variavel*>(&(par)));
+                if (var.getTipoVariavel() != func.getTipoParametro(param))
+                    throw string("No matching definition for call to function at line " + prox.getLinha());
+            }
+            else if (this->ts.getTipo(prox.getToken()) == TipoSimbolo::Parametro)
+            {
+                Simbolo par = this->ts.getSimbolo(prox.getToken());
+                Parametro var = *(static_cast<Parametro*>(&(par)));
+                if (var.getTipoVariavel() != func.getTipoParametro(param))
+                    throw string("No matching definition for call to function at line " + prox.getLinha());
+            }
+            else if (this->ts.getTipo(prox.getToken()) == TipoSimbolo::Funcao)
+            {
+                Simbolo par = this->ts.getSimbolo(prox.getToken());
+                Funcao var = *(static_cast<Funcao*>(&(par)));
+                if (var.getTipoDeRetorno() != func.getTipoParametro(param))
+                    throw string("No matching definition for call to function at line " + prox.getLinha());
+            }
+            param++;
+            break;
+        case TipoToken::verdadeiro:
+        case TipoToken::falso:
+            if (func.getTipoParametro(param) != TipoVariavel::boolean)
+                throw string("No matching definition for call to function at line " + prox.getLinha());
+            param++;
+            break;
+        case TipoToken::numero:
+            if (func.getTipoParametro(param) != TipoVariavel::integer)
+                throw string("No matching definition for call to function at line "  + prox.getLinha());
+        case TipoToken::virgula:
+            break;
+        default:
+            throw string("Identifier expected at line " + prox.getLinha());
         }
+        prox = this->AnaLex->avancaToken();
     }
+    return func.getTipoDeRetorno();
 }
 
 /*
