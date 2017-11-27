@@ -26,7 +26,7 @@ private:
     char ultimoNivel;
 
 public:
-    void inserirSimbolo (Simbolo) throw (); // E se o símbolo já existir
+    void inserirSimbolo (Simbolo) throw (string); // E se o símbolo já existir
     void voltarNivel() throw (string); // E se o nível for inválido?
     void avancarNivel() throw ();
     bool existe (Simbolo) const throw ();
