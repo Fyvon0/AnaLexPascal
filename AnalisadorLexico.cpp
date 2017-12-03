@@ -27,8 +27,6 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
     {
         char c = tolower(arq.get());
 
-        if (c == '\n')
-            linha++;
         if (isspace(c) && !word.empty())
         {
             Token newToken(word, linha);
@@ -79,6 +77,9 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
         }
         else if(!isspace(c))
                 word += c;
+
+        if (c == '\n')
+            linha++;
     }while (arq.good());
 
     this -> iterador = 0;

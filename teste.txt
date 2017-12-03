@@ -9,8 +9,8 @@ begin
 	while n < 0
 	begin
 		writeln(b);
-		b = a + b;
-		a = b;
+		b := a + b;
+		a := b;
 	end;
 end;
 begin
