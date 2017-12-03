@@ -34,7 +34,7 @@ private:
     TipoVariavel compilaChamadaDeFunc() throw (string);
 public:
     AnalisadorSintatico (string) throw ();
-    void compilarAPorraToda() throw (string);
+    void compilar() throw (string);
 };
 
 #endif // ANALISADORSINTATICO

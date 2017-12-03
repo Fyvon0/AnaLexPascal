@@ -6,50 +6,13 @@
 #include "Token.h"
 #include "AnalisadorLexico.h"
 
-#define ehIgnoravel(c) (((c)=='\n')||((c)=='\t')||((c)==' '))?true:false
-
 using namespace std;
 
-//const regex AnalisadorLexico::regex_pattern("(?i)(unit|program|interface|implementation|var|begin|end|if|while|do|break|continue|integer|boolean|mod|procedure|function|div|not|or|and|xor|write|read)(?![A-z]+|[0-9]+)|(:=|:|\+\+|\-\-|\+|\-|\*|\/|\=|\<\>|\<\<|\>\>|\>|\<|\>\=|\<\=|\(|\)|\.|\,|\;)|([0-9]+[A-z]+)|([A-z][A-z0-9]*)|([0-9]+(?![A-z]+))|(\S+)(?-i)");
-
-/*
-AnalisadorLexico::AnalisadorLexico(string nomeArq)
+bool inline isSimbolo(char c)
 {
-    this->arq.open(nomeArq.c_str());
-    if (!this->arq.is_open())
-        throw "Erro ao abrir o arquivo";
-
-    stringstream strstream;
-    string tmp;
-    strstream << this->arq.rdbuf();
-    tmp = strstream.str();
-
-    try {
-        //regex re("\\w+");
-        sregex_iterator seguinte(tmp.begin(), tmp.end(), AnalisadorLexico::regex_pattern);
-        sregex_iterator fim;
-        while (seguinte != fim) {
-            smatch match = *seguinte;
-            cout << "0 - " << string(match[0]) << "\n";
-            cout << "1 - " << string(match[1]) << "\n";
-            cout << "2 - " << string(match[2]) << "\n";
-            cout << "3 - " << string(match[3]) << "\n";
-            cout << "4 - " << string(match[4]) << "\n";
-            cout << "5 - " << string(match[5]) << "\n";
-            cout << "6 - " << string(match[6]) << "\n";
-            cout << match.str() << "\n";
-            seguinte++;
-        }
-    } catch (regex_error& e) {
-        // Syntax error in the regular expression
-    } catch (...) {
-        //Vai saber
-    }
+    return c == ':' || c == '+' || c == '-'  || c == '*' || c == '=' || c == '>' || c == '<' || c == '(' || c == ')' || c == '.' || c == ',' || c == ';';
 }
-*/
-// https://docs.microsoft.com/pt-br/cpp/ide/xml-documentation-visual-cpp - Documentação
-/// <summary> Lê o arquivo indicado e guarda seus dados para que depois sejam iterados
-///</summary>
+
 AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
 {
     ifstream arq(nomeArq);
@@ -58,6 +21,7 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
 
     string word;
     int linha = 1;
+    Token ult(string("&"),0);
 
     do
     {
@@ -68,21 +32,58 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
         if (isspace(c) && !word.empty())
         {
             Token newToken(word, linha);
+            ult = newToken;
             this -> tokens.push_back(newToken);
             word.clear();
         }
-        else
-            if(!isspace(c))
+        else if (ult.getTipo() != TipoToken::identificador && ult.getTipo() != TipoToken::numero && !isalnum(c) && !word.empty())
+        {
+            Token newToken(word, linha);
+            ult = newToken;
+            this -> tokens.push_back(newToken);
+            word.clear();
+            if (isSimbolo(c))
+            {
+                if (c == ':')
+                {
+                    word += c;
+                    c = arq.get();
+                    if (c == '=')
+                        word += c;
+                    else
+                        arq.unget();
+
+                    Token newToken(word, linha);
+                    ult = newToken;
+                    this -> tokens.push_back(newToken);
+                    word.clear();
+                }
+                else
+                {
+                    word += c;
+                    Token newToken(word, linha);
+                    ult = newToken;
+                    this -> tokens.push_back(newToken);
+                    word.clear();
+                }
+            }
+        }
+        else if ((ult.getTipo() == TipoToken::identificador || ult.getTipo() == TipoToken::numero) && isalnum(c) && !word.empty())
+        {
+            Token newToken(word, linha);
+            ult = newToken;
+            this -> tokens.push_back(newToken);
+            word.clear();
+
+            arq.unget();
+        }
+        else if(!isspace(c))
                 word += c;
     }while (arq.good());
 
-    Token newToken(word, linha);
-    this -> tokens.push_back(newToken);
-    arq.close();
     this -> iterador = 0;
 }
 
-//IMPLEMENTAR
 Token AnalisadorLexico::tokenAtual() const throw (string)
 {
     if (!this -> temMaisTokens())

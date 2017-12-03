@@ -9,7 +9,7 @@ AnalisadorSintatico::AnalisadorSintatico(string nomeArq) throw ()
     this -> AnaLex = new AnalisadorLexico(nomeArq);
 }
 
-void AnalisadorSintatico::compilarAPorraToda() throw (string)
+void AnalisadorSintatico::compilar() throw (string)
 {
     compilaInicioDePrograma();
     Token prox = this->AnaLex->proximoToken();
@@ -38,15 +38,12 @@ void AnalisadorSintatico::compilaInicioDePrograma() throw (string)
 {
     Token prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::programa)
-        //erros.push_back("\"Program\" expected at line " + prox.getLinha());
         throw string ("\"Program\" expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::identificador)
-        //erros.push_back("Identifier expected at line " + ult.getLinha());
         throw string ("Identifier expected at line " + prox.getLinha());
     prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::pontoEVirgula)
-        //erros.push_back("\";\" expected at line" + ult.getLinha());
         throw string ("\";\" expected at line " + prox.getLinha());
 }
 
@@ -248,7 +245,6 @@ void AnalisadorSintatico::compilaDeclaracaoDeFuncao() throw (string)
                         Parametro p ((*it).getToken(), TipoVariavel::integer ,this->ts.getUltimoNivel());
                         params.push_back(p);
                         this->ts.inserirSimbolo(p);
-
                     }
                     pars.clear();
                 }
@@ -325,7 +321,6 @@ void AnalisadorSintatico::compilaDeclaracaoDePP() throw (string)
     this -> compilaComandoComposto();
     Token prox = this->AnaLex->avancaToken();
     if (prox.getTipo() != TipoToken::ponto)
-        //erros.push_back("\".\" expected at line " + prox.getLinha());
         throw string ("\".\" expected at line " + prox.getLinha());
 }
 
@@ -349,7 +344,7 @@ void AnalisadorSintatico::compilaSe () throw (string)
 void AnalisadorSintatico::compilaComando() throw (string)
 {
     Token prox = this->AnaLex->proximoToken();
-	if (prox.getTipo() == TipoToken::identificador) // MUDAR ISSO
+	if (prox.getTipo() == TipoToken::identificador)
 	{
 		TipoSimbolo simb = this->ts.getTipo(prox.getToken());
 		switch (simb)
@@ -375,7 +370,7 @@ void AnalisadorSintatico::compilaComando() throw (string)
 		else if (prox.getTipo() == TipoToken::enquanto)
 			this -> compilaEnquanto();
 		else
-            throw string ("How did you even manage to come up with this?"); // lul
+            throw string ("Command expected at line "  + prox.getLinha());
 	}
 }
 
@@ -664,153 +659,3 @@ TipoVariavel AnalisadorSintatico::compilaChamadaDeFunc() throw (string)
     }
     return func.getTipoDeRetorno();
 }
-
-/*
-void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
-{
-    nivel++;
-    Token prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::procedimento)
-        throw string ("\"procedure\" expected at line " + prox.getLinha());
-    Token ult = prox;
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::identificador)
-        throw string ("Identifier expected at line " + ult.getLinha());
-    string nome = prox.getToken();
-    ult = prox;
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::abreParenteses)
-        throw string ("\"(\" expected at line " + ult.getLinha());
-    ult = prox;
-    prox = this->AnaLex->avancaToken();
-    vector<Parametro> params;
-    if (prox.getTipo() == TipoToken::identificador)
-    {
-        while (prox.getTipo() != TipoToken::fechaParenteses)
-        {
-            bool mesmoTipo = true;
-            forward_list<Token> pars;
-            while (mesmoTipo)
-            {
-                pars.push_front(prox);
-                ult = prox;
-                prox = this->AnaLex->avancaToken();
-                if (prox.getTipo() == TipoToken::doisPontos)
-                    mesmoTipo = false;
-                else if (prox.getTipo() == TipoToken::virgula)
-                {
-                    ult = prox;
-                    prox = this->AnaLex->avancaToken();
-                }
-                else
-                    throw ("\":\" or \",\" expected at line " + ult.getLinha());
-            }
-            ult = prox;
-            prox = this->AnaLex->avancaToken();
-            if (prox.getTipo() == TipoToken::inteiro)
-            {
-                for (auto it = pars.cbegin(); it != pars.cend(); it++)
-                {
-                    Parametro p ((*it).getToken(), TipoVariavel::integer ,nivel);
-                    params.push_back(p);
-                    this->ts.inserirSimbolo(p);
-
-                }
-                pars.clear();
-            }
-            else if  (prox.getTipo() == TipoToken::booleano)
-            {
-                for (auto it = pars.cbegin(); it != pars.cend(); it++)
-                {
-                    Parametro p ((*it).getToken(), TipoVariavel::boolean ,nivel);
-                    params.push_back(p);
-                    this->ts.inserirSimbolo(p);
-                }
-                pars.clear();
-            }
-            else
-                throw string ("Variable type expected at line " + ult.getLinha());
-            ult = prox;
-            prox = this->AnaLex->avancaToken();
-            if (prox.getTipo() == TipoToken::pontoEVirgula)
-            {
-                ult = prox;
-                prox = this->AnaLex->avancaToken();
-            }
-            else if (prox.getTipo() != TipoToken::fechaParenteses)
-                throw ("\")\" expected after variable declaration at line " + ult.getLinha());
-        }
-    }
-    if (prox.getTipo() != TipoToken::fechaParenteses)
-        throw string ("\")\" expected at line " + ult.getLinha());
-
-    ult = prox;
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::pontoEVirgula)
-        throw string ("\";\" expected at line after procedure declaration" + ult.getLinha());
-    ult = prox;
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() == TipoToken::variavel)
-    {
-        while (prox.getTipo() != TipoToken::comeco)
-        {
-            bool mesmoTipo = true;
-            forward_list<Token> vars;
-            while (mesmoTipo)
-            {
-                vars.push_front(prox);
-                ult = prox;
-                prox = this->AnaLex->avancaToken();
-                if (prox.getTipo() == TipoToken::doisPontos)
-                    mesmoTipo = false;
-                else if (prox.getTipo() == TipoToken::virgula)
-                {
-                    ult = prox;
-                    prox = this->AnaLex->avancaToken();
-                }
-                else
-                    throw ("\":\" or \",\" expected at line " + ult.getLinha());
-            }
-            ult = prox;
-            prox = this->AnaLex->avancaToken();
-            if (prox.getTipo() == TipoToken::inteiro)
-            {
-                for (auto it = vars.cbegin(); it != vars.cend(); it++)
-                {
-                    Variavel v ((*it).getToken(), TipoVariavel::integer ,nivel);
-                    this->ts.inserirSimbolo(v);
-
-                }
-                vars.clear();
-            }
-            else if  (prox.getTipo() == TipoToken::booleano)
-            {
-                for (auto it = vars.cbegin(); it != vars.cend(); it++)
-                {
-                    Variavel v ((*it).getToken(), TipoVariavel::boolean ,nivel);
-                    this->ts.inserirSimbolo(v);
-                }
-                vars.clear();
-            }
-            else
-                throw string ("Variable type expected at line " + ult.getLinha());
-            ult = prox;
-            prox = this->AnaLex->avancaToken();
-            if (prox.getTipo() == TipoToken::pontoEVirgula)
-            {
-                ult = prox;
-                prox = this->AnaLex->avancaToken();
-            }
-            else if (prox.getTipo() != TipoToken::comeco)
-                throw ("\"begin\" expected after variable declaration at line " + ult.getLinha());
-        }
-    }
-
-    if (prox.getTipo() != TipoToken::comeco)
-        throw string ("\"begin\" expected at line " + prox.getLinha());
-
-
-    nivel--;
-    ts.inserirSimbolo(Procedimento(nome,nivel,params));
-}
-*/

@@ -1,18 +1,18 @@
-program Programa ;
+program Programa;
 
-procedure fib ( n : integer )
+procedure fib (n:integer)
 var
-	a , b : integer ;
+	a, b: integer;
 begin
-	a := 0 ;
-	b := 1 ;
+	a := 0;
+	b := 1;
 	while n < 0
 	begin
-		writeln ( b ) ;
-		b = a + b ;
-		a = b ;
-	end ;
-end ;
+		writeln(b);
+		b = a + b;
+		a = b;
+	end;
+end;
 begin
-	fib ( 10 ) ;
-end .
+	fib(10);
+end.

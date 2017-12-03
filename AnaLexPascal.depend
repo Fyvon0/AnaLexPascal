@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1511729780 source:f:\analexpascal\main.cpp
+1511783364 source:f:\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"AnalisadorLexico.h"
 
-1511730782 source:f:\analexpascal\analisadorlexico.cpp
+1512269852 source:f:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -12,7 +12,7 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511712144 f:\analexpascal\analisadorlexico.h
+1511783458 f:\analexpascal\analisadorlexico.h
 	<string>
 	<vector>
 	<fstream>
@@ -48,37 +48,37 @@
 	<string>
 	"Token.h"
 
-1511755018 f:\analexpascal\token.h
+1512268240 f:\analexpascal\token.h
 	<string>
 
-1511729288 source:f:\analexpascal\token.cpp
+1512269590 source:f:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
 	"Token.h"
 
-1511517926 source:e:\analexpascal\main.cpp
+1511779424 source:e:\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"AnalisadorLexico.h"
 
-1511522552 e:\analexpascal\analisadorlexico.h
+1511708544 e:\analexpascal\analisadorlexico.h
 	<string>
 	<vector>
 	<fstream>
 	<iostream>
 	"Token.h"
 
-1511516902 e:\analexpascal\token.h
+1511751418 e:\analexpascal\token.h
 	<string>
 
-1511521406 source:e:\analexpascal\token.cpp
+1511750802 source:e:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
 	"Token.h"
 
-1511517910 source:e:\analexpascal\analisadorlexico.cpp
+1511727182 source:e:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -86,13 +86,13 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511755872 source:f:\analexpascal\analisadorsintatico.cpp
+1511783650 source:f:\analexpascal\analisadorsintatico.cpp
 	<forward_list>
 	<string>
 	<typeinfo>
 	"AnalisadorSintatico.h"
 
-1511755356 f:\analexpascal\analisadorsintatico.h
+1511781540 f:\analexpascal\analisadorsintatico.h
 	<list>
 	<string>
 	"AnalisadorLexico.h"
@@ -107,11 +107,12 @@
 	<string>
 	<vector>
 
-1511755946 f:\analexpascal\tabeladesimbolos.h
+1511782920 f:\analexpascal\tabeladesimbolos.h
 	<set>
 	"Simbolo.h"
 
-1511727876 source:f:\analexpascal\tabeladesimbolos.cpp
+1511783442 source:f:\analexpascal\tabeladesimbolos.cpp
+	<typeinfo>
 	"TabelaDeSimbolos.h"
 
 1511742425 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\analisadorlexico.cpp
@@ -131,4 +132,33 @@
 	<fstream>
 	<iostream>
 	"Token.h"
+
+1511745928 source:e:\analexpascal\simbolo.cpp
+	<string>
+	<typeinfo>
+	"Simbolo.h"
+
+1511752314 e:\analexpascal\simbolo.h
+	<string>
+	<vector>
+
+1511777948 source:e:\analexpascal\analisadorsintatico.cpp
+	<forward_list>
+	<string>
+	<typeinfo>
+	"AnalisadorSintatico.h"
+
+1511777940 e:\analexpascal\analisadorsintatico.h
+	<list>
+	<string>
+	"AnalisadorLexico.h"
+	"TabelaDeSimbolos.h"
+
+1511779320 e:\analexpascal\tabeladesimbolos.h
+	<set>
+	"Simbolo.h"
+
+1511778756 source:e:\analexpascal\tabeladesimbolos.cpp
+	<typeinfo>
+	"TabelaDeSimbolos.h"
 

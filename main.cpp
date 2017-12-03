@@ -12,7 +12,6 @@ int main()
 
     while (a.temMaisTokens())
     {
-        Token b = a.tokenAtual();
         cout << a.tokenAtual().getLinha() << " - " << (int)a.tokenAtual().getTipo() << " - " << a.tokenAtual().getToken() << "\n";
         a.avancaToken();
     }

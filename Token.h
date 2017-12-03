@@ -20,7 +20,6 @@ enum class TipoToken{
      subtracao,      // -
      multiplicacao,  // *
      divisaoInteira, // div
-     divisaoReal,    // /
      modulo,         // mod
      procedimento,   // procedure
      funcao,         // function

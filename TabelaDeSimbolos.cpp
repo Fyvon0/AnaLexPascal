@@ -6,7 +6,7 @@ TabelaDeSimbolos::TabelaDeSimbolos() {
     this->ultimoNivel = 0;
 }
 
-void TabelaDeSimbolos::voltarNivel() throw (string) { // Nojinho
+void TabelaDeSimbolos::voltarNivel() throw (string) {
     if (this->ultimoNivel <= 0)
         throw string ("Não pode voltar mais um nível");
 
@@ -16,7 +16,7 @@ void TabelaDeSimbolos::voltarNivel() throw (string) { // Nojinho
         if (!achouComeco && it->getNivel() == this->ultimoNivel)
             b = it;
         else if (achouComeco && it->getNivel() != this->ultimoNivel) {
-            e = it - 1; // CORRIGIR ESSA PORRINHA AQUI
+            e = it;
             break;
         }
 
@@ -59,24 +59,20 @@ Simbolo TabelaDeSimbolos::getSimbolo(string nome) const throw (string) {
     throw string ("Tipo não declarado");
 }
 
-TipoSimbolo TabelaDeSimbolos::getTipo(string nome) const throw (){
-    for (auto it = simbolos.cbegin(); it != simbolos.cend(); it++)
+TipoSimbolo TabelaDeSimbolos::getTipo(string nome) throw (){
+    for (auto it = simbolos.begin(); it != simbolos.end(); it++)
         if (it->getNivel() != this->ultimoNivel) // Só para símbolos do nível atual
             continue;
         else if (it->getNome() == nome)
         {
-            switch (typeid(*it))
-            {
-            case typeid(Variavel):
+            if (typeid(*it) == typeid(Variavel))
                 return TipoSimbolo::Variavel;
-            case typeid(Parametro):
+            if (typeid(*it) == typeid(Parametro))
                 return TipoSimbolo::Parametro;
-            case typeid(Procedimento):
+            if (typeid(*it) == typeid(Procedimento))
                 return TipoSimbolo::Procedimento;
-            case typeid(Funcao):
+            if (typeid(*it) == typeid(Funcao))
                 return TipoSimbolo::Funcao;
-            }
         }
-
     return TipoSimbolo::Nenhum;
 }

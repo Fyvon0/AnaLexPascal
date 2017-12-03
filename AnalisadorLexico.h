@@ -13,8 +13,7 @@ using namespace std;
 class AnalisadorLexico
 {
 private:
-    vector<Token> tokens; // trocar por forward_list
-    //static const regex regex_pattern;
+    vector<Token> tokens;
     int iterador;
 
 public:

@@ -8,7 +8,7 @@ using namespace std;
 
 vector<string> Token::simbolos ({"program","var","begin","end",
                                  "if","while","integer","boolean",
-                                 ":",":=","+","-","*","div", "/",
+                                 ":",":=","+","-","*","div",
                                  "mod","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",
                                  "and","xor","<<",">>","(",")",".",
@@ -32,7 +32,10 @@ static inline bool ehCharAlfanumerico(char c)
 
 bool ehStringAlfanumerica(const std::string &str)
 {
-    return find_if(str.begin(), str.end(), ehCharAlfanumerico) == str.end();
+    for (int i = 0; i < str.size(); i++)
+        if (!isalnum(str[i]))
+            return false;
+    return true;
 }
 
 Token::Token(string word, int lin) throw ()
@@ -45,7 +48,7 @@ Token::Token(string word, int lin) throw ()
             break;
     if (i >= this -> simbolos.size()) // não é nenhum dos tipos já definidos
     {
-        if (isalpha(this->token[0])) // Primeiro caractere é inteiro
+        if (isdigit(this->token[0])) // Primeiro caractere é inteiro
             if (ehInteiro(this -> token)) // Todos os outros também são inteiros
                 this -> tipo = TipoToken::inteiro;
             else // Nem todos os caracteres são inteiros
