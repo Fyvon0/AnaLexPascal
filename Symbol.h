@@ -25,8 +25,8 @@ protected:
     VariableType returnType;
     vector<Symbol>* params;
 public:
-    Symbol(const string& name, VariableType returnType);
-    Symbol(const string& name, VariableType returnType, const vector<Symbol> * const params);
+    Symbol(const string& name, VariableType returnType) throw (string);
+    Symbol(const string& name, VariableType returnType, const vector<Symbol> * const params) throw (string);
     Symbol(const Symbol&);
     Symbol operator=(const Symbol&);
     virtual ~Symbol();
