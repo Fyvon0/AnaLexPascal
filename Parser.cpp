@@ -2,14 +2,48 @@
 #include <string>
 #include <typeinfo>
 
-#include "AnalisadorSintatico.h"
+#include "Parser.h"
 
+
+string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","WHILE","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
+                           "SUBTRACTION","MULTIPLICATION","DIVISION","MODULE","PROCEDURE","FUNCTION","=","!=",">","<",
+                           ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
+                           "IDENTIFIER","CONSTANT","UNKNOWN"};
+
+Parser::Parser(string path) throw () : lex(path) {}
+
+void Parser::compileProgramStart () throw (string)
+{
+    Token next = this->lex.nextToken();
+    if (next.getType() != TokenType::PROGRAM)
+        throw string ("\"PROGRAM\" expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::IDENTIFIER)
+        throw string ("IDENTIFIER expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::SEMICOLON)
+        throw string("\";\" expected at line " + next.getLine() + "but \"" + TokenTypeNames + "\" found instead");
+}
+
+/*
 AnalisadorSintatico::AnalisadorSintatico(string nomeArq) throw ()
 {
     this -> AnaLex = new AnalisadorLexico(nomeArq);
 }
 
-/*
+void AnalisadorSintatico::compilaInicioDePrograma() throw (string)
+{
+    Token prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::programa)
+        throw string ("\"Program\" expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::identificador)
+        throw string ("Identifier expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::pontoEVirgula)
+        throw string ("\";\" expected at line " + prox.getLinha());
+}
+
 void AnalisadorSintatico::compilar() throw (string)
 {
     compilaInicioDePrograma();
@@ -35,18 +69,6 @@ void AnalisadorSintatico::compilar() throw (string)
     this->compilaDeclaracaoDePP();
 }
 
-void AnalisadorSintatico::compilaInicioDePrograma() throw (string)
-{
-    Token prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::programa)
-        throw string ("\"Program\" expected at line " + prox.getLinha());
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::identificador)
-        throw string ("Identifier expected at line " + prox.getLinha());
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::pontoEVirgula)
-        throw string ("\";\" expected at line " + prox.getLinha());
-}
 
 void AnalisadorSintatico::compilaDeclaracaoDeVariavel() throw (string)
 {

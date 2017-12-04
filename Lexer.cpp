@@ -8,7 +8,7 @@
 
 using namespace std;
 
-bool inline isSimbolo(char c)
+bool inline isSymbol(char c)
 {
     return c == ':' || c == '+' || c == '-'  || c == '*' || c == '=' || c == '>' || c == '<' || c == '(' || c == ')' || c == '.' || c == ',' || c == ';';
 }
@@ -40,7 +40,7 @@ Lexer::Lexer(string fileName) throw (string)
             last = newToken;
             this -> tokens.push_back(newToken);
             word.clear();
-            if (isSimbolo(c))
+            if (isSymbol(c))
             {
                 if (c == ':')
                 {

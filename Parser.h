@@ -1,12 +1,24 @@
-#ifndef ANALISADORSINTATICO
-#define ANALISADORSINTATICO
+#ifndef PARSER
+#define PARSER
 
 #include <list>
 #include <string>
 
-#include "AnalisadorLexico.h"
-#include "TabelaDeSimbolos.h"
+#include "Lexer.h"
+#include "SymbolTable.h"
 
+class Parser
+{
+private:
+    Lexer lex;
+    SymbolTable st;
+
+    void compileProgramStart () throw (string);
+public:
+    Parser(string) throw ();
+};
+
+/*
 class AnalisadorSintatico
 {
 private:
@@ -36,5 +48,5 @@ public:
     AnalisadorSintatico (string) throw ();
     void compilar() throw (string);
 };
-
-#endif // ANALISADORSINTATICO
+*/
+#endif // PARSER
