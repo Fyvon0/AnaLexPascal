@@ -2,6 +2,36 @@
 
 #include "TabelaDeSimbolos.h"
 
+TabelaDeSimbolos::TabelaDeSimbolos() throw (): ultimoNivel(0) {}
+
+void TabelaDeSimbolos::inserirSimbolo (const Simbolo s&) throw ()
+{
+    if (s.getTipo() == TipoSimbolo::Funcao || s.getTipo() == TipoSimbolo::Parametro)
+    {
+        ultimoNivel++;
+        vector<Simbolo*> novoNivel;
+        this->simbolos.push_back(novoNivel);
+    }
+
+    this->simbolos.back().push_back(new Simbolo(s));
+}
+
+Simbolo* TabelaDeSimbolos::getSimbolo (const string nome&) throw ()
+{
+    for (auto itNivel = this->simbolos.cbegin(); itNivel != this->simbolos.cend(); itNivel++)
+        for (auto itSimb = (*itNivel).cbegin(); itSimb != (*itNivel).cend(); itSimb++))
+            if ((*itSimb)->getNome() == nome)
+                return new Simbolo(*(*itSimb));
+    return nullptr;
+}
+
+void TabelaDeSimbolos::excluiNivelAtual() throw ()
+{
+    this->simbolos.pop_back();
+    this->ultimoNivel--;
+}
+
+/*
 TabelaDeSimbolos::TabelaDeSimbolos() {
     this->ultimoNivel = 0;
 }
@@ -76,3 +106,5 @@ TipoSimbolo TabelaDeSimbolos::getTipo(string nome) throw (){
         }
     return TipoSimbolo::Nenhum;
 }
+*/
+

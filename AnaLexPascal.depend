@@ -1,10 +1,10 @@
 # depslib dependency file v1.0
-1511783364 source:f:\analexpascal\main.cpp
+1511779764 source:f:\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"AnalisadorLexico.h"
 
-1512306852 source:f:\analexpascal\analisadorlexico.cpp
+1512303780 source:f:\analexpascal\analisadorlexico.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -12,7 +12,7 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511783458 f:\analexpascal\analisadorlexico.h
+1511779858 f:\analexpascal\analisadorlexico.h
 	<string>
 	<vector>
 	<fstream>
@@ -48,10 +48,10 @@
 	<string>
 	"Token.h"
 
-1512268240 f:\analexpascal\token.h
+1512264640 f:\analexpascal\token.h
 	<string>
 
-1512269590 source:f:\analexpascal\token.cpp
+1512265990 source:f:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
@@ -86,29 +86,30 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511783650 source:f:\analexpascal\analisadorsintatico.cpp
+1511780050 source:f:\analexpascal\analisadorsintatico.cpp
 	<forward_list>
 	<string>
 	<typeinfo>
 	"AnalisadorSintatico.h"
 
-1511781540 f:\analexpascal\analisadorsintatico.h
+1511777940 f:\analexpascal\analisadorsintatico.h
 	<list>
 	<string>
 	"AnalisadorLexico.h"
 	"TabelaDeSimbolos.h"
 
-1511749528 source:f:\analexpascal\simbolo.cpp
+1511745928 source:f:\analexpascal\simbolo.cpp
 	<string>
 	<typeinfo>
 	"Simbolo.h"
 
-1511755914 f:\analexpascal\simbolo.h
+1512395212 f:\analexpascal\simbolo.h
 	<string>
 	<vector>
 
-1511782920 f:\analexpascal\tabeladesimbolos.h
+1512395386 f:\analexpascal\tabeladesimbolos.h
 	<set>
+	<vector>
 	"Simbolo.h"
 
 1511783442 source:f:\analexpascal\tabeladesimbolos.cpp

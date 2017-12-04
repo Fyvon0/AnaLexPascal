@@ -23,7 +23,8 @@ class Simbolo
 {
 protected:
     string nome;
-    char nivel;
+    unsigned char nivel;
+    TipoSimbolo tipo;
 public:
     string getNome() const throw ();
     char getNivel() const throw ();

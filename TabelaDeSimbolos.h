@@ -2,12 +2,13 @@
 #define TABELADESIMBOLOS
 
 #include <set>
+#include <vector>
 
 #include "Simbolo.h"
 
 using namespace std;
 
-class TabelaDeSimbolos
+/*class TabelaDeSimbolos
 {
 private:
     //armazenar simbolos
@@ -37,5 +38,17 @@ public:
 
     TabelaDeSimbolos();
 };
+*/
 
+class TabelaDeSimbolos
+{
+private:
+    vector<vector<Simbolo*>> simbolos;
+    char ultimoNivel;
+public:
+    TabelaDeSimbolos() throw ();
+    void inserirSimbolo (const Simbolo&) throw (string);
+    Simbolo* getSimbolo(const string&) const throw (string);
+    void excluiNivelAtual () throw (string);
+};
 #endif // TABELADESIMBOLOS
