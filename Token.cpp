@@ -6,15 +6,15 @@
 
 using namespace std;
 
-vector<string> Token::simbolos ({"program","var","begin","end",
+vector<string> Token::symbols ({"program","var","begin","end",
                                  "if","while","integer","boolean",
                                  ":",":=","+","-","*","div",
                                  "mod","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",
-                                 "and","xor","<<",">>","(",")",".",
+                                 "and","xor","(",")",".",
                                  ",",";","writeln","readln","true","false"});
 
-static bool ehInteiro (const string & s)
+static bool isInteger (const string & s)
 {
     if (s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+')))
         return false;
@@ -25,12 +25,7 @@ static bool ehInteiro (const string & s)
     return (*p == 0);
 }
 
-static inline bool ehCharAlfanumerico(char c)
-{
-    return !(isalpha(c) || isdigit(c) || (c == ' '));
-}
-
-bool ehStringAlfanumerica(const std::string &str)
+bool isAlphaNumString (const std::string &str)
 {
     for (int i = 0; i < str.size(); i++)
         if (!isalnum(str[i]))
@@ -41,26 +36,26 @@ bool ehStringAlfanumerica(const std::string &str)
 Token::Token(string word, int lin) throw ()
 {
     this -> token = word;
-    this -> linha = lin;
+    this -> line = lin;
     unsigned int i;
-    for (i = 0; i < this -> simbolos.size(); i++)
-        if (this -> token == this -> simbolos[i])
+    for (i = 0; i < this -> symbols.size(); i++)
+        if (this -> token == this -> symbols[i])
             break;
-    if (i >= this -> simbolos.size()) // não é nenhum dos tipos já definidos
+    if (i >= this -> symbols.size()) // não é nenhum dos tipos já definidos
     {
         if (isdigit(this->token[0])) // Primeiro caractere é inteiro
-            if (ehInteiro(this -> token)) // Todos os outros também são inteiros
-                this -> tipo = TipoToken::inteiro;
+            if (isInteger(this -> token)) // Todos os outros também são inteiros
+                this -> type = TokenType::INTEGER;
             else // Nem todos os caracteres são inteiros
-                this -> tipo = TipoToken::desconhecido;
+                this -> type = TokenType::UNKNOWN;
         else // Primeiro caractere não é inteiro
-            if (ehStringAlfanumerica(this -> token)) // Todos os caracteres são alfanuméricos
-                this -> tipo = TipoToken::identificador;
+            if (isAlphaNumString(this -> token)) // Todos os caracteres são alfanuméricos
+                this -> type = TokenType::IDENTIFIER;
             else // Nem todos os caracteres são alfanuméricos
-                this -> tipo = TipoToken::desconhecido;
+                this -> type = TokenType::UNKNOWN;
     }
     else // é um símbolo da linguagem
-        this -> tipo = (TipoToken)i;
+        this -> type = (TokenType)i;
 }
 
 string Token::getToken () const throw ()
@@ -68,12 +63,12 @@ string Token::getToken () const throw ()
     return string(this -> token);
 }
 
-TipoToken Token::getTipo () const throw ()
+TokenType Token::getType() () const throw ()
 {
-    return this -> tipo;
+    return this -> type;
 }
 
-int Token::getLinha() const throw ()
+int Token::getLine() const throw ()
 {
-    return this -> linha;
+    return this -> line;
 }

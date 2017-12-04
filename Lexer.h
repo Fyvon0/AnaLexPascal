@@ -1,5 +1,5 @@
-#ifndef LEXER_INCLUDED
-#define LEXER_INCLUDED
+#ifndef ANALEX
+#define ANALEX
 
 #include <string>
 #include <vector>
@@ -10,18 +10,18 @@
 
 using namespace std;
 
-class Lexer
+class AnalisadorLexico
 {
 private:
     vector<Token> tokens;
-    int it;
+    int iterador;
 
 public:
-    Lexer(string) throw (string);
-    Token currentToken() const throw ();
-    Token nextToken() throw (string);
-    Token peekToken() const throw (string);
-    bool hasMoreTokens() const throw ();
+    AnalisadorLexico(string) throw (string);
+    Token tokenAtual() const throw (string);
+    Token avancaToken() throw (string);
+    Token proximoToken() const throw (string);
+    bool temMaisTokens() const throw ();
 };
 
-#endif // LEXER_INCLUDED
+#endif // ANALEX

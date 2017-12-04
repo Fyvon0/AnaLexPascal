@@ -38,8 +38,8 @@
 		<Unit filename="AnalisadorSintatico.h" />
 		<Unit filename="Simbolo.cpp" />
 		<Unit filename="Simbolo.h" />
-		<Unit filename="TabelaDeSimbolos.cpp" />
-		<Unit filename="TabelaDeSimbolos.h" />
+		<Unit filename="SymbolTable.cpp" />
+		<Unit filename="SymbolTable.h" />
 		<Unit filename="Token.cpp" />
 		<Unit filename="Token.h" />
 		<Unit filename="main.cpp" />

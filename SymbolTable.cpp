@@ -1,12 +1,12 @@
 #include <typeinfo>
 
-#include "TabelaDeSimbolos.h"
+#include "SymbolTable.h"
 
 SymbolTable::SymbolTable() throw (): currentScope(0) {}
 
 void SymbolTable::insertSymbol (const Symbol& s) throw ()
 {
-    if (s.getType() == SymbolType::FUNCTION)
+    if (s.getSymbolType() == SymbolType::FUNCTION)
     {
         this->currentScope++;
         vector<Symbol*> newScope;

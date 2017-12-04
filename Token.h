@@ -5,62 +5,60 @@
 
 using namespace std;
 
-enum class TipoToken{
-     PROGRAMA,       // Program
-     VARIAVEL,       // var
-     COMECO,         // Begin
-     FIM,            // End
-     SE,             // if
-     ENQUANTO,       // while
-     INTEIRO,        // integer
-     BOOLEANO,       // boolean
-     DOIS_PONTOS,     // :
-     ATRIBUICAO,     // :=
-     SOMA,           // +
-     SUBTRACAO,      // -
-     MULTIPLICACAO,  // *
-     DIVISAO_INTEIRA, // div
-     MODULO,         // mod
-     PROCEDIMENTO,   // procedure
-     FUNCAO,         // function
-     IGUAL,          // =
-     DIFERENTE,      // <>
-     MAIOR_QUE,       // >
-     MENOR_QUE,       // <
-     MAIOR_IGUAL,     // >=
-     MENOR_IGUAL,     // <=
-     NAO,            // not -- operadores binários e lógicos são iguais
-     OU,             // or
-     E,              // and
-     OR_EXCLUSIVO,         // xor
-     BITS_PARA_ESQUERDA,// << ou shl
-     BITS_PARA_DIREITA, // >> ou shr
-     ABRE_PARENTESES, // (
-     FECHA_PARENTESES,// )
-     PONTO,          // . -- identifica o fim do programa
-     VIRGULA,        // , -- divide declaração de variáveis
-     PONTO_E_VIRGULA,  // ;
-     ESCRITA,        // write
-     LEITURA,        // read
-     VERDADEIRO,     // true
-     FALSO,          // false
-     IDENTIFICADOR,  // nome da var ou função que não as duas acima
-     NUMERO,         // número constante no meio do código
-     DESCONHECIDO    // símbolo que não consta acima
- };
+enum class TokenType{
+     PROGRAM,           // Program
+     VARIABLE,          // var
+     BEGIN,             // Begin
+     END,               // End
+     IF,                // if
+     WHILE,             // while
+     INTEGER,           // integer
+     BOOLEAN,           // boolean
+     COLON,             // :
+     ATTRIBUTION,       // :=
+     SUM,               // +
+     SUBTRACTION,       // -
+     MULTIPLICATION,    // *
+     DIVISION,          // div
+     MODULE,            // mod
+     PROCEDURE,         // procedure
+     FUNCTION,          // function
+     EQUALS,            // =
+     DIFFERENT,         // <>
+     BIGGER,            // >
+     SMALLER,           // <
+     BIGGER_EQUAL,      // >=
+     SMALLER_EQUAL,     // <=
+     NOT,               // not -- operadores binários e lógicos são iguais
+     OR,                // or
+     AND,               // and
+     XOR,               // xor
+     RIGHT_PARENTHESIS, // (
+     LEFT_PARENTHESIS,  // )
+     PERIOD,            // . -- identifica o fim do programa
+     COMMA,             // , -- divide declaração de variáveis
+     SEMICOLON,         // ;
+     WRITE,             // write
+     READ,              // read
+     TRUE,              // true
+     FALSE,             // false
+     IDENTIFIER,        // nome da var ou função que não as duas acima
+     NUMBER,            // número constante no meio do código
+     UNKNOWN            // símbolo que não consta acima
+}
 
 class Token {
 private:
-    TipoToken tipo;
+    TokenType type;
     string token;
-    static vector<string> simbolos;
-    int linha;
+    static vector<string> symbols;
+    int line;
 
 public:
     Token(string, int) throw ();
     string getToken() const throw ();
-    TipoToken getTipo() const throw ();
-    int getLinha() const throw ();
+    TokenType getType() const throw ();
+    int getLine() const throw ();
 };
 
 #endif // TOKEN
