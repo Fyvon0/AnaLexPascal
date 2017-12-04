@@ -3,11 +3,12 @@
 #include <typeinfo>
 
 #include "AnalisadorSintatico.h"
-
+/*
 AnalisadorSintatico::AnalisadorSintatico(string nomeArq) throw ()
 {
     this -> AnaLex = new AnalisadorLexico(nomeArq);
 }
+*/
 
 /*
 void AnalisadorSintatico::compilar() throw (string)

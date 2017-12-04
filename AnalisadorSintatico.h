@@ -4,14 +4,14 @@
 #include <list>
 #include <string>
 
-#include "AnalisadorLexico.h"
+#include "Lexer.h"
 #include "TabelaDeSimbolos.h"
-
+/*
 class AnalisadorSintatico
 {
 private:
     std::list<std::string> erros;
-    AnalisadorLexico *AnaLex;
+    Lexer *lexer;
     TabelaDeSimbolos ts;
 
     bool isNumberOrIdentifier(Token t)const throw();
@@ -30,11 +30,11 @@ private:
     void compilaFator() throw (string);
     void compilaChamadaDeProc() throw (string);
     void compilaAtribuicao() throw (string);
-    TipoVariavel compilaExpressao() throw (string);
-    TipoVariavel compilaChamadaDeFunc() throw (string);
+    VariableType compilaExpressao() throw (string);
+    VariableType compilaChamadaDeFunc() throw (string);
 public:
     AnalisadorSintatico (string) throw ();
     void compilar() throw (string);
-};
+}; */
 
 #endif // ANALISADORSINTATICO

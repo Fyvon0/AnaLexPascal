@@ -1,0 +1,27 @@
+#ifndef LEXER_INCLUDED
+#define LEXER_INCLUDED
+
+#include <string>
+#include <vector>
+#include <fstream>
+#include <iostream>
+
+#include "Token.h"
+
+using namespace std;
+
+class Lexer
+{
+private:
+    vector<Token> tokens;
+    int it;
+
+public:
+    Lexer(string) throw (string);
+    Token currentToken() const throw ();
+    Token nextToken() throw (string);
+    Token peekToken() const throw (string);
+    bool hasMoreTokens() const throw ();
+};
+
+#endif // LEXER_INCLUDED

@@ -15,8 +15,8 @@ bool inline isSimbolo(char c)
 
 Lexer::Lexer(string fileName) throw (string)
 {
-    ifstream arq(fileName);
-    if (arq.fail())
+    ifstream file(fileName);
+    if (file.fail())
         throw string("Could not open the specified file.");
 
     string word;
@@ -25,7 +25,7 @@ Lexer::Lexer(string fileName) throw (string)
 
     do
     {
-        char c = tolower(arq.get());
+        char c = tolower(file.get());
 
         if (isspace(c) && !word.empty())
         {
@@ -45,11 +45,11 @@ Lexer::Lexer(string fileName) throw (string)
                 if (c == ':')
                 {
                     word += c;
-                    c = arq.get();
+                    c = file.get();
                     if (c == '=')
                         word += c;
                     else
-                        arq.unget();
+                        file.unget();
 
                     Token newToken(word, line);
                     last = newToken;
@@ -73,44 +73,42 @@ Lexer::Lexer(string fileName) throw (string)
             this -> tokens.push_back(newToken);
             word.clear();
 
-            arq.unget();
+            file.unget();
         }
         else if(!isspace(c))
                 word += c;
 
         if (c == '\n')
             line++;
-    }while (arq.good());
+    }while (file.good());
 
-    this -> iterador = 0;
+    this -> it = 0;
 }
 
-Token Lexer::tokenAtual() const throw (string)
+Token Lexer::currentToken() const throw ()
 {
-    if (!this -> temMaisTokens())
-        throw string("Não existem mais tokens a serem buscados");
-    Token t = this->tokens[this -> iterador];
+    Token t = this->tokens[this -> it];
     return t;
 }
 
-Token Lexer::avancaToken() throw (string)
+Token Lexer::nextToken() throw (string)
 {
-    if (!this -> temMaisTokens())
-        throw string("Não existem mais tokens a serem buscados");
-    Token t = this->tokens[this -> iterador];
-    ++(this -> iterador);
+    if (!this -> hasMoreTokens())
+        throw string("Could not advance token iterator");
+    Token t = this->tokens[this -> it];
+    ++(this -> it);
     return t;
 }
 
-Token Lexer::proximoToken() const throw (string)
+Token Lexer::peekToken() const throw (string)
 {
-    if (!this -> temMaisTokens())
-        throw string("Não existem mais tokens a serem buscados");
-    Token t = this->tokens[this -> iterador + 1];
+    if (!this -> hasMoreTokens())
+        throw string("Could not advance token iterator");
+    Token t = this->tokens[this -> it + 1];
     return t;
 }
 
-bool Lexer::temMaisTokens() const throw ()
+bool Lexer::hasMoreTokens() const throw ()
 {
-    return this -> iterador < this -> tokens.size();
+    return this->it < this->tokens.size();
 }

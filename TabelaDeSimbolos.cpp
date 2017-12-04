@@ -4,7 +4,7 @@
 
 SymbolTable::SymbolTable() throw (): currentScope(0) {}
 
-void SymbolTable::insertSymbol (const Symbol s&) throw ()
+void SymbolTable::insertSymbol (const Symbol& s) throw ()
 {
     if (s.getType() == SymbolType::FUNCTION)
     {

@@ -1,7 +1,7 @@
 #include <iostream>
 #include<string>
 #include "Lexer.h"
-#include "Simbolo.h"
+#include "Symbol.h"
 
 const string nomeArq("teste.txt");
 
@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    Variable v(string("Nome"), VariableType::BOOLEAN);
+    Symbol v(string("Nome"), VariableType::BOOLEAN, nullptr);
 
     return 0;
 }
