@@ -32,10 +32,10 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="AnalisadorLexico.cpp" />
-		<Unit filename="AnalisadorLexico.h" />
-		<Unit filename="AnalisadorSintatico.cpp" />
-		<Unit filename="AnalisadorSintatico.h" />
+		<Unit filename="Lexer.cpp" />
+		<Unit filename="Lexer.h" />
+		<Unit filename="Parser.cpp" />
+		<Unit filename="Parser.h" />
 		<Unit filename="Simbolo.cpp" />
 		<Unit filename="Simbolo.h" />
 		<Unit filename="SymbolTable.cpp" />

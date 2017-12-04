@@ -1,6 +1,5 @@
-#include <forward_list>
+#include <vector>
 #include <string>
-#include <typeinfo>
 
 #include "Parser.h"
 
@@ -16,59 +15,41 @@ void Parser::compileProgramStart () throw (string)
 {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::PROGRAM)
-        throw string ("\"PROGRAM\" expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
+        throw string ("\"" + TokenTypeNames[TokenType::PROGRAM] + "\" expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
-        throw string ("IDENTIFIER expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
+        throw string ("\"" + TokenTypeNames[TokenType::IDENTIFIER] + "\" expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
     next = this->lex.nextToken();
     if (next.getType() != TokenType::SEMICOLON)
-        throw string("\";\" expected at line " + next.getLine() + "but \"" + TokenTypeNames + "\" found instead");
+        throw string("\"" + TokenTypeNames[TokenType::SEMICOLON] + "\" expected at line " + next.getLine() + "but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead");
 }
 
+void Parser::compileVariableDeclaration () throw (string)
+{
+    Token next = this->lex.nextToken();
+    if (next.getType() != TokenType::VARIABLE)
+        throw string("\"" + TokenTypeNames[TokenType::VARIABLE] + "\" expected at line " + next.getLine() + "but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead");
+    next = this->lex.nextToken();]
+    if (next.getType() != TokenType::IDENTIFIER)
+        throw string("\"" + TokenTypeNames[TokenType::IDENTIFIER] + "\" expected at line " + next.getLine() + "but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead");
+    vector<Symbol> params;
+    params.push_back
+    next = this->lex.nextToken();
+    if (next.getType() == TokenType::COMMA)
+        for (;;)
+        {
+            Token ult = next;
+            if (ult.getType() == TokenType::SEMICOLON && next.getType() == TokenType::IDENTIFIER)
+                break;
+            if (!(ult.getType() == TokenType::COMMA && next.getType() == TokenType::IDENTIFIER))
+                throw string("");
+        }
+}
 /*
 AnalisadorSintatico::AnalisadorSintatico(string nomeArq) throw ()
 {
     this -> AnaLex = new AnalisadorLexico(nomeArq);
 }
-
-void AnalisadorSintatico::compilaInicioDePrograma() throw (string)
-{
-    Token prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::programa)
-        throw string ("\"Program\" expected at line " + prox.getLinha());
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::identificador)
-        throw string ("Identifier expected at line " + prox.getLinha());
-    prox = this->AnaLex->avancaToken();
-    if (prox.getTipo() != TipoToken::pontoEVirgula)
-        throw string ("\";\" expected at line " + prox.getLinha());
-}
-
-void AnalisadorSintatico::compilar() throw (string)
-{
-    compilaInicioDePrograma();
-    Token prox = this->AnaLex->proximoToken();
-    while (prox.getTipo() != TipoToken::comeco)
-    {
-        switch (prox.getTipo())
-        {
-        case TipoToken::variavel:
-            compilaDeclaracaoDeVariavel();
-            break;
-        case TipoToken::procedimento:
-            compilaDeclaracaoDeProcedimento();
-            break;
-        case TipoToken::funcao:
-            compilaDeclaracaoDeFuncao();
-            break;
-        default:
-            throw string ("\"begin\" expected at line " + prox.getLinha());
-        }
-        prox = this->AnaLex->proximoToken();
-    }
-    this->compilaDeclaracaoDePP();
-}
-
 
 void AnalisadorSintatico::compilaDeclaracaoDeVariavel() throw (string)
 {
@@ -129,6 +110,46 @@ void AnalisadorSintatico::compilaDeclaracaoDeVariavel() throw (string)
             throw ("\";\" expected after variable declaration at line " + prox.getLinha());
     }
 }
+
+
+void AnalisadorSintatico::compilaInicioDePrograma() throw (string)
+{
+    Token prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::programa)
+        throw string ("\"Program\" expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::identificador)
+        throw string ("Identifier expected at line " + prox.getLinha());
+    prox = this->AnaLex->avancaToken();
+    if (prox.getTipo() != TipoToken::pontoEVirgula)
+        throw string ("\";\" expected at line " + prox.getLinha());
+}
+
+void AnalisadorSintatico::compilar() throw (string)
+{
+    compilaInicioDePrograma();
+    Token prox = this->AnaLex->proximoToken();
+    while (prox.getTipo() != TipoToken::comeco)
+    {
+        switch (prox.getTipo())
+        {
+        case TipoToken::variavel:
+            compilaDeclaracaoDeVariavel();
+            break;
+        case TipoToken::procedimento:
+            compilaDeclaracaoDeProcedimento();
+            break;
+        case TipoToken::funcao:
+            compilaDeclaracaoDeFuncao();
+            break;
+        default:
+            throw string ("\"begin\" expected at line " + prox.getLinha());
+        }
+        prox = this->AnaLex->proximoToken();
+    }
+    this->compilaDeclaracaoDePP();
+}
+
 
 void AnalisadorSintatico::compilaDeclaracaoDeProcedimento() throw (string)
 {

@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class AnalisadorLexico
+class Lexer
 {
 private:
     vector<Token> tokens;

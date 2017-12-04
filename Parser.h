@@ -14,6 +14,7 @@ private:
     SymbolTable st;
 
     void compileProgramStart () throw (string);
+    void compileVariableDeclaration () throw (string);
 public:
     Parser(string) throw ();
 };
