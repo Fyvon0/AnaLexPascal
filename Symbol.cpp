@@ -43,6 +43,14 @@ SymbolType Symbol::getType() const throw() {
     return SymbolType::FUNCTION;
 }
 
+VariableType Symbol::getReturnType() const {
+    return this->returnType;
+}
+
+VariableType Symbol::getParamType(unsigned int i) const throw(string) {
+    return this->getParam(i).getReturnType();
+}
+
 Symbol Symbol::getParam(unsigned int i) const throw(string) {
     if (this->params == nullptr)
         throw string("Cannot read variable params");

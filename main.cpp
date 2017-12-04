@@ -9,7 +9,7 @@ using namespace std;
 
 int main()
 {
-    Symbol v(string("Nome"), VariableType::BOOLEAN, nullptr);
-
+    Symbol s(string("Nome"), VariableType::INTEGER, new vector<Symbol>());
+    cout << (int)s.getType();
     return 0;
 }

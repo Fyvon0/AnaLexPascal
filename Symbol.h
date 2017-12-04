@@ -34,6 +34,8 @@ public:
     string getName() const throw ();
     SymbolType getType() const throw();
     Symbol getParam(unsigned int) const throw(string);
+    VariableType getReturnType() const;
+    VariableType getParamType(unsigned int) const throw(string);
     bool operator== (const Symbol&) const throw ();
     bool operator!= (const Symbol&) const throw ();
 };
