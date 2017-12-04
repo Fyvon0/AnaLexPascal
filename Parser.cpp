@@ -1,6 +1,3 @@
-#include <vector>
-#include <string>
-
 #include "Parser.h"
 
 
@@ -11,29 +8,38 @@ string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","WHILE","INTEGER",
 
 Parser::Parser(string path) throw () : lex(path) {}
 
+void throwExpected(TokenType expected, int line, TokenType found) throw (string) {
+    throw string ("\"" + TokenTypeNames[(int)expected] +
+                  "\" expected at line " +
+                  std::to_string(line) +
+                  " but \"" +
+                  TokenTypeNames[(int)found] +
+                  "\" found instead.");
+}
+
 void Parser::compileProgramStart () throw (string)
 {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::PROGRAM)
-        throw string ("\"" + TokenTypeNames[TokenType::PROGRAM] + "\" expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
+        throwExpected(TokenType::PROGRAM, next.getLine(), next.getType());
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
-        throw string ("\"" + TokenTypeNames[TokenType::IDENTIFIER] + "\" expected at line " + next.getLine() + " but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead.");
+        throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
     next = this->lex.nextToken();
     if (next.getType() != TokenType::SEMICOLON)
-        throw string("\"" + TokenTypeNames[TokenType::SEMICOLON] + "\" expected at line " + next.getLine() + "but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead");
+        throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }
 
 void Parser::compileVariableDeclaration () throw (string)
 {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::VARIABLE)
-        throw string("\"" + TokenTypeNames[TokenType::VARIABLE] + "\" expected at line " + next.getLine() + "but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead");
-    next = this->lex.nextToken();]
+        throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
+    next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
-        throw string("\"" + TokenTypeNames[TokenType::IDENTIFIER] + "\" expected at line " + next.getLine() + "but \"" + TokenTypeNames[(int)next.getType()] + "\" found instead");
-    vector<Symbol> params;
-    params.push_back
+        throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+    vector<string> params;
+    params.push_back(next.getToken());
     next = this->lex.nextToken();
     if (next.getType() == TokenType::COMMA)
         for (;;)

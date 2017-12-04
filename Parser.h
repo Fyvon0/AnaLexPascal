@@ -1,7 +1,7 @@
 #ifndef PARSER
 #define PARSER
 
-#include <list>
+#include <vector>
 #include <string>
 
 #include "Lexer.h"
@@ -12,6 +12,8 @@ class Parser
 private:
     Lexer lex;
     SymbolTable st;
+
+    void throwExpected(TokenType, int, TokenType) throw (string);
 
     void compileProgramStart () throw (string);
     void compileVariableDeclaration () throw (string);
