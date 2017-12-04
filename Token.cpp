@@ -63,7 +63,7 @@ string Token::getToken () const throw ()
     return string(this -> token);
 }
 
-TokenType Token::getType() () const throw ()
+TokenType Token::getType() const throw ()
 {
     return this -> type;
 }

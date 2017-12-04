@@ -36,8 +36,8 @@
 		<Unit filename="Lexer.h" />
 		<Unit filename="Parser.cpp" />
 		<Unit filename="Parser.h" />
-		<Unit filename="Simbolo.cpp" />
-		<Unit filename="Simbolo.h" />
+		<Unit filename="Symbol.cpp" />
+		<Unit filename="Symbol.h" />
 		<Unit filename="SymbolTable.cpp" />
 		<Unit filename="SymbolTable.h" />
 		<Unit filename="Token.cpp" />

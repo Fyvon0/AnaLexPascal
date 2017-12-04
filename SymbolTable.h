@@ -16,7 +16,7 @@ private:
 public:
     SymbolTable() throw ();
     void insertSymbol (const Symbol&) throw (string);
-    Symbol* getSymbol (const string&) const throw (string);
+    Symbol* getSymbol (const string&) const throw ();
     void clearCurrentScope () throw (string);
 };
 #endif // SYMBOLTABLE

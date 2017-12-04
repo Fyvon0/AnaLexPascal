@@ -4,29 +4,34 @@
 
 SymbolTable::SymbolTable() throw (): currentScope(0) {}
 
-void SymbolTable::insertSymbol (const Symbol& s) throw ()
+void SymbolTable::insertSymbol (const Symbol& s) throw (string)
 {
-    if (s.getSymbolType() == SymbolType::FUNCTION)
+    if (s.getType() == SymbolType::FUNCTION)
     {
         this->currentScope++;
         vector<Symbol*> newScope;
-        this->symbols.push_back(currentScope);
+        this->symbols.push_back(newScope);
     }
+
+    if (this->getSymbol(s.getName()) == nullptr)
+        throw string ("Repeated declaration of specifier " + s.getName());
 
     this->symbols.back().push_back(new Symbol(s));
 }
 
-Symbol* SymbolTable::getSymbol (const string name&) throw ()
+Symbol* SymbolTable::getSymbol (const string& name) const throw ()
 {
     for (auto itScope = this->symbols.cbegin(); itScope != this->symbols.cend(); itScope++)
-        for (auto itSymb = (*itScope).cbegin(); itSymb != (*itScope).cend(); itSymb++))
+        for (auto itSymb = (*itScope).cbegin(); itSymb != (*itScope).cend(); itSymb++)
             if ((*itSymb)->getName() == name)
                 return new Symbol(*(*itSymb));
     return nullptr;
 }
 
-void SymbolTable::clearCurrentScope() throw ()
+void SymbolTable::clearCurrentScope() throw (string)
 {
+    if (this->symbols.empty())
+        throw string ("Invalid end of scope");
     this->symbols.pop_back();
     this->currentScope--;
 }
