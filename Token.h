@@ -45,7 +45,6 @@ enum class TokenType{
      IDENTIFIER,        // nome da var ou função que não as duas acima
      NUMBER,            // número constante no meio do código
      UNKNOWN            // símbolo que não consta acima
- };
 
 class Token {
 private:

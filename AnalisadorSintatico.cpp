@@ -9,6 +9,7 @@ AnalisadorSintatico::AnalisadorSintatico(string nomeArq) throw ()
     this -> AnaLex = new AnalisadorLexico(nomeArq);
 }
 
+/*
 void AnalisadorSintatico::compilar() throw (string)
 {
     compilaInicioDePrograma();
@@ -658,4 +659,4 @@ TipoVariavel AnalisadorSintatico::compilaChamadaDeFunc() throw (string)
         prox = this->AnaLex->avancaToken();
     }
     return func.getTipoDeRetorno();
-}
+} */

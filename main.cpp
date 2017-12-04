@@ -1,6 +1,7 @@
 #include <iostream>
 #include<string>
-#include "AnalisadorLexico.h"
+#include "Lexer.h"
+#include "Simbolo.h"
 
 const string nomeArq("teste.txt");
 
@@ -8,12 +9,7 @@ using namespace std;
 
 int main()
 {
-    AnalisadorLexico a(nomeArq);
+    Variable v(string("Nome"), VariableType::BOOLEAN);
 
-    while (a.temMaisTokens())
-    {
-        cout << a.tokenAtual().getLinha() << " - " << (int)a.tokenAtual().getTipo() << " - " << a.tokenAtual().getToken() << "\n";
-        a.avancaToken();
-    }
     return 0;
 }
