@@ -6,47 +6,47 @@
 using namespace std;
 
 enum class TipoToken{
-     programa,       // Program
-     variavel,       // var
-     comeco,         // Begin
-     fim,            // End
-     se,             // if
-     enquanto,       // while
-     inteiro,        // integer
-     booleano,       // boolean
-     doisPontos,     // :
-     atribuicao,     // :=
-     soma,           // +
-     subtracao,      // -
-     multiplicacao,  // *
-     divisaoInteira, // div
-     modulo,         // mod
-     procedimento,   // procedure
-     funcao,         // function
-     igual,          // =
-     diferente,      // <>
-     maiorQue,       // >
-     menorQue,       // <
-     maiorIgual,     // >=
-     menorIgual,     // <=
-     nao,            // not -- operadores binários e lógicos são iguais
-     ou,             // or
-     e,              // and
-     exclOr,         // xor
-     bitsPraEsquerda,// << ou shl
-     bitsPraDireita, // >> ou shr
-     abreParenteses, // (
-     fechaParenteses,// )
-     ponto,          // . -- identifica o fim do programa
-     virgula,        // , -- divide declaração de variáveis
-     pontoEVirgula,  // ;
-     escrita,        // write
-     leitura,        // read
-     verdadeiro,     // true
-     falso,          // false
-     identificador,  // nome da var ou função que não as duas acima
-     numero,         // número constante no meio do código
-     desconhecido    // símbolo que não consta acima
+     PROGRAMA,       // Program
+     VARIAVEL,       // var
+     COMECO,         // Begin
+     FIM,            // End
+     SE,             // if
+     ENQUANTO,       // while
+     INTEIRO,        // integer
+     BOOLEANO,       // boolean
+     DOIS_PONTOS,     // :
+     ATRIBUICAO,     // :=
+     SOMA,           // +
+     SUBTRACAO,      // -
+     MULTIPLICACAO,  // *
+     DIVISAO_INTEIRA, // div
+     MODULO,         // mod
+     PROCEDIMENTO,   // procedure
+     FUNCAO,         // function
+     IGUAL,          // =
+     DIFERENTE,      // <>
+     MAIOR_QUE,       // >
+     MENOR_QUE,       // <
+     MAIOR_IGUAL,     // >=
+     MENOR_IGUAL,     // <=
+     NAO,            // not -- operadores binários e lógicos são iguais
+     OU,             // or
+     E,              // and
+     OR_EXCLUSIVO,         // xor
+     BITS_PARA_ESQUERDA,// << ou shl
+     BITS_PARA_DIREITA, // >> ou shr
+     ABRE_PARENTESES, // (
+     FECHA_PARENTESES,// )
+     PONTO,          // . -- identifica o fim do programa
+     VIRGULA,        // , -- divide declaração de variáveis
+     PONTO_E_VIRGULA,  // ;
+     ESCRITA,        // write
+     LEITURA,        // read
+     VERDADEIRO,     // true
+     FALSO,          // false
+     IDENTIFICADOR,  // nome da var ou função que não as duas acima
+     NUMERO,         // número constante no meio do código
+     DESCONHECIDO    // símbolo que não consta acima
  };
 
 class Token {

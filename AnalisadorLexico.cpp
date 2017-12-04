@@ -4,7 +4,7 @@
 #include <iostream>
 
 #include "Token.h"
-#include "AnalisadorLexico.h"
+#include "Lexer.h"
 
 using namespace std;
 
@@ -13,15 +13,15 @@ bool inline isSimbolo(char c)
     return c == ':' || c == '+' || c == '-'  || c == '*' || c == '=' || c == '>' || c == '<' || c == '(' || c == ')' || c == '.' || c == ',' || c == ';';
 }
 
-AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
+Lexer::Lexer(string fileName) throw (string)
 {
-    ifstream arq(nomeArq);
+    ifstream arq(fileName);
     if (arq.fail())
-        throw string("Nao foi possivel abrir o arquivo indicado");
+        throw string("Could not open the specified file.");
 
     string word;
-    int linha = 1;
-    Token ult(string("&"),0);
+    int line = 1;
+    Token last(string("&"),0);
 
     do
     {
@@ -29,15 +29,15 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
 
         if (isspace(c) && !word.empty())
         {
-            Token newToken(word, linha);
-            ult = newToken;
+            Token newToken(word, line);
+            last = newToken;
             this -> tokens.push_back(newToken);
             word.clear();
         }
-        else if (ult.getTipo() != TipoToken::identificador && ult.getTipo() != TipoToken::numero && !isalnum(c) && !word.empty())
+        else if (last.getTipo() != TipoToken::IDENTIFICADOR && last.getTipo() != TipoToken::NUMERO && !isalnum(c) && !word.empty())
         {
-            Token newToken(word, linha);
-            ult = newToken;
+            Token newToken(word, line);
+            last = newToken;
             this -> tokens.push_back(newToken);
             word.clear();
             if (isSimbolo(c))
@@ -51,25 +51,25 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
                     else
                         arq.unget();
 
-                    Token newToken(word, linha);
-                    ult = newToken;
+                    Token newToken(word, line);
+                    last = newToken;
                     this -> tokens.push_back(newToken);
                     word.clear();
                 }
                 else
                 {
                     word += c;
-                    Token newToken(word, linha);
-                    ult = newToken;
+                    Token newToken(word, line);
+                    last = newToken;
                     this -> tokens.push_back(newToken);
                     word.clear();
                 }
             }
         }
-        else if ((ult.getTipo() == TipoToken::identificador || ult.getTipo() == TipoToken::numero) && isalnum(c) && !word.empty())
+        else if ((last.getTipo() == TipoToken::IDENTIFICADOR || last.getTipo() == TipoToken::NUMERO) && isalnum(c) && !word.empty())
         {
-            Token newToken(word, linha);
-            ult = newToken;
+            Token newToken(word, line);
+            last = newToken;
             this -> tokens.push_back(newToken);
             word.clear();
 
@@ -79,13 +79,13 @@ AnalisadorLexico::AnalisadorLexico(string nomeArq) throw (string)
                 word += c;
 
         if (c == '\n')
-            linha++;
+            line++;
     }while (arq.good());
 
     this -> iterador = 0;
 }
 
-Token AnalisadorLexico::tokenAtual() const throw (string)
+Token Lexer::tokenAtual() const throw (string)
 {
     if (!this -> temMaisTokens())
         throw string("Não existem mais tokens a serem buscados");
@@ -93,7 +93,7 @@ Token AnalisadorLexico::tokenAtual() const throw (string)
     return t;
 }
 
-Token AnalisadorLexico::avancaToken() throw (string)
+Token Lexer::avancaToken() throw (string)
 {
     if (!this -> temMaisTokens())
         throw string("Não existem mais tokens a serem buscados");
@@ -102,7 +102,7 @@ Token AnalisadorLexico::avancaToken() throw (string)
     return t;
 }
 
-Token AnalisadorLexico::proximoToken() const throw (string)
+Token Lexer::proximoToken() const throw (string)
 {
     if (!this -> temMaisTokens())
         throw string("Não existem mais tokens a serem buscados");
@@ -110,7 +110,7 @@ Token AnalisadorLexico::proximoToken() const throw (string)
     return t;
 }
 
-bool AnalisadorLexico::temMaisTokens() const throw ()
+bool Lexer::temMaisTokens() const throw ()
 {
     return this -> iterador < this -> tokens.size();
 }
