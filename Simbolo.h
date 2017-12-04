@@ -7,16 +7,15 @@
 using namespace std;
 
 enum class TipoVariavel {
-    boolean,
-    integer
+    BOOLEAN,
+    INTEGER
 };
 
 enum class TipoSimbolo {
-    Variavel,
-    Procedimento,
-    Funcao,
-    Parametro,
-    Nenhum
+    VARIAVEL,
+    FUNCAO,
+    PARAMETRO,
+    NENHUM
 };
 
 class Simbolo
@@ -24,7 +23,7 @@ class Simbolo
 protected:
     string nome;
     unsigned char nivel;
-    TipoSimbolo tipo;
+    TipoSimbolo tipoSimbolo;
 public:
     string getNome() const throw ();
     char getNivel() const throw ();

@@ -6,7 +6,6 @@
 using namespace std;
 
 //SIMBOLO
-
 string Simbolo::getNome() const throw ()
 {
     return string(this -> nome);
@@ -43,6 +42,7 @@ Variavel::Variavel(string s, TipoVariavel t, char n) throw ()
     this -> nome = nom;
     this -> tipo = t;
     this -> nivel = n;
+    this -> tipoSimbolo = TipoSimbolo::VARIAVEL;
 }
 
 TipoVariavel Variavel::getTipoVariavel() const throw ()
@@ -68,6 +68,7 @@ Parametro::Parametro(string s, TipoVariavel t, char n) throw ()
     this -> nome = nom;
     this -> tipo = t;
     this -> nivel = n;
+    this -> tipoSimbolo = TipoSimbolo::PARAMETRO;
 }
 TipoVariavel Parametro::getTipoVariavel() const throw ()
 {
@@ -102,6 +103,7 @@ Procedimento::Procedimento(string s, char n, vector<Parametro> pars) throw ()
     this -> nivel = n;
     vector<Parametro> p (pars);
     this -> params = p;
+    this -> tipoSimbolo = TipoSimbolo::PROCEDIMENTO;
 }
 
 unsigned int Procedimento::getQuantidadeParametros() const throw ()
@@ -134,6 +136,7 @@ Funcao::Funcao(string s, TipoVariavel t, char n, vector<Parametro> pars) throw()
     this->nivel = n;
     vector<Parametro> p (pars);
     this -> params = p;
+    this -> tipoSimbolo = TipoSimbolo::FUNCAO;
 }
 
 unsigned int Funcao::getQuantidadeParametros() const throw ()

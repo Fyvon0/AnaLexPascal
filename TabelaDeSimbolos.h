@@ -1,5 +1,5 @@
-#ifndef TABELADESIMBOLOS
-#define TABELADESIMBOLOS
+#ifndef SYMBOLTABLE
+#define SYMBOLTABLE
 
 #include <set>
 #include <vector>
@@ -7,6 +7,19 @@
 #include "Simbolo.h"
 
 using namespace std;
+
+class SymbolTable
+{
+private:
+    vector<vector<Symbol*>> symbols;
+    char currentScope;
+public:
+    SymbolTable() throw ();
+    void insertSymbol (const Symbol&) throw (string);
+    Symbol* getSymbol (const string&) const throw (string);
+    void clearCurrentScope () throw (string);
+};
+#endif // SYMBOLTABLE
 
 /*class TabelaDeSimbolos
 {
@@ -39,16 +52,3 @@ public:
     TabelaDeSimbolos();
 };
 */
-
-class TabelaDeSimbolos
-{
-private:
-    vector<vector<Simbolo*>> simbolos;
-    char ultimoNivel;
-public:
-    TabelaDeSimbolos() throw ();
-    void inserirSimbolo (const Simbolo&) throw (string);
-    Simbolo* getSimbolo(const string&) const throw (string);
-    void excluiNivelAtual () throw (string);
-};
-#endif // TABELADESIMBOLOS

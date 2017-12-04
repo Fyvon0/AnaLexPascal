@@ -2,33 +2,33 @@
 
 #include "TabelaDeSimbolos.h"
 
-TabelaDeSimbolos::TabelaDeSimbolos() throw (): ultimoNivel(0) {}
+SymbolTable::SymbolTable() throw (): currentScope(0) {}
 
-void TabelaDeSimbolos::inserirSimbolo (const Simbolo s&) throw ()
+void SymbolTable::insertSymbol (const Symbol s&) throw ()
 {
-    if (s.getTipo() == TipoSimbolo::Funcao || s.getTipo() == TipoSimbolo::Parametro)
+    if (s.getType() == SymbolType::FUNCTION)
     {
-        ultimoNivel++;
-        vector<Simbolo*> novoNivel;
-        this->simbolos.push_back(novoNivel);
+        this->currentScope++;
+        vector<Symbol*> newScope;
+        this->symbols.push_back(currentScope);
     }
 
-    this->simbolos.back().push_back(new Simbolo(s));
+    this->symbols.back().push_back(new Symbol(s));
 }
 
-Simbolo* TabelaDeSimbolos::getSimbolo (const string nome&) throw ()
+Symbol* SymbolTable::getSymbol (const string name&) throw ()
 {
-    for (auto itNivel = this->simbolos.cbegin(); itNivel != this->simbolos.cend(); itNivel++)
-        for (auto itSimb = (*itNivel).cbegin(); itSimb != (*itNivel).cend(); itSimb++))
-            if ((*itSimb)->getNome() == nome)
-                return new Simbolo(*(*itSimb));
+    for (auto itScope = this->symbols.cbegin(); itScope != this->symbols.cend(); itScope++)
+        for (auto itSymb = (*itScope).cbegin(); itSymb != (*itScope).cend(); itSymb++))
+            if ((*itSymb)->getName() == name)
+                return new Symbol(*(*itSymb));
     return nullptr;
 }
 
-void TabelaDeSimbolos::excluiNivelAtual() throw ()
+void SymbolTable::clearCurrentScope() throw ()
 {
-    this->simbolos.pop_back();
-    this->ultimoNivel--;
+    this->symbols.pop_back();
+    this->currentScope--;
 }
 
 /*
