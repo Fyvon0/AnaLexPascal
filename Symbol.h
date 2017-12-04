@@ -14,44 +14,28 @@ enum class VariableType {
 
 enum class SymbolType {
     VARIABLE,
-    FUNCTION,
-    NULL
+    PROCEDURE,
+    FUNCTION
 };
 
 class Symbol
 {
 protected:
     string name;
-public:
-    string getName() const throw ();
-    virtual bool operator== (Symbol) const throw ();
-    virtual SymbolType getType();
-    bool operator!= (Symbol) const throw ();
-};
-
-class Variable : public Symbol
-{
-private:
-    VariableType tipo;
-public:
-    Variable (string, VariableType) throw (string);
-    VariableType getTipoVariavel () const throw ();
-    bool operator== (Symbol) const throw ();
-    bool operator!= (Symbol) const throw ();
-};
-
-class Funcao : public Symbol
-{
-private:
-    vector<Variable> params;
     VariableType returnType;
+    vector<Symbol>* params;
 public:
-    Funcao (string, TipoVariavel, vector<Variable>) throw ();
-    unsigned int getParamCount () const throw ();
-    VariableType getParamType (unsigned int) const throw (string);
-    VariableType getReturnType () const throw ();
-    bool operator== (Symbol) const throw ();
-    bool operator!= (Symbol) const throw ();
+    Symbol(const string& name, VariableType returnType);
+    Symbol(const string& name, VariableType returnType, const vector<Symbol> * const params);
+    Symbol(const Symbol&);
+    Symbol operator=(const Symbol&);
+    virtual ~Symbol();
+
+    string getName() const throw ();
+    SymbolType getType() const throw();
+    Symbol getParam(unsigned int) const throw(string);
+    bool operator== (const Symbol&) const throw ();
+    bool operator!= (const Symbol&) const throw ();
 };
 
 #endif // SYMBOL_INCLUDED

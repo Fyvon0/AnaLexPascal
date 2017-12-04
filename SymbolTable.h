@@ -4,7 +4,7 @@
 #include <set>
 #include <vector>
 
-#include "Simbolo.h"
+#include "Symbol.h"
 
 using namespace std;
 

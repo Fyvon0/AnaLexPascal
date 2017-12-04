@@ -34,13 +34,14 @@
 	<iostream>
 	"Token.h"
 
-1512406927 c:\users\u16187\desktop\analexpascal\token.h
+1512414229 c:\users\u16187\desktop\analexpascal\token.h
 	<string>
 
-1510321581 source:c:\users\u16187\desktop\analexpascal\main.cpp
+1512413466 source:c:\users\u16187\desktop\analexpascal\main.cpp
 	<iostream>
 	<string>
-	"AnalisadorLexico.h"
+	"Lexer.h"
+	"Symbol.h"
 
 1510314766 source:c:\users\u16187\desktop\analexpascal\token.cpp
 	<string>
@@ -161,24 +162,46 @@
 	<typeinfo>
 	"TabelaDeSimbolos.h"
 
-1512407004 source:c:\users\u16187\desktop\analexpascal\analisadorsintatico.cpp
+1512408949 source:c:\users\u16187\desktop\analexpascal\analisadorsintatico.cpp
 	<forward_list>
 	<string>
 	<typeinfo>
 	"AnalisadorSintatico.h"
 
-1512406488 c:\users\u16187\desktop\analexpascal\analisadorsintatico.h
+1512408938 c:\users\u16187\desktop\analexpascal\analisadorsintatico.h
 	<list>
 	<string>
-	"AnalisadorLexico.h"
+	"Lexer.h"
 	"TabelaDeSimbolos.h"
 
-1512406488 c:\users\u16187\desktop\analexpascal\tabeladesimbolos.h
+1512408870 c:\users\u16187\desktop\analexpascal\tabeladesimbolos.h
 	<set>
 	<vector>
-	"Simbolo.h"
+	"Symbol.h"
 
-1512407512 c:\users\u16187\desktop\analexpascal\simbolo.h
+1512408370 c:\users\u16187\desktop\analexpascal\simbolo.h
 	<string>
 	<vector>
+
+1512414447 c:\users\u16187\desktop\analexpascal\lexer.h
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+
+1512413633 c:\users\u16187\desktop\analexpascal\symbol.h
+	<string>
+	<vector>
+
+1512408788 source:c:\users\u16187\desktop\analexpascal\lexer.cpp
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+	"Lexer.h"
+
+1512413704 source:c:\users\u16187\desktop\analexpascal\symbol.cpp
+	"Symbol.h"
 

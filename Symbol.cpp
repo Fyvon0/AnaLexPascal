@@ -1,85 +1,61 @@
-#include <string>
-#include <typeinfo>
-
-#include "Simbolo.h"
+#include "Symbol.h"
 
 using namespace std;
 
 //SIMBOLO
 
-string Simbolo::getNome() const throw ()
-{
-    return string(this -> nome);
+Symbol::Symbol(const string& name, VariableType returnType)
+    : Symbol(name, returnType, nullptr) {}
+
+Symbol::Symbol(const string& name, VariableType returnType, const vector<Symbol>* const params)
+    : name(name) {
+    this->returnType = returnType;
+    if (params != nullptr)
+        this->params = new vector<Symbol>(*params);
+    else
+        this->params = nullptr;
 }
 
-bool Simbolo::operator!=(Simbolo other) const throw ()
-{
-    return !this -> operator==(other);
+Symbol::Symbol(const Symbol& outro) {
+    *this = outro;
 }
 
-bool Simbolo::operator==(Simbolo other) const throw ()
-{
-    if (this -> nivel != other.getNivel())
-        return false;
-    return this->nome != other.getNome();
+Symbol Symbol::operator=(const Symbol& outro) {
+    this->name = outro.name;
+    this->returnType = outro.returnType;
+    this->params = outro.params;
 }
 
-//VARIAVEL
-Variavel::Variavel(string s, TipoVariavel t) throw (string)
-{
-    if (t == TipoVariavel::VOID)
-        throw("Variable cannot be void");
-    this -> nome = string(s);
-    this -> tipo = t;
+Symbol::~Symbol() {
+    delete this->params;
 }
 
-TipoVariavel Variavel::getTipoVariavel() const throw ()
-{
-    return this -> tipo;
+string Symbol::getName() const throw () {
+    return string(this->name);
 }
 
-bool Variavel::operator== (Simbolo other) const throw ()
-{
-    if (typeid(*this) != typeid(other))
-        return false;
+SymbolType Symbol::getType() const throw() {
+    if (this->returnType == VariableType::VOID)
+        return SymbolType::PROCEDURE;
+    if (this->params == nullptr)
+        return SymbolType::VARIABLE;
 
-    if (this -> nivel != other.getNivel())
-        return false;
-
-    return this -> nome == other.getNome();
+    return SymbolType::FUNCTION;
 }
 
-//FUNCAO
-Funcao::Funcao(string s, TipoVariavel t, vector<Parametro> pars) throw()
-{
-    this->nome = string(s);
-    this->retorno = t;
-    vector<Parametro> p (pars);
-    this -> params = p;
+Symbol Symbol::getParam(unsigned int i) const throw(string) {
+    if (this->params == nullptr)
+        throw string("Cannot read variable params");
+    if (this->params->size() < i)
+        throw string ("Index out of bounds");
+
+    return Symbol(this->params->at(i));
 }
 
-unsigned int Funcao::getQuantidadeParametros() const throw ()
-{
-    return this -> params.size();
+bool Symbol::operator!=(const Symbol& other) const throw () {
+    return !this->operator==(other);
 }
 
-TipoVariavel Funcao::getTipoParametro(unsigned int i) const throw ()
-{
-    if (i >= this -> params.size())
-        throw string("Index out of bounds.");
-    return this -> params.at(i).getTipoVariavel();
-}
-
-TipoVariavel Funcao::getTipoDeRetorno() const throw ()
-{
-    return retorno;
-}
-
-bool Funcao::operator==(Simbolo other) const throw ()
-{
-    if (typeid(*this) != typeid(other))
-        return false;
-    if (this -> params != static_cast<Funcao*>(&other) -> params)
-        return false;
-    return this -> nome == other.getNome();
+bool Symbol::operator==(const Symbol& other) const throw () {
+    return this->name != other.name;
 }
