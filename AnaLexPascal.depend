@@ -38,14 +38,16 @@
 1512414229 c:\users\u16187\desktop\analexpascal\token.h
 	<string>
 
-1512413466 source:c:\users\u16187\desktop\analexpascal\main.cpp
+1512417462 source:c:\users\u16187\desktop\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"Lexer.h"
 	"Symbol.h"
 
-1510314766 source:c:\users\u16187\desktop\analexpascal\token.cpp
+1512416540 source:c:\users\u16187\desktop\analexpascal\token.cpp
 	<string>
+	<stdlib.h>
+	<algorithm>
 	"Token.h"
 
 1512412694 f:\analexpascal\token.h
@@ -191,7 +193,7 @@
 	<iostream>
 	"Token.h"
 
-1512413633 c:\users\u16187\desktop\analexpascal\symbol.h
+1512417969 c:\users\u16187\desktop\analexpascal\symbol.h
 	<string>
 	<vector>
 
@@ -244,6 +246,25 @@
 	"Symbol.h"
 
 1512416330 source:f:\analexpascal\symboltable.cpp
+	<typeinfo>
+	"SymbolTable.h"
+
+1512416540 source:c:\users\u16187\desktop\analexpascal\parser.cpp
+	<sstream>
+	"Parser.h"
+
+1512415616 c:\users\u16187\desktop\analexpascal\parser.h
+	<vector>
+	<string>
+	"Lexer.h"
+	"SymbolTable.h"
+
+1512416540 c:\users\u16187\desktop\analexpascal\symboltable.h
+	<set>
+	<vector>
+	"Symbol.h"
+
+1512416540 source:c:\users\u16187\desktop\analexpascal\symboltable.cpp
 	<typeinfo>
 	"SymbolTable.h"
 

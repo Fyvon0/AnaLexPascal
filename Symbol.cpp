@@ -4,14 +4,19 @@ using namespace std;
 
 //SIMBOLO
 
-Symbol::Symbol(const string& name, VariableType returnType)
+Symbol::Symbol(const string& name, VariableType returnType) throw(string)
     : Symbol(name, returnType, nullptr) {}
 
-Symbol::Symbol(const string& name, VariableType returnType, const vector<Symbol>* const params)
+Symbol::Symbol(const string& name, VariableType returnType, const vector<Symbol>* const params) throw(string)
     : name(name) {
     this->returnType = returnType;
-    if (params != nullptr)
+    if (params != nullptr) {
+        for (auto it =  params->cbegin(); it != params->cend(); it++)
+            if (it->getType() != SymbolType::VARIABLE)
+                throw string("Function or procedure parameter must be variable");
+
         this->params = new vector<Symbol>(*params);
+    }
     else
         this->params = nullptr;
 }
@@ -41,6 +46,14 @@ SymbolType Symbol::getType() const throw() {
         return SymbolType::VARIABLE;
 
     return SymbolType::FUNCTION;
+}
+
+VariableType Symbol::getReturnType() const {
+    return this->returnType;
+}
+
+VariableType Symbol::getParamType(unsigned int i) const throw(string) {
+    return this->getParam(i).getReturnType();
 }
 
 Symbol Symbol::getParam(unsigned int i) const throw(string) {
