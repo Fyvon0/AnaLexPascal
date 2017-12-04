@@ -10,18 +10,18 @@
 
 using namespace std;
 
-class AnalisadorLexico
+class Lexer
 {
 private:
     vector<Token> tokens;
-    int iterador;
+    int it;
 
 public:
-    AnalisadorLexico(string) throw (string);
-    Token tokenAtual() const throw (string);
-    Token avancaToken() throw (string);
-    Token proximoToken() const throw (string);
-    bool temMaisTokens() const throw ();
+    Lexer(string) throw (string);
+    Token currentToken() const throw ();
+    Token nextToken() throw (string);
+    Token peekToken() const throw (string);
+    bool hasMoreTokens() const throw ();
 };
 
 #endif // ANALEX

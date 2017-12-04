@@ -34,7 +34,7 @@ Lexer::Lexer(string fileName) throw (string)
             this -> tokens.push_back(newToken);
             word.clear();
         }
-        else if (last.getTipo() != TipoToken::IDENTIFICADOR && last.getTipo() != TipoToken::NUMERO && !isalnum(c) && !word.empty())
+        else if (last.getType() != TokenType::IDENTIFIER && last.getType() != TokenType::NUMBER && !isalnum(c) && !word.empty())
         {
             Token newToken(word, line);
             last = newToken;
@@ -66,7 +66,7 @@ Lexer::Lexer(string fileName) throw (string)
                 }
             }
         }
-        else if ((last.getTipo() == TipoToken::IDENTIFICADOR || last.getTipo() == TipoToken::NUMERO) && isalnum(c) && !word.empty())
+        else if ((last.getType() == TokenType::IDENTIFIER || last.getType() == TokenType::NUMBER) && isalnum(c) && !word.empty())
         {
             Token newToken(word, line);
             last = newToken;
@@ -82,7 +82,7 @@ Lexer::Lexer(string fileName) throw (string)
             line++;
     }while (file.good());
 
-    this -> it = 0;
+    this->it = 0;
 }
 
 Token Lexer::currentToken() const throw ()

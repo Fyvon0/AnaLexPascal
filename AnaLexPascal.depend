@@ -34,7 +34,7 @@
 	<iostream>
 	"Token.h"
 
-1512406927 c:\users\u16187\desktop\analexpascal\token.h
+1512414229 c:\users\u16187\desktop\analexpascal\token.h
 	<string>
 
 1512413466 source:c:\users\u16187\desktop\analexpascal\main.cpp
@@ -183,7 +183,7 @@
 	<string>
 	<vector>
 
-1512408990 c:\users\u16187\desktop\analexpascal\lexer.h
+1512414447 c:\users\u16187\desktop\analexpascal\lexer.h
 	<string>
 	<vector>
 	<fstream>
