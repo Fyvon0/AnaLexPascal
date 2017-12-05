@@ -194,7 +194,7 @@ void Parser::compileProcedureDeclaration () throw (string)
     if (this->lex.peekToken().getType() == TokenType::VARIABLE)
         this->compileVariableDeclaration();
 
-    next = this->lex.nextToken();
+    next = this->lex.peekToken();
     bool end = false;
 	while (!end) // TODOS OS PROCEDIMENTOS E FUNÇÕES PRECEDEM O CÓDIGO PRINCIPAL
 	{
