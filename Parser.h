@@ -26,12 +26,13 @@ private:
     void compileCommand () throw (string);
     void compileAttr () throw (string);
     VariableType compileFuncCall () throw (string);
-    //void compileFuncCall () throw (string);
     VariableType compileTypedSymbol () throw (string);
     void compileIf () throw (string);
     void compileWhile () throw (string);
     void compileWrite () throw (string);
     void compileRead () throw (string);
+    void compileRelationalExpression() throw (string);
+    void compileArithmeticExpression() throw (string);
 public:
     Parser(string) throw ();
     void compile() throw (string);

@@ -3,7 +3,7 @@
 
 #include "Parser.h"
 
-const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","WHILE","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
+const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","THEN","ELSE","WHILE","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
                                  "SUBTRACTION","MULTIPLICATION","DIVISION","MODULE","PROCEDURE","FUNCTION","=","!=",">","<",
                                  ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
                                  "IDENTIFIER","CONSTANT","UNKNOWN"};
@@ -365,8 +365,7 @@ void Parser::compileCompoundCommand () throw (string) {
         this->throwExpected(TokenType::END, next.getLine(), next.getType());
 }
 
-void Parser::compileCommand() throw (string)
-{
+void Parser::compileCommand() throw (string) {
     Token next = this->lex.peekToken();
     switch (next.getType())
     {
@@ -388,7 +387,7 @@ void Parser::compileCommand() throw (string)
     }
     case TokenType::IF:
     {
-        //this->compileIf();
+        this->compileIf();
         break;
     }
     case TokenType::WHILE:
@@ -493,6 +492,26 @@ VariableType Parser::compileTypedSymbol() throw (string) {
     }
 
     return s->getReturnType();
+}
+
+void Parser::compileIf() throw (string) {
+    Token next = this->lex.nextToken();
+    if (next.getType() != TokenType::IF)
+        throwWtf();
+
+    // this->compileRelationalExpression();
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::THEN)
+        throwExpected(TokenType::THEN, next.getLine(), next.getType());
+
+    this->compileCommand();
+
+    next = this->lex.peekToken();
+    if (next.getType() == TokenType::ELSE) {
+        this->lex.nextToken();
+        this->compileCommand();
+    }
 }
 
 void Parser::compileRead() throw (string)

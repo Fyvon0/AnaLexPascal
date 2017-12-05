@@ -7,7 +7,7 @@
 using namespace std;
 
 vector<string> Token::symbols = {"program","var","begin","end",
-                                 "if","while","integer","boolean",
+                                 "if","then", "else", "while","integer","boolean",
                                  ":",":=","+","-","*","div",
                                  "mod","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",

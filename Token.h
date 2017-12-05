@@ -12,6 +12,8 @@ enum class TokenType {
      BEGIN,             // Begin
      END,               // End
      IF,                // if
+     THEN,              // then
+     ELSE,              // else
      WHILE,             // while
      INTEGER,           // integer
      BOOLEAN,           // boolean
