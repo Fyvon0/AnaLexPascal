@@ -560,7 +560,7 @@ void Parser::compileRead() throw (string)
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
         this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
-SEMICOLON
+
     Symbol *s = this->st.getSymbol(next.getToken());
     if (s == nullptr)
         this->throwUndeclared(next.getToken(), next.getLine());
