@@ -18,11 +18,11 @@ private:
     void compileProgramStart () throw (string);
     void compileVariableDeclaration () throw (string);
     void compileProcedureDeclaration () throw (string);
-    //void compileFunctionDeclaration () throw (string);
+    void compileFunctionDeclaration () throw (string);
     void compileCompoundCommand () throw (string);
     void compileCommand () throw (string);
     //void compileAttr () throw (string);
-    //void compileProcCall () throw (string);
+    void compileProcCall () throw (string);
     //void compileFuncCall () throw (string);
 public:
     Parser(string) throw ();
