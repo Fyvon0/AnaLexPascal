@@ -368,7 +368,9 @@ void Parser::compileCompoundCommand () throw (string) {
 void Parser::compileCommand() throw (string)
 {
     Token next = this->lex.peekToken();
-    if (next.getType() == TokenType::IDENTIFIER)
+    switch (next.getType())
+    {
+    case TokenType::IDENTIFIER:
     {
         Symbol *s = this->st.getSymbol(next.getToken());
         if (s == nullptr)
@@ -382,7 +384,34 @@ void Parser::compileCommand() throw (string)
             this->compileFuncCall();
             break;
         }
+        break;
     }
+    case TokenType::IF:
+    {
+        //this->compileIf();
+        break;
+    }
+    case TokenType::WHILE:
+    {
+        //this->compileWhile();
+        break;
+    }
+    case TokenType::WRITE:
+    {
+        //this->compileWrite();
+        break;
+    }
+    case TokenType::READ:
+    {
+        //this->compileRead();
+        break;
+    }
+    default:
+        this->throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
+        break;
+    }
+
+
     next = this->lex.nextToken();
     if (next.getType() != TokenType::SEMICOLON)
         throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
@@ -464,4 +493,33 @@ VariableType Parser::compileTypedSymbol() throw (string) {
     }
 
     return s->getReturnType();
+}
+
+void Parser::compileRead() throw (string)
+{
+    Token next = this->lex.nextToken();
+    if (next.getType() != TokenType::READ)
+        this->throwExpected(TokenType::READ, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::LEFT_PARENTHESIS)
+        this->throwExpected(TokenType::LEFT_PARENTHESIS, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::IDENTIFIER)
+        this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+
+    Symbol *s = this->st.getSymbol(next.getToken());
+    if (s == nullptr)
+        this->throwUndeclared(next.getToken(), next.getLine());
+    if (s->getType() != SymbolType::VARIABLE || s->getReturnType() != VariableType::INTEGER)
+        this->throwExpected(TokenType::INTEGER, next.getLine(),next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::RIGHT_PARENTHESIS)
+        this->throwExpected(TokenType::RIGHT_PARENTHESIS, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::SEMICOLON)
+        this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }

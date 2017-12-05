@@ -8,7 +8,7 @@ begin
 	b := 1;
 	#while n < 0
 	#begin
-		writeln(b);
+		#write(b);
 		b := a + b;
 		a := b;
 	#end;

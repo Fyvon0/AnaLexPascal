@@ -32,7 +32,7 @@ Lexer::Lexer(string fileName) throw (string)
         {
             char s[256];
             file.getline(s,256);
-            c = ' ';
+            c = '\n';
         }
         if (isspace(c) && !word.empty())
         {

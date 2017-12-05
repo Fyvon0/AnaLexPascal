@@ -28,6 +28,10 @@ private:
     VariableType compileFuncCall () throw (string);
     //void compileFuncCall () throw (string);
     VariableType compileTypedSymbol () throw (string);
+    void compileIf () throw (string);
+    void compileWhile () throw (string);
+    void compileWrite () throw (string);
+    void compileRead () throw (string);
 public:
     Parser(string) throw ();
     void compile() throw (string);

@@ -21,7 +21,7 @@ int main()
 
         Lexer lex (nomeArq);
         while (lex.hasMoreTokens())
-            cout << TokenTypeNames[(int)lex.currentToken().getType()] << " - " << lex.nextToken().getToken() << endl;
+            cout << lex.currentToken().getLine() << " - " << TokenTypeNames[(int)lex.currentToken().getType()] << " - " << lex.nextToken().getToken() << endl;
 
         Parser p(nomeArq);
         p.compile();

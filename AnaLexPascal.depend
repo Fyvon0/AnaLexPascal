@@ -213,7 +213,7 @@
 1512501816 source:c:\users\u16187\desktop\analexpascal\symbol.cpp
 	"Symbol.h"
 
-1512508722 source:f:\analexpascal\lexer.cpp
+1512510590 source:f:\analexpascal\lexer.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -233,12 +233,12 @@
 	<string>
 	<vector>
 
-1512507936 source:f:\analexpascal\parser.cpp
+1512510518 source:f:\analexpascal\parser.cpp
 	<sstream>
 	<forward_list>
 	"Parser.h"
 
-1512507938 f:\analexpascal\parser.h
+1512509688 f:\analexpascal\parser.h
 	<vector>
 	<string>
 	"Lexer.h"
