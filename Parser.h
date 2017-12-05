@@ -14,6 +14,9 @@ private:
     SymbolTable st;
 
     void throwExpected(TokenType, int, TokenType) throw (string);
+    void throwUndeclared(string, int) throw (string);
+    void throwIncompatibleType(int) throw (string);
+    void throwWtf() throw (string);
 
     void compileProgramStart () throw (string);
     void compileVariableDeclaration () throw (string);
@@ -22,7 +25,7 @@ private:
     void compileCompoundCommand () throw (string);
     void compileCommand () throw (string);
     void compileAttr () throw (string);
-    void compileProcCall () throw (string);
+    VariableType compileFuncCall () throw (string);
     //void compileFuncCall () throw (string);
     VariableType compileTypedSymbol () throw (string);
 public:

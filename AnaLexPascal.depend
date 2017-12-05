@@ -35,16 +35,17 @@
 	<iostream>
 	"Token.h"
 
-1512414229 c:\users\u16187\desktop\analexpascal\token.h
+1512497789 c:\users\u16187\desktop\analexpascal\token.h
 	<string>
+	<vector>
 
-1512417462 source:c:\users\u16187\desktop\analexpascal\main.cpp
+1512497789 source:c:\users\u16187\desktop\analexpascal\main.cpp
 	<iostream>
 	<string>
-	"Lexer.h"
+	"Parser.h"
 	"Symbol.h"
 
-1512416540 source:c:\users\u16187\desktop\analexpascal\token.cpp
+1512501943 source:c:\users\u16187\desktop\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
@@ -190,18 +191,18 @@
 	<string>
 	<vector>
 
-1512414447 c:\users\u16187\desktop\analexpascal\lexer.h
+1512501031 c:\users\u16187\desktop\analexpascal\lexer.h
 	<string>
 	<vector>
 	<fstream>
 	<iostream>
 	"Token.h"
 
-1512417969 c:\users\u16187\desktop\analexpascal\symbol.h
+1512501760 c:\users\u16187\desktop\analexpascal\symbol.h
 	<string>
 	<vector>
 
-1512414426 source:c:\users\u16187\desktop\analexpascal\lexer.cpp
+1512501112 source:c:\users\u16187\desktop\analexpascal\lexer.cpp
 	<string>
 	<vector>
 	<fstream>
@@ -209,7 +210,7 @@
 	"Token.h"
 	"Lexer.h"
 
-1512413704 source:c:\users\u16187\desktop\analexpascal\symbol.cpp
+1512501816 source:c:\users\u16187\desktop\analexpascal\symbol.cpp
 	"Symbol.h"
 
 1512478312 source:f:\analexpascal\lexer.cpp
@@ -254,22 +255,23 @@
 	<typeinfo>
 	"SymbolTable.h"
 
-1512416540 source:c:\users\u16187\desktop\analexpascal\parser.cpp
+1512503134 source:c:\users\u16187\desktop\analexpascal\parser.cpp
 	<sstream>
+	<forward_list>
 	"Parser.h"
 
-1512415616 c:\users\u16187\desktop\analexpascal\parser.h
+1512501331 c:\users\u16187\desktop\analexpascal\parser.h
 	<vector>
 	<string>
 	"Lexer.h"
 	"SymbolTable.h"
 
-1512416540 c:\users\u16187\desktop\analexpascal\symboltable.h
+1512497789 c:\users\u16187\desktop\analexpascal\symboltable.h
 	<set>
 	<vector>
 	"Symbol.h"
 
-1512416540 source:c:\users\u16187\desktop\analexpascal\symboltable.cpp
+1512501832 source:c:\users\u16187\desktop\analexpascal\symboltable.cpp
 	<typeinfo>
 	"SymbolTable.h"
 

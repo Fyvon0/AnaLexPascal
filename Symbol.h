@@ -14,7 +14,6 @@ enum class VariableType {
 
 enum class SymbolType {
     VARIABLE,
-    PROCEDURE,
     FUNCTION
 };
 
@@ -35,9 +34,10 @@ public:
     string getName() const throw ();
     SymbolType getType() const throw();
     Symbol getParam(unsigned int) const throw(string);
-    unsigned int getNumberParams () const throw (string)
+    unsigned int getParamCount () const throw (string);
     VariableType getReturnType() const;
     VariableType getParamType(unsigned int) const throw(string);
+    vector<Symbol>* getParams() const throw();
     bool operator== (const Symbol&) const throw ();
     bool operator!= (const Symbol&) const throw ();
 

@@ -13,6 +13,7 @@ begin
 		a := b;
 	end;
 end;
+
 begin
 	fib(10);
 end.

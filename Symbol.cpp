@@ -50,8 +50,6 @@ string Symbol::getName() const throw () {
 }
 
 SymbolType Symbol::getType() const throw() {
-    if (this->returnType == VariableType::VOID)
-        return SymbolType::PROCEDURE;
     if (this->params == nullptr)
         return SymbolType::VARIABLE;
 
@@ -75,10 +73,18 @@ Symbol Symbol::getParam(unsigned int i) const throw(string) {
     return Symbol(this->params->at(i));
 }
 
-unsigned int Symbol::getNumberParams () const throw(string) {
+unsigned int Symbol::getParamCount() const throw(string) {
     if (this->params == nullptr)
         throw string("Cannot read variable params");
-    return this->params.size();
+    return this->params->size();
+}
+
+vector<Symbol>* Symbol::getParams() const throw() {
+    if (this->params == nullptr)
+        return nullptr;
+
+    vector<Symbol> v(*this->params);
+    return &v;
 }
 
 bool Symbol::operator!=(const Symbol& other) const throw () {

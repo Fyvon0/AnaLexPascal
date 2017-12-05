@@ -38,7 +38,7 @@ Lexer::Lexer(string fileName) throw (string)
         {
             Token newToken(word, line);
             last = newToken;
-            this -> tokens.push_back(newToken);
+            this->tokens.push_back(newToken);
             word.clear();
             if (isSymbol(c))
             {
@@ -105,7 +105,14 @@ Token Lexer::peekToken() const throw (string)
 {
     if (!this->hasMoreTokens())
         throw string("Unexpected end of file");
-    Token t = this->tokens[this -> it + 1];
+    Token t = this->tokens[this->it + 1];
+    return t;
+}
+
+Token Lexer::ungetToken() throw (string) {
+    if (this->it <= 0)
+        throw string("Cannot unget token at current status");
+    Token t = this->tokens[--(this->it)];
     return t;
 }
 

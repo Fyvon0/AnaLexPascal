@@ -21,6 +21,7 @@ public:
     Token currentToken() const throw ();
     Token nextToken() throw (string);
     Token peekToken() const throw (string);
+    Token ungetToken() throw (string);
     bool hasMoreTokens() const throw ();
 };
 

@@ -28,6 +28,14 @@ void Parser::throwExpected(TokenType expected, int line, TokenType found) throw 
                   "\" found instead.");
 }
 
+void Parser::throwUndeclared(string name, int line) throw (string) {
+    throw string("Reference to undeclared identifier "+name+" at line " +/*std::*/to_string(line));
+}
+
+void Parser::throwIncompatibleType(int line) throw (string) {
+    throw string("Incompatible types at line "+to_string(line));
+}
+
 void Parser::throwWtf() throw (string) {
     throw string("How did you even do dis boi?");
 }
@@ -41,8 +49,7 @@ void Parser::compile() throw (string) {
         this->compileProcedureDeclaration();
 }
 
-void Parser::compileProgramStart () throw (string)
-{
+void Parser::compileProgramStart () throw (string) {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::PROGRAM)
         this->throwExpected(TokenType::PROGRAM, next.getLine(), next.getType());
@@ -56,8 +63,7 @@ void Parser::compileProgramStart () throw (string)
         this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }
 
-void Parser::compileVariableDeclaration () throw (string)
-{
+void Parser::compileVariableDeclaration () throw (string) {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::VARIABLE)
         this->throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
@@ -114,8 +120,7 @@ void Parser::compileVariableDeclaration () throw (string)
     }
 }
 
-void Parser::compileProcedureDeclaration () throw (string)
-{
+void Parser::compileProcedureDeclaration () throw (string) {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::PROCEDURE)
         this->throwExpected(TokenType::PROCEDURE, next.getLine(), next.getType());
@@ -224,8 +229,7 @@ void Parser::compileProcedureDeclaration () throw (string)
     this->st.clearCurrentScope();
 }
 
-void Parser::compileFunctionDeclaration () throw (string)
-{
+void Parser::compileFunctionDeclaration () throw (string) {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::PROCEDURE)
         this->throwExpected(TokenType::PROCEDURE, next.getLine(), next.getType());
@@ -349,8 +353,7 @@ void Parser::compileFunctionDeclaration () throw (string)
 
 }
 
-void Parser::compileCompoundCommand () throw (string)
-{
+void Parser::compileCompoundCommand () throw (string) {
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::BEGIN)
         this->throwExpected(TokenType::BEGIN, next.getLine(), next.getType());
@@ -369,45 +372,54 @@ void Parser::compileCommand() throw (string)
     {
         Symbol *s = this->st.getSymbol(next.getToken());
         if (s == nullptr)
-            throwUndeclared(s->getName(), next.getLine());
+            throwUndeclared(next.getToken(), next.getLine());
         switch(s->getType())
         {
         case SymbolType::VARIABLE:
             this->compileAttr();
             break;
-        case SymbolType::PROCEDURE:
-            //this->compileProcCall();
-            break;
         case SymbolType::FUNCTION:
-            //this->compileFuncCall();
+            this->compileFuncCall();
             break;
         }
     }
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::SEMICOLON)
+        throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }
 
-void Parser::compileProcCall () throw (string)
-{
-Symbol *s = this->st.getSymbol(next.getToken());
-    if (s == nullptr)
-        throwUndeclared(s->getName(), next.getLine());
+VariableType Parser::compileFuncCall () throw (string) {
+    Token next = this->lex.nextToken();
+    Symbol *func = this->st.getSymbol(next.getToken());
+    if (func == nullptr)
+        throwUndeclared(next.getToken(), next.getLine());
 
-    if (s->getType() != SymbolType::PROCEDURE)
+    if (func->getType() != SymbolType::FUNCTION)
         throwWtf();
 
     next = this->lex.nextToken();
     if (next.getType() == TokenType::LEFT_PARENTHESIS)
     {
-        next = this->lex.nextToken();
-        int paramNmr = 0;
-        while (next.getType() != TokenType::RIGHT_PARENTHESIS)
-        {
-            if (paramNmr >= s->getNumberParams)
-                throw string ("No such implementation for call to method " + s->getName + " was found as in line " + to_string(next.getLine()));
+        vector<Symbol> params = *func->getParams();
+
+        // TODO: Refazer isso aqui
+        for (auto i = params.cbegin(); i != params.cend(); i++) {
+            if (i->getReturnType() != this->compileTypedSymbol())
+                throwIncompatibleType(next.getLine());
+
             next = this->lex.nextToken();
+            if (next.getType() != TokenType::COMMA) // TODO: Virgula no final mas fodase
+                throwExpected(TokenType::COMMA, next.getLine(), next.getType());
         }
-        if (paramNmr != s->getNumberParams())
-            throw string ("No such implementation for call to method " + s->getName + " was found as in line " + to_string(next.getLine()));
+
+        next = this->lex.nextToken();
+        if (next.getType() != TokenType::RIGHT_PARENTHESIS)
+            throwExpected(TokenType::RIGHT_PARENTHESIS, next.getLine(), next.getType());
     }
+    else if (func->getParamCount() > 0)
+        throw string("No such implementation for call to method " + func->getName() + " was found as in line " + to_string(next.getLine()));
+
+    return func->getReturnType();
 }
 
 void Parser::compileAttr() throw (string) {
@@ -415,7 +427,7 @@ void Parser::compileAttr() throw (string) {
     if (next.getType() != TokenType::IDENTIFIER)
         throwWtf();
 
-    Symbol* s = this->st.getSymbol(next.getToken())
+    Symbol* s = this->st.getSymbol(next.getToken());
     if (s == nullptr)
         throwUndeclared(s->getName(), next.getLine());
 
@@ -425,30 +437,11 @@ void Parser::compileAttr() throw (string) {
     VariableType type = s->getReturnType();
 
     next = this->lex.nextToken();
-    if (s.getType() != TokenType::ATTRIBUTION)
+    if (next.getType() != TokenType::ATTRIBUTION)
         throwExpected(TokenType::ATTRIBUTION, next.getLine(), next.getType());
 
-    next = this->lex.nextToken();
-    if (type == VariableType::INTEGER) {
-        if (next.getType() == TokenType::INTEGER) {
-
-        }
-        else if (next.getType() == TokenType::IDENTIFIER) {
-
-        }
-        else
-            throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
-    }
-    else if (type == VariableType::BOOLEAN) {
-        if (next.getType() == TokenType::TRUE || next.getType() == TokenType::FALSE) {
-
-        }
-        else if (next.getType() == TokenType::IDENTIFIER) {
-
-        }
-        else
-            throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
-    }
+    if (type != this->compileTypedSymbol())
+        throwIncompatibleType(next.getLine());
 }
 
 VariableType Parser::compileTypedSymbol() throw (string) {
@@ -463,8 +456,12 @@ VariableType Parser::compileTypedSymbol() throw (string) {
 
     Symbol* s = this->st.getSymbol(next.getToken());
     if (s == nullptr)
-        throw string("Reference to undeclared identifier "+next.getToken()+" at line " +/*std::*/to_string(next.getLine()));
-    if (s.getReturnType() == VariableType::VOID)
-        throwExpected(TokenType::PROCEDURE, next.getLine(), "TYPED IDENTIFIER");
-    return s.getReturnType();
+        throwUndeclared(next.getToken(), next.getLine());
+
+    if (s->getType() == SymbolType::FUNCTION) {
+        this->lex.ungetToken();
+        this->compileFuncCall();
+    }
+
+    return s->getReturnType();
 }

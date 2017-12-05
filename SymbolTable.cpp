@@ -18,7 +18,7 @@ void SymbolTable::insertSymbol (const Symbol& s) throw (string)
 
     this->symbols.back().push_back(new Symbol(s));
 
-    if (s.getType() == SymbolType::FUNCTION || s.getType() == SymbolType::PROCEDURE)
+    if (s.getType() == SymbolType::FUNCTION)
     {
         this->currentScope++;
         this->symbols.push_back(vector<Symbol*>());
