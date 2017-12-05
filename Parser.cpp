@@ -33,7 +33,7 @@ void Parser::throwUndeclared(string name, int line) throw (string) {
 }
 
 void Parser::throwIncompatibleType(int line) throw (string) {
-    throw string("Incompatible types at line "+to_string(line));
+    throw string("Incompatible types at line "+/*std::*/to_string(line));
 }
 
 void Parser::throwWtf() throw (string) {
