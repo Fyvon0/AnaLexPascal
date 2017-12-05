@@ -577,7 +577,11 @@ SEMICOLON
 }
 
 
-void Parser::compileRelationalExpression() throw (string)
+void Parser::compileExpression() throw (string)
 {
+    VariableType expressionType = VariableType::VOID;
+    bool hasParenthesis = false;
 
+    Token next = this->lex.nextToken();
+    if (next.getType() == TokenType::LEFT_PARENTHESIS)
 }
