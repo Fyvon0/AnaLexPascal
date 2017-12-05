@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <iostream>
+#include <stdlib.h>
 
 #include "Token.h"
 #include "Lexer.h"
@@ -27,6 +28,12 @@ Lexer::Lexer(string fileName) throw (string)
     {
         char c = tolower(file.get());
 
+        if (c == '#')
+        {
+            char s[256];
+            file.getline(s,256);
+            c = ' ';
+        }
         if (isspace(c) && !word.empty())
         {
             Token newToken(word, line);

@@ -27,7 +27,7 @@ static bool isInteger (const string & s)
 
 bool isAlphaNumString (const std::string &str)
 {
-    for (int i = 0; i < str.size(); i++)
+    for (int i = 0; i < (int)str.size(); i++)
         if (!isalnum(str[i]))
             return false;
     return true;

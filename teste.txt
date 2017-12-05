@@ -6,12 +6,12 @@ var
 begin
 	a := 0;
 	b := 1;
-	while n < 0
-	begin
+	#while n < 0
+	#begin
 		writeln(b);
 		b := a + b;
 		a := b;
-	end;
+	#end;
 end;
 
 begin

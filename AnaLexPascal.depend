@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1512472876 source:f:\analexpascal\main.cpp
+1512476476 source:f:\analexpascal\main.cpp
 	<iostream>
 	<string>
 	"Parser.h"
@@ -51,11 +51,11 @@
 	<algorithm>
 	"Token.h"
 
-1512472712 f:\analexpascal\token.h
+1512476312 f:\analexpascal\token.h
 	<string>
 	<vector>
 
-1512467634 source:f:\analexpascal\token.cpp
+1512508022 source:f:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
@@ -213,45 +213,46 @@
 1512501816 source:c:\users\u16187\desktop\analexpascal\symbol.cpp
 	"Symbol.h"
 
-1512478312 source:f:\analexpascal\lexer.cpp
+1512508722 source:f:\analexpascal\lexer.cpp
 	<string>
 	<vector>
 	<fstream>
 	<iostream>
+	<stdlib.h>
 	"Token.h"
 	"Lexer.h"
 
-1512414654 f:\analexpascal\lexer.h
+1512507936 f:\analexpascal\lexer.h
 	<string>
 	<vector>
 	<fstream>
 	<iostream>
 	"Token.h"
 
-1512467632 f:\analexpascal\symbol.h
+1512507938 f:\analexpascal\symbol.h
 	<string>
 	<vector>
 
-1512478632 source:f:\analexpascal\parser.cpp
+1512507936 source:f:\analexpascal\parser.cpp
 	<sstream>
 	<forward_list>
 	"Parser.h"
 
-1512476762 f:\analexpascal\parser.h
+1512507938 f:\analexpascal\parser.h
 	<vector>
 	<string>
 	"Lexer.h"
 	"SymbolTable.h"
 
-1512416236 f:\analexpascal\symboltable.h
+1512419836 f:\analexpascal\symboltable.h
 	<set>
 	<vector>
 	"Symbol.h"
 
-1512467632 source:f:\analexpascal\symbol.cpp
+1512507938 source:f:\analexpascal\symbol.cpp
 	"Symbol.h"
 
-1512473458 source:f:\analexpascal\symboltable.cpp
+1512507938 source:f:\analexpascal\symboltable.cpp
 	<typeinfo>
 	"SymbolTable.h"
 
