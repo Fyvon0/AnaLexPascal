@@ -542,3 +542,9 @@ void Parser::compileRead() throw (string)
     if (next.getType() != TokenType::SEMICOLON)
         this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }
+
+
+void Parser::compileRelationalExpression() throw (string)
+{
+
+}
