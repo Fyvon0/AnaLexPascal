@@ -28,7 +28,8 @@ public:
     Symbol(const string& name, VariableType returnType) throw (string);
     Symbol(const string& name, VariableType returnType, const vector<Symbol> * const params) throw (string);
     Symbol(const Symbol&);
-    Symbol operator=(const Symbol&);
+    Symbol(Symbol&&); // Move constructor
+    Symbol& operator=(Symbol); // Sintaxe do C++11. Funciona lindamente
     virtual ~Symbol();
 
     string getName() const throw ();
@@ -38,6 +39,15 @@ public:
     VariableType getParamType(unsigned int) const throw(string);
     bool operator== (const Symbol&) const throw ();
     bool operator!= (const Symbol&) const throw ();
+
+    friend void swap(Symbol& a, Symbol& b) throw()
+    {
+        using std::swap;
+
+        swap(a.name, b.name);
+        swap(a.returnType, b.returnType);
+        swap(a.params, b.params);
+    }
 };
 
 #endif // SYMBOL_INCLUDED

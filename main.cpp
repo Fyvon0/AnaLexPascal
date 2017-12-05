@@ -1,15 +1,24 @@
 #include <iostream>
 #include<string>
-#include "Lexer.h"
-#include "Symbol.h"
 
-const string nomeArq("teste.txt");
+#include "Parser.h"
+#include "Symbol.h"
 
 using namespace std;
 
 int main()
 {
-    Symbol s(string("Nome"), VariableType::INTEGER, new vector<Symbol>());
-    cout << (int)s.getType();
+    cout << "Digite o nome do arquivo: ";
+    string nomeArq;
+    cin >> nomeArq;
+
+    try {
+        Parser p(nomeArq);
+        p.compile();
+    }
+    catch (string& s) {
+        cout << s;
+    }
+
     return 0;
 }

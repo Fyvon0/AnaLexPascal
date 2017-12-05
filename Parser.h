@@ -19,6 +19,7 @@ private:
     void compileVariableDeclaration () throw (string);
 public:
     Parser(string) throw ();
+    void compile() throw (string);
 };
 
 #endif

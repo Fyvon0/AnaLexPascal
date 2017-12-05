@@ -6,13 +6,13 @@
 
 using namespace std;
 
-vector<string> Token::symbols ({"program","var","begin","end",
+vector<string> Token::symbols = {"program","var","begin","end",
                                  "if","while","integer","boolean",
                                  ":",":=","+","-","*","div",
                                  "mod","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",
                                  "and","xor","(",")",".",
-                                 ",",";","writeln","readln","true","false"});
+                                 ",",";","writeln","readln","true","false"};
 
 static bool isInteger (const string & s)
 {

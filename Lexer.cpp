@@ -93,7 +93,7 @@ Token Lexer::currentToken() const throw ()
 
 Token Lexer::nextToken() throw (string)
 {
-    if (!this -> hasMoreTokens())
+    if (!this->hasMoreTokens())
         throw string("Could not advance token iterator");
     Token t = this->tokens[this -> it];
     ++(this -> it);
@@ -102,7 +102,7 @@ Token Lexer::nextToken() throw (string)
 
 Token Lexer::peekToken() const throw (string)
 {
-    if (!this -> hasMoreTokens())
+    if (!this->hasMoreTokens())
         throw string("Could not advance token iterator");
     Token t = this->tokens[this -> it + 1];
     return t;

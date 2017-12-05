@@ -2,18 +2,19 @@
 
 #include "SymbolTable.h"
 
-SymbolTable::SymbolTable() throw (): currentScope(0) {}
+SymbolTable::SymbolTable() throw (): currentScope(0) {
+    this->symbols.push_back(vector<Symbol*>()); // insere o primeiro vetor na lista
+}
 
 void SymbolTable::insertSymbol (const Symbol& s) throw (string)
 {
     if (s.getType() == SymbolType::FUNCTION)
     {
         this->currentScope++;
-        vector<Symbol*> newScope;
-        this->symbols.push_back(newScope);
+        this->symbols.push_back(vector<Symbol*>());
     }
 
-    if (this->getSymbol(s.getName()) == nullptr)
+    if (this->getSymbol(s.getName()) != nullptr)
         throw string ("Repeated declaration of specifier " + s.getName());
 
     this->symbols.back().push_back(new Symbol(s));

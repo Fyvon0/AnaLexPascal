@@ -126,8 +126,9 @@
 	"Token.h"
 	"AnalisadorLexico.h"
 
-1511747147 c:\users\lucas valente\desktop\projetos\escola\analexpascal\token.h
+1512434207 c:\users\lucas valente\desktop\projetos\escola\analexpascal\token.h
 	<string>
+	<vector>
 
 1511742425 c:\users\lucas valente\desktop\projetos\escola\analexpascal\analisadorlexico.h
 	<string>
@@ -267,4 +268,58 @@
 1512416540 source:c:\users\u16187\desktop\analexpascal\symboltable.cpp
 	<typeinfo>
 	"SymbolTable.h"
+
+1512432733 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\lexer.cpp
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+	"Lexer.h"
+
+1512432733 c:\users\lucas valente\desktop\projetos\escola\analexpascal\lexer.h
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+
+1512436207 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\main.cpp
+	<iostream>
+	<string>
+	"Parser.h"
+	"Symbol.h"
+
+1512443105 c:\users\lucas valente\desktop\projetos\escola\analexpascal\symbol.h
+	<string>
+	<vector>
+
+1512439949 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\parser.cpp
+	<sstream>
+	<forward_list>
+	"Parser.h"
+
+1512434490 c:\users\lucas valente\desktop\projetos\escola\analexpascal\parser.h
+	<vector>
+	<string>
+	"Lexer.h"
+	"SymbolTable.h"
+
+1512432733 c:\users\lucas valente\desktop\projetos\escola\analexpascal\symboltable.h
+	<set>
+	<vector>
+	"Symbol.h"
+
+1512444079 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\symbol.cpp
+	"Symbol.h"
+
+1512444599 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\symboltable.cpp
+	<typeinfo>
+	"SymbolTable.h"
+
+1512434089 source:c:\users\lucas valente\desktop\projetos\escola\analexpascal\token.cpp
+	<string>
+	<stdlib.h>
+	<algorithm>
+	"Token.h"
 

@@ -2,10 +2,11 @@
 #define TOKEN
 
 #include <string>
+#include <vector>
 
 using namespace std;
 
-enum class TokenType{
+enum class TokenType {
      PROGRAM,           // Program
      VARIABLE,          // var
      BEGIN,             // Begin

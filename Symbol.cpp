@@ -21,19 +21,29 @@ Symbol::Symbol(const string& name, VariableType returnType, const vector<Symbol>
         this->params = nullptr;
 }
 
-Symbol::Symbol(const Symbol& outro) {
-    *this = outro;
+Symbol::Symbol(const Symbol& other) : name(other.name), returnType(other.returnType), params(nullptr) {
+    if (other.params != nullptr)
+        this->params = new vector<Symbol>(*other.params);
 }
 
-Symbol Symbol::operator=(const Symbol& outro) {
-    this->name = outro.name;
-    this->returnType = outro.returnType;
-    this->params = outro.params;
+Symbol::Symbol(Symbol&& other) {
+    this->name = other.name;
+    this->returnType = other.returnType;
+    this->params = other.params;
+}
+
+Symbol& Symbol::operator= (Symbol other) {
+    swap(*this, other); // copy-swap-idiom
+
+    return *this;
 }
 
 Symbol::~Symbol() {
     delete this->params;
+    this->params = nullptr;
 }
+
+
 
 string Symbol::getName() const throw () {
     return string(this->name);

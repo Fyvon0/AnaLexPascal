@@ -9,21 +9,21 @@ string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","WHILE","INTEGER",
                            ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
                            "IDENTIFIER","CONSTANT","UNKNOWN"};
 
-Parser::Parser(string path) throw () : lex(path) {}
+Parser::Parser(string path) throw () : lex(path), st() {}
 
 
-template <typename T>
+/*template <typename T>
 std::string to_string(T value)
 {
 	std::ostringstream os ;
 	os << value ;
 	return os.str() ;
-}
+}*/
 
 void Parser::throwExpected(TokenType expected, int line, TokenType found) throw (string) {
     throw string ("\"" + TokenTypeNames[(int)expected] +
                   "\" expected at line " +
-                  to_string(line) +
+                  std::to_string(line) +
                   " but \"" +
                   TokenTypeNames[(int)found] +
                   "\" found instead.");
@@ -34,9 +34,11 @@ void Parser::compileProgramStart () throw (string)
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::PROGRAM)
         this->throwExpected(TokenType::PROGRAM, next.getLine(), next.getType());
+
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
         this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+
     next = this->lex.nextToken();
     if (next.getType() != TokenType::SEMICOLON)
         this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
@@ -47,9 +49,11 @@ void Parser::compileVariableDeclaration () throw (string)
     Token next = this->lex.nextToken();
     if (next.getType() != TokenType::VARIABLE)
         this->throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
+
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
         this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+
     vector<Symbol> params;
     while (true)
     {
@@ -71,10 +75,9 @@ void Parser::compileVariableDeclaration () throw (string)
         {
             for (auto it = pars.cbegin(); it != pars.cend(); it++)
             {
-                Symbol p ((*it).getToken(), VariableType::INTEGER, nullptr);
+                const Symbol p (it->getToken(), VariableType::INTEGER);
                 params.push_back(p);
                 this->st.insertSymbol(p);
-
             }
             pars.clear();
         }
@@ -82,7 +85,7 @@ void Parser::compileVariableDeclaration () throw (string)
         {
             for (auto it = pars.cbegin(); it != pars.cend(); it++)
             {
-                Symbol p ((*it).getToken(), VariableType::BOOLEAN ,nullptr);
+                const Symbol p(it->getToken(), VariableType::BOOLEAN);
                 params.push_back(p);
                 this->st.insertSymbol(p);
             }
@@ -100,6 +103,11 @@ void Parser::compileVariableDeclaration () throw (string)
         else
             this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
     }
+}
+
+void Parser::compile() throw (string) {
+    compileProgramStart();
+    compileVariableDeclaration();
 }
     /*
     params.push_back(next.getToken());
