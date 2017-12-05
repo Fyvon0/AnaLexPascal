@@ -26,11 +26,7 @@ Symbol::Symbol(const Symbol& other) : name(other.name), returnType(other.returnT
         this->params = new vector<Symbol>(*other.params);
 }
 
-Symbol::Symbol(Symbol&& other) {
-    this->name = other.name;
-    this->returnType = other.returnType;
-    this->params = other.params;
-}
+Symbol::Symbol(Symbol&& other) : name(other.name), returnType(other.returnType), params(other.params) {}
 
 Symbol& Symbol::operator= (Symbol other) {
     swap(*this, other); // copy-swap-idiom

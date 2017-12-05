@@ -43,15 +43,30 @@ void Parser::throwWtf() throw (string) {
 
 void Parser::compile() throw (string) {
     compileProgramStart();
-    //cout << TokenTypeNames[(int)this->lex.peekToken().getType()];
-    if (this->lex.peekToken().getType() == TokenType::VARIABLE)
-        compileVariableDeclaration();
-    if (this->lex.peekToken().getType() == TokenType::PROCEDURE)
-        this->compileProcedureDeclaration();
+
+    for (Token t(this->lex.peekToken()); this->lex.hasMoreTokens(); t = this->lex.peekToken())
+    {
+        if (t.getType() == TokenType::VARIABLE)
+            this->compileVariableDeclaration();
+        if (t.getType() == TokenType::PROCEDURE)
+            this->compileProcedureDeclaration();
+        if (t.getType() == TokenType::FUNCTION)
+            this->compileFunctionDeclaration();
+
+        if (t.getType() == TokenType::BEGIN) {
+            this->compileCompoundCommand();
+            t = this->lex.nextToken();
+
+            if (t.getType() != TokenType::PERIOD)
+                throwExpected(TokenType::PERIOD, t.getLine(), t.getType());
+
+            break;
+        }
+    }
 }
 
 void Parser::compileProgramStart () throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::PROGRAM)
         this->throwExpected(TokenType::PROGRAM, next.getLine(), next.getType());
 
@@ -65,7 +80,7 @@ void Parser::compileProgramStart () throw (string) {
 }
 
 void Parser::compileVariableDeclaration () throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::VARIABLE)
         this->throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
 
@@ -122,7 +137,7 @@ void Parser::compileVariableDeclaration () throw (string) {
 }
 
 void Parser::compileProcedureDeclaration () throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::PROCEDURE)
         this->throwExpected(TokenType::PROCEDURE, next.getLine(), next.getType());
 
@@ -231,7 +246,7 @@ void Parser::compileProcedureDeclaration () throw (string) {
 }
 
 void Parser::compileFunctionDeclaration () throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::PROCEDURE)
         this->throwExpected(TokenType::PROCEDURE, next.getLine(), next.getType());
 
@@ -355,7 +370,7 @@ void Parser::compileFunctionDeclaration () throw (string) {
 }
 
 void Parser::compileCompoundCommand () throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::BEGIN)
         this->throwExpected(TokenType::BEGIN, next.getLine(), next.getType());
 
@@ -423,7 +438,7 @@ void Parser::compileCommand() throw (string) {
 }
 
 VariableType Parser::compileFuncCall () throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     Symbol *func = this->st.getSymbol(next.getToken());
     if (func == nullptr)
         throwUndeclared(next.getToken(), next.getLine());
@@ -457,7 +472,7 @@ VariableType Parser::compileFuncCall () throw (string) {
 }
 
 void Parser::compileAttr() throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::IDENTIFIER)
         throwWtf();
 
@@ -479,7 +494,7 @@ void Parser::compileAttr() throw (string) {
 }
 
 VariableType Parser::compileTypedSymbol() throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() == TokenType::TRUE || next.getType() == TokenType::FALSE)
         return VariableType::BOOLEAN;
     if (next.getType() == TokenType::INTEGER)
@@ -501,7 +516,7 @@ VariableType Parser::compileTypedSymbol() throw (string) {
 }
 
 void Parser::compileIf() throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::IF)
         throwWtf();
 
@@ -521,7 +536,7 @@ void Parser::compileIf() throw (string) {
 }
 
 void Parser::compileWhile() throw (string) {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() == TokenType::WHILE) {
         this->compileRelationalExpression();
 
@@ -549,7 +564,7 @@ void Parser::compileWhile() throw (string) {
 
 void Parser::compileRead() throw (string)
 {
-    Token next = this->lex.nextToken();
+    Token next(this->lex.nextToken());
     if (next.getType() != TokenType::READ)
         this->throwExpected(TokenType::READ, next.getLine(), next.getType());
 
