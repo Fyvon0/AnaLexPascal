@@ -207,7 +207,7 @@ void Parser::compileProcedureDeclaration () throw (string)
             this->compileProcedureDeclaration();
             break;
         case TokenType::FUNCTION:
-            //this->compileFunctionDeclaration();
+            this->compileFunctionDeclaration();
             break;
         case TokenType::BEGIN :
             end = true;
@@ -222,6 +222,131 @@ void Parser::compileProcedureDeclaration () throw (string)
 	if (next.getType() != TokenType::SEMICOLON)
         this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
     this->st.clearCurrentScope();
+}
+
+void Parser::compileFunctionDeclaration () throw (string)
+{
+    Token next = this->lex.nextToken();
+    if (next.getType() != TokenType::PROCEDURE)
+        this->throwExpected(TokenType::PROCEDURE, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::IDENTIFIER)
+        this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+    string name = next.getToken();
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::LEFT_PARENTHESIS)
+        this->throwExpected(TokenType::LEFT_PARENTHESIS, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    vector<Symbol> params;
+    if (next.getType() != TokenType::RIGHT_PARENTHESIS)
+    {
+        if (next.getType() == TokenType::VARIABLE || next.getType() == TokenType::IDENTIFIER)
+        {
+            while (true)
+            {
+                bool sameType = true;
+                forward_list<Token> pars;
+                while (sameType)
+                {
+                    pars.push_front(next);
+                    next = this->lex.nextToken();
+                    if (next.getType() == TokenType::COLON)
+                        sameType = false;
+                    else if (next.getType() == TokenType::COMMA)
+                        next = this->lex.nextToken();
+                    else
+                        this->throwExpected(TokenType::COMMA, next.getLine(), next.getType());
+                }
+                next = this->lex.nextToken();
+                if (next.getType() ==TokenType::INTEGER)
+                {
+                    for (auto it = pars.cbegin(); it != pars.cend(); it++)
+                    {
+                        const Symbol p (it->getToken(), VariableType::INTEGER);
+                        params.push_back(p);
+                    }
+                    pars.clear();
+                }
+                else if  (next.getType() == TokenType::BOOLEAN)
+                {
+                    for (auto it = pars.cbegin(); it != pars.cend(); it++)
+                    {
+                        const Symbol p(it->getToken(), VariableType::BOOLEAN);
+                        params.push_back(p);
+                    }
+                    pars.clear();
+                }
+                else
+                    this->throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
+                next = this->lex.nextToken();
+                if (next.getType() == TokenType::SEMICOLON || next.getType() == TokenType::RIGHT_PARENTHESIS)
+                {
+                    if (this->lex.peekToken().getType() != TokenType::IDENTIFIER)
+                        break;
+                    next = this->lex.nextToken();
+                }
+                else
+                    this->throwExpected(TokenType::RIGHT_PARENTHESIS, next.getLine(), next.getType());
+            }
+        }
+        else
+            this->throwExpected(TokenType::RIGHT_PARENTHESIS, next.getLine(), next.getType());
+    }
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::COLON)
+        this->throwExpected(TokenType::COLON, next.getLine(), next.getType());
+
+    VariableType type;
+    next = this->lex.nextToken();
+    if (next.getType() == TokenType::INTEGER)
+        type = VariableType::INTEGER;
+    else if(next.getType() == TokenType::BOOLEAN)
+        type = VariableType::BOOLEAN;
+    else
+        this->throwExpected(TokenType::VARIABLE, next.getLine(), next.getType());
+
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::SEMICOLON)
+        this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
+
+    this->st.insertSymbol(Symbol(name, type, &params));
+    for (auto it = params.cbegin(); it != params.cend(); it++)
+        this->st.insertSymbol(*it);
+
+    if (this->lex.peekToken().getType() == TokenType::VARIABLE)
+        this->compileVariableDeclaration();
+
+    next = this->lex.peekToken();
+    bool end = false;
+	while (!end) // TODOS OS PROCEDIMENTOS E FUNÇÕES PRECEDEM O CÓDIGO PRINCIPAL
+	{
+		switch (next.getType())
+		{
+        case TokenType::PROCEDURE:
+            this->compileProcedureDeclaration();
+            break;
+        case TokenType::FUNCTION:
+            this->compileFunctionDeclaration();
+            break;
+        case TokenType::BEGIN :
+            end = true;
+            break;
+        default:
+            this->throwExpected(TokenType::BEGIN, next.getLine(), next.getType());
+		}
+		next = this->lex.peekToken();
+	}
+	this->compileCompoundCommand();
+	next = this->lex.nextToken();
+	if (next.getType() != TokenType::SEMICOLON)
+        this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
+    this->st.clearCurrentScope();
+
 }
 
 void Parser::compileCompoundCommand () throw (string)
@@ -257,6 +382,31 @@ void Parser::compileCommand() throw (string)
             //this->compileFuncCall();
             break;
         }
+    }
+}
+
+void Parser::compileProcCall () throw (string)
+{
+Symbol *s = this->st.getSymbol(next.getToken());
+    if (s == nullptr)
+        throwUndeclared(s->getName(), next.getLine());
+
+    if (s->getType() != SymbolType::PROCEDURE)
+        throwWtf();
+
+    next = this->lex.nextToken();
+    if (next.getType() == TokenType::LEFT_PARENTHESIS)
+    {
+        next = this->lex.nextToken();
+        int paramNmr = 0;
+        while (next.getType() != TokenType::RIGHT_PARENTHESIS)
+        {
+            if (paramNmr >= s->getNumberParams)
+                throw string ("No such implementation for call to method " + s->getName + " was found as in line " + to_string(next.getLine()));
+            next = this->lex.nextToken();
+        }
+        if (paramNmr != s->getNumberParams())
+            throw string ("No such implementation for call to method " + s->getName + " was found as in line " + to_string(next.getLine()));
     }
 }
 

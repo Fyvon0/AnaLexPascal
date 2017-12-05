@@ -75,6 +75,12 @@ Symbol Symbol::getParam(unsigned int i) const throw(string) {
     return Symbol(this->params->at(i));
 }
 
+unsigned int Symbol::getNumberParams () const throw(string) {
+    if (this->params == nullptr)
+        throw string("Cannot read variable params");
+    return this->params.size();
+}
+
 bool Symbol::operator!=(const Symbol& other) const throw () {
     return !this->operator==(other);
 }
