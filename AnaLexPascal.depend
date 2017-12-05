@@ -59,10 +59,11 @@
 	<algorithm>
 	"Token.h"
 
-1511779424 source:e:\analexpascal\main.cpp
+1512472876 source:e:\analexpascal\main.cpp
 	<iostream>
 	<string>
-	"AnalisadorLexico.h"
+	"Parser.h"
+	"Symbol.h"
 
 1511708544 e:\analexpascal\analisadorlexico.h
 	<string>
@@ -71,10 +72,11 @@
 	<iostream>
 	"Token.h"
 
-1511751418 e:\analexpascal\token.h
+1512472712 e:\analexpascal\token.h
 	<string>
+	<vector>
 
-1511750802 source:e:\analexpascal\token.cpp
+1512467634 source:e:\analexpascal\token.cpp
 	<string>
 	<stdlib.h>
 	<algorithm>
@@ -322,4 +324,46 @@
 	<stdlib.h>
 	<algorithm>
 	"Token.h"
+
+1512473346 source:e:\analexpascal\lexer.cpp
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+	"Lexer.h"
+
+1512414654 e:\analexpascal\lexer.h
+	<string>
+	<vector>
+	<fstream>
+	<iostream>
+	"Token.h"
+
+1512476762 e:\analexpascal\parser.h
+	<vector>
+	<string>
+	"Lexer.h"
+	"SymbolTable.h"
+
+1512416236 e:\analexpascal\symboltable.h
+	<set>
+	<vector>
+	"Symbol.h"
+
+1512467632 e:\analexpascal\symbol.h
+	<string>
+	<vector>
+
+1512473988 source:e:\analexpascal\parser.cpp
+	<sstream>
+	<forward_list>
+	"Parser.h"
+
+1512467632 source:e:\analexpascal\symbol.cpp
+	"Symbol.h"
+
+1512473458 source:e:\analexpascal\symboltable.cpp
+	<typeinfo>
+	"SymbolTable.h"
 

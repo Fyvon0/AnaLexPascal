@@ -1,6 +1,6 @@
 program Programa;
 
-procedure fib (n:integer)
+procedure fib (n:integer;c:boolean);
 var
 	a, b: integer;
 begin

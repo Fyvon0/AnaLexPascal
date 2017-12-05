@@ -82,7 +82,7 @@ Lexer::Lexer(string fileName) throw (string)
             line++;
     }while (file.good());
 
-    this->it = 0;
+    this->it = -1;
 }
 
 Token Lexer::currentToken() const throw ()
@@ -94,21 +94,22 @@ Token Lexer::currentToken() const throw ()
 Token Lexer::nextToken() throw (string)
 {
     if (!this->hasMoreTokens())
-        throw string("Could not advance token iterator");
+        throw string("Unexpected end of file");
+    if (this->it < (int)this->tokens.size() - 1)
+        ++(this -> it);
     Token t = this->tokens[this -> it];
-    ++(this -> it);
     return t;
 }
 
 Token Lexer::peekToken() const throw (string)
 {
     if (!this->hasMoreTokens())
-        throw string("Could not advance token iterator");
+        throw string("Unexpected end of file");
     Token t = this->tokens[this -> it + 1];
     return t;
 }
 
 bool Lexer::hasMoreTokens() const throw ()
 {
-    return this->it < this->tokens.size();
+    return this->it < (int)this->tokens.size() - 1;
 }

@@ -34,8 +34,8 @@ enum class TokenType {
      OR,                // or
      AND,               // and
      XOR,               // xor
-     RIGHT_PARENTHESIS, // (
-     LEFT_PARENTHESIS,  // )
+     LEFT_PARENTHESIS,  // (
+     RIGHT_PARENTHESIS, // )
      PERIOD,            // . -- identifica o fim do programa
      COMMA,             // , -- divide declaração de variáveis
      SEMICOLON,         // ;

@@ -8,16 +8,21 @@ SymbolTable::SymbolTable() throw (): currentScope(0) {
 
 void SymbolTable::insertSymbol (const Symbol& s) throw (string)
 {
-    if (s.getType() == SymbolType::FUNCTION)
+    /*
+    if (this->getSymbol(s.getName()) != nullptr)
+        throw string ("Repeated declaration of identifier " + s.getName());
+        */
+    for (auto itSymb = symbols.back().cbegin(); itSymb != symbols.back().cend(); itSymb++)
+        if ((*itSymb)->getName() == s.getName())
+            throw string ("Repeated declaration of identifier " + s.getName());
+
+    this->symbols.back().push_back(new Symbol(s));
+
+    if (s.getType() == SymbolType::FUNCTION || s.getType() == SymbolType::PROCEDURE)
     {
         this->currentScope++;
         this->symbols.push_back(vector<Symbol*>());
     }
-
-    if (this->getSymbol(s.getName()) != nullptr)
-        throw string ("Repeated declaration of specifier " + s.getName());
-
-    this->symbols.back().push_back(new Symbol(s));
 }
 
 Symbol* SymbolTable::getSymbol (const string& name) const throw ()
