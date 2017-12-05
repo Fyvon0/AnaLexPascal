@@ -3,7 +3,6 @@
 
 #include "Parser.h"
 
-
 const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","WHILE","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
                                  "SUBTRACTION","MULTIPLICATION","DIVISION","MODULE","PROCEDURE","FUNCTION","=","!=",">","<",
                                  ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
@@ -27,6 +26,10 @@ void Parser::throwExpected(TokenType expected, int line, TokenType found) throw 
                   " but \"" +
                   TokenTypeNames[(int)found] +
                   "\" found instead.");
+}
+
+void Parser::throwWtf() throw (string) {
+    throw string("How did you even do dis boi?");
 }
 
 void Parser::compile() throw (string) {
@@ -236,16 +239,16 @@ void Parser::compileCompoundCommand () throw (string)
 
 void Parser::compileCommand() throw (string)
 {
-    Token next = this->lex.nextToken();
+    Token next = this->lex.peekToken();
     if (next.getType() == TokenType::IDENTIFIER)
     {
         Symbol *s = this->st.getSymbol(next.getToken());
         if (s == nullptr)
-            throw string("Reference to undeclared identifier " + s->getName() + " at line " + to_string(next.getLine()));
+            throwUndeclared(s->getName(), next.getLine());
         switch(s->getType())
         {
         case SymbolType::VARIABLE:
-            //this->compileAttr();
+            this->compileAttr();
             break;
         case SymbolType::PROCEDURE:
             //this->compileProcCall();
@@ -256,22 +259,62 @@ void Parser::compileCommand() throw (string)
         }
     }
 }
-    /*
-    params.push_back(next.getToken());
-    next = this->lex.nextToken();
-    if (next.getType() == TokenType::COMMA)
-        for (;;)
-        {
-            Token ult = next;
-            if (ult.getType() == TokenType::SEMICOLON && next.getType() == TokenType::IDENTIFIER)
-                break;
-            if ((ult.getType() == TokenType::COMMA && next.getType() == TokenType::IDENTIFIER) || (next.getType() == TokenType::COMMA && ult.getType() == TokenType::IDENTIFIER))
-                continue;
-            if (ult.getType() == TokenType::IDENTIFIER)
-                this->throwExpected(TokenType::COMMA, next.getLine(), next.getType());
-            if (ult.getType() == TokenType::COMMA)
-                this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
-            throw string ("ESSO NON ECZISTE!!!");
-        }
-    */
 
+void Parser::compileAttr() throw (string) {
+    Token next = this->lex.nextToken();
+    if (next.getType() != TokenType::IDENTIFIER)
+        throwWtf();
+
+    Symbol* s = this->st.getSymbol(next.getToken())
+    if (s == nullptr)
+        throwUndeclared(s->getName(), next.getLine());
+
+    if (s->getType() != SymbolType::VARIABLE)
+        throwWtf();
+
+    VariableType type = s->getReturnType();
+
+    next = this->lex.nextToken();
+    if (s.getType() != TokenType::ATTRIBUTION)
+        throwExpected(TokenType::ATTRIBUTION, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (type == VariableType::INTEGER) {
+        if (next.getType() == TokenType::INTEGER) {
+
+        }
+        else if (next.getType() == TokenType::IDENTIFIER) {
+
+        }
+        else
+            throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+    }
+    else if (type == VariableType::BOOLEAN) {
+        if (next.getType() == TokenType::TRUE || next.getType() == TokenType::FALSE) {
+
+        }
+        else if (next.getType() == TokenType::IDENTIFIER) {
+
+        }
+        else
+            throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+    }
+}
+
+VariableType Parser::compileTypedSymbol() throw (string) {
+    Token next = this->lex.nextToken();
+    if (next.getType() == TokenType::TRUE || next.getType() == TokenType::FALSE)
+        return VariableType::BOOLEAN;
+    if (next.getType() == TokenType::INTEGER)
+        return VariableType::INTEGER;
+
+    if (next.getType() != TokenType::IDENTIFIER)
+        throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+
+    Symbol* s = this->st.getSymbol(next.getToken());
+    if (s == nullptr)
+        throw string("Reference to undeclared identifier "+next.getToken()+" at line " +/*std::*/to_string(next.getLine()));
+    if (s.getReturnType() == VariableType::VOID)
+        throwExpected(TokenType::PROCEDURE, next.getLine(), "TYPED IDENTIFIER");
+    return s.getReturnType();
+}

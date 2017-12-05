@@ -21,9 +21,10 @@ private:
     //void compileFunctionDeclaration () throw (string);
     void compileCompoundCommand () throw (string);
     void compileCommand () throw (string);
-    //void compileAttr () throw (string);
+    void compileAttr () throw (string);
     //void compileProcCall () throw (string);
     //void compileFuncCall () throw (string);
+    VariableType compileTypedSymbol () throw (string);
 public:
     Parser(string) throw ();
     void compile() throw (string);
