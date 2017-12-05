@@ -3,7 +3,8 @@
 
 #include "Parser.h"
 
-const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","THEN","ELSE","WHILE","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
+const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","THEN","ELSE","WHILE","DO","REPEAT","UNTIL","INTEGER","BOOLEAN","COLON",
+                                 "ATTRIBUTION","SUM",
                                  "SUBTRACTION","MULTIPLICATION","DIVISION","MODULE","PROCEDURE","FUNCTION","=","!=",">","<",
                                  ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
                                  "IDENTIFIER","CONSTANT","UNKNOWN"};
@@ -392,7 +393,12 @@ void Parser::compileCommand() throw (string) {
     }
     case TokenType::WHILE:
     {
-        //this->compileWhile();
+        this->compileWhile();
+        break;
+    }
+    case TokenType::REPEAT:
+    {
+        this->compileWhile();
         break;
     }
     case TokenType::WRITE:
@@ -514,6 +520,33 @@ void Parser::compileIf() throw (string) {
     }
 }
 
+void Parser::compileWhile() throw (string) {
+    Token next = this->lex.nextToken();
+    if (next.getType() == TokenType::WHILE) {
+        this->compileRelationalExpression();
+
+        next = this->lex.nextToken();
+        if (next.getType() != TokenType::DO)
+            throwExpected(TokenType::DO, next.getLine(), next.getType());
+
+        this->compileCommand();
+    }
+    else if (next.getType() == TokenType::REPEAT) {
+        this->compileCommand();
+
+        next = this->lex.nextToken();
+        if (next.getType() != TokenType::UNTIL)
+            throwExpected(TokenType::UNTIL, next.getLine(), next.getType());
+        this->compileRelationalExpression();
+
+        next = this->lex.nextToken();
+        if (next.getType() != TokenType::SEMICOLON)
+            throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
+    }
+    else
+        throwWtf();
+}
+
 void Parser::compileRead() throw (string)
 {
     Token next = this->lex.nextToken();
@@ -527,7 +560,7 @@ void Parser::compileRead() throw (string)
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
         this->throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
-
+SEMICOLON
     Symbol *s = this->st.getSymbol(next.getToken());
     if (s == nullptr)
         this->throwUndeclared(next.getToken(), next.getLine());
