@@ -20,6 +20,10 @@ std::string to_string(T value)
 	return os.str() ;
 }
 
+ExpressionTokenType Parser::toExpressionTokenType(const TokenType&) throw (string) {
+
+}
+
 void Parser::throwExpected(TokenType expected, int line, TokenType found) throw (string) {
     throw string ("\"" + TokenTypeNames[(int)expected] +
                   "\" expected at line " +

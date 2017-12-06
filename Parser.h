@@ -6,12 +6,15 @@
 
 #include "Lexer.h"
 #include "SymbolTable.h"
+#include "ExpressionSolver.h"
 
 class Parser
 {
 private:
     Lexer lex;
     SymbolTable st;
+
+    ExpressionTokenType toExpressionTokenType(const TokenType&) throw (string);
 
     void throwExpected(TokenType, int, TokenType) throw (string);
     void throwUndeclared(string, int) throw (string);

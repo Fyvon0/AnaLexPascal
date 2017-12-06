@@ -28,8 +28,7 @@ int main()
         for (auto it=tokens.cbegin(); it != tokens.cend(); it++)
             cout << TokenTypeNames[(int)*it] << " ";
 
-        ExpressionSolver e(tokens);
-        vector<TokenType> v(e.evaluate());
+        vector<TokenType> v(ExpressionSolver::evaluate(tokens));
 
         cout << endl;
         for (auto it=v.cbegin(); it != v.cend(); it++)
