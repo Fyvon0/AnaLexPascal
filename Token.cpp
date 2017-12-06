@@ -33,11 +33,8 @@ bool isAlphaNumString (const std::string &str)
     return true;
 }
 
-Token::Token(string word, int lin)
- throw ()
+Token::Token(const string& word, int lin) throw () : token(word), line(lin)
 {
-    this -> token = word;
-    this -> line = lin;
     unsigned int i;
     for (i = 0; i < this -> symbols.size(); i++)
         if (this -> token == this -> symbols[i])

@@ -538,7 +538,7 @@ void Parser::compileIf() throw (string) {
 void Parser::compileWhile() throw (string) {
     Token next(this->lex.nextToken());
     if (next.getType() == TokenType::WHILE) {
-        this->compileRelationalExpression();
+        //this->compileRelationalExpression();
 
         next = this->lex.nextToken();
         if (next.getType() != TokenType::DO)
@@ -552,7 +552,7 @@ void Parser::compileWhile() throw (string) {
         next = this->lex.nextToken();
         if (next.getType() != TokenType::UNTIL)
             throwExpected(TokenType::UNTIL, next.getLine(), next.getType());
-        this->compileRelationalExpression();
+        //this->compileRelationalExpression();
 
         next = this->lex.nextToken();
         if (next.getType() != TokenType::SEMICOLON)
@@ -592,11 +592,11 @@ void Parser::compileRead() throw (string)
 }
 
 
-void Parser::compileExpression() throw (string)
+/*void Parser::compileExpression() throw (string)
 {
     VariableType expressionType = VariableType::VOID;
     bool hasParenthesis = false;
 
     Token next = this->lex.nextToken();
     if (next.getType() == TokenType::LEFT_PARENTHESIS)
-}
+} */

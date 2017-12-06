@@ -3,10 +3,11 @@
 
 #include "Parser.h"
 #include "Symbol.h"
+#include "ExpressionSolver.h"
 
 using namespace std;
 
-const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","WHILE","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
+const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","THEN","ELSE","WHILE","DO","REPEAT","UNTIL","INTEGER","BOOLEAN","COLON","ATTRIBUTION","SUM",
                                  "SUBTRACTION","MULTIPLICATION","DIVISION","MODULE","PROCEDURE","FUNCTION","=","!=",">","<",
                                  ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
                                  "IDENTIFIER","CONSTANT","UNKNOWN"};
@@ -18,14 +19,25 @@ int main()
     cin >> nomeArq;
 
     try {
-
         Lexer lex (nomeArq);
-        while (lex.hasMoreTokens())
-            cout << lex.currentToken().getLine() << " - " << TokenTypeNames[(int)lex.currentToken().getType()] << " - " << lex.nextToken().getToken() << endl;
 
-        Parser p(nomeArq);
+        vector<TokenType> tokens;
+        while (lex.hasMoreTokens())
+            tokens.push_back(lex.nextToken().getType());
+
+        for (auto it=tokens.cbegin(); it != tokens.cend(); it++)
+            cout << TokenTypeNames[(int)*it] << " ";
+
+        ExpressionSolver e(tokens);
+        vector<TokenType> v(e.evaluate());
+
+        cout << endl;
+        for (auto it=v.cbegin(); it != v.cend(); it++)
+            cout << TokenTypeNames[(int)*it] << " ";
+
+        /* Parser p(nomeArq);
         p.compile();
-        cout << "Compile successful";
+        cout << "Compile successful"; */
     }
     catch (string& s) {
         cout << s;

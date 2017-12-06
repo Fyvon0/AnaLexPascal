@@ -32,6 +32,8 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="ExpressionSolver.cpp" />
+		<Unit filename="ExpressionSolver.h" />
 		<Unit filename="Lexer.cpp" />
 		<Unit filename="Lexer.h" />
 		<Unit filename="Parser.cpp" />

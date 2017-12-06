@@ -61,7 +61,7 @@ private:
     int line;
 
 public:
-    Token(string, int) throw ();
+    Token(const string&, int) throw ();
     string getToken() const throw ();
     TokenType getType() const throw ();
     int getLine() const throw ();
