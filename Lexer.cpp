@@ -30,7 +30,7 @@ Lexer::Lexer(string fileName) throw (string)
 
     string word;
     int line = 1;
-    Token last(string("&"),0);
+    Token last(string("¨"),0);
 
     do
     {

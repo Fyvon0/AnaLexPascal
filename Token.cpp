@@ -36,6 +36,10 @@ inline bool isAlphaNumString (const std::string &str)
 Token::Token(const string& word, int lin) throw () : token(word), line(lin)
 {
     unsigned int i;
+    if (this->token == "&&")
+        this->token = "and";
+    else if (this->token == "||")
+        this->token = "or";
     for (i = 0; i < this -> symbols.size(); i++)
         if (this -> token == this -> symbols[i])
             break;
@@ -53,7 +57,9 @@ Token::Token(const string& word, int lin) throw () : token(word), line(lin)
                 this -> type = TokenType::UNKNOWN;
     }
     else // é um símbolo da linguagem
+    {
         this -> type = (TokenType)i;
+    }
 }
 
 string Token::getToken () const throw ()
