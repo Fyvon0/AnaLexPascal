@@ -122,7 +122,7 @@ VariableType ExpressionSolver::getType(const ExpressionTokenType& t) throw () {
     return VariableType::BOOLEAN;
 }
 
-VariableType ExpressionSolver::getType(const vector<ExpressionTokenType>& postfix) throw (string) {
+VariableType ExpressionSolver::getType(const vector<ExpressionTokenType>& postfix) throw () {
     stack<ExpressionTokenType> operands;
 
     for (auto it = postfix.cbegin(); it != postfix.cend(); it++) {
@@ -146,27 +146,27 @@ VariableType ExpressionSolver::getType(const vector<ExpressionTokenType>& postfi
 
 ExpressionTokenType ExpressionSolver::singleOperation(const ExpressionTokenType& oper,
                                                       const ExpressionTokenType& operand1,
-                                                      const ExpressionTokenType& operand2) throw (string) {
+                                                      const ExpressionTokenType& operand2) throw (runtime_error) {
     if (getType(oper) == VariableType::INTEGER) {
         if (getType(operand1) != VariableType::INTEGER || getType(operand2) != VariableType::INTEGER)
-            throw string ("Incompatible types");
+            throw runtime_error ("Incompatible types");
         return ExpressionTokenType::INTEGER;
     }
 
     if (oper != ExpressionTokenType::EQUALS && oper != ExpressionTokenType::DIFFERENT)
         if (getType(operand1) != VariableType::INTEGER)
-            throw string ("Incompatible types");
+            throw runtime_error ("Incompatible types");
 
     if (getType(operand1) != getType(operand2))
-        throw string ("Incompatible types");
+        throw runtime_error ("Incompatible types");
 
     return ExpressionTokenType::BOOLEAN;
 }
 
 
-VariableType ExpressionSolver::evaluate(const vector<ExpressionTokenType>& infix) throw (string) {
+VariableType ExpressionSolver::evaluate(const vector<ExpressionTokenType>& infix) throw (runtime_error) {
     if (!isBalanced(infix))
-        throw string("Expression is not balanced");
+        throw runtime_error ("Expression is not balanced");
 
     return getType(getPostfix(infix));
 }

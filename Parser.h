@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 
+#include <stdexcept>
+
 #include "Lexer.h"
 #include "SymbolTable.h"
 #include "ExpressionSolver.h"
@@ -18,29 +20,29 @@ private:
     ExpressionTokenType toExpressionTokenType(const VariableType&) throw ();
     bool isTypedOrLiteral(const Token&) throw ();
 
-    void throwExpected(TokenType, int, TokenType) throw (string);
-    void throwUndeclared(string, int) throw (string);
-    void throwIncompatibleType(int) throw (string);
-    void throwWtf() throw (string);
+    void throwExpected(TokenType, int, TokenType) throw (runtime_error);
+    void throwUndeclared(string, int) throw (runtime_error);
+    void throwIncompatibleType(int) throw (runtime_error);
+    void throwWtf() throw (runtime_error);
 
-    void compileProgramStart () throw (string);
-    void compileVariableDeclaration () throw (string);
-    void compileProcedureDeclaration () throw (string);
-    void compileFunctionDeclaration () throw (string);
-    void compileCompoundCommand () throw (string);
-    void compileCommand () throw (string);
-    void compileAttr () throw (string);
-    VariableType compileFuncCall () throw (string);
-    VariableType compileTypedSymbol () throw (string);
-    void compileIf () throw (string);
-    void compileWhile () throw (string);
-    void compileWrite () throw (string);
-    void compileRead () throw (string);
-    void compileRelationalExpression() throw (string);
-    void compileArithmeticExpression() throw (string);
+    void compileProgramStart () throw (runtime_error);
+    void compileVariableDeclaration () throw (runtime_error);
+    void compileProcedureDeclaration () throw (runtime_error);
+    void compileFunctionDeclaration () throw (runtime_error);
+    void compileCompoundCommand () throw (runtime_error);
+    void compileCommand () throw (runtime_error);
+    void compileAttr () throw (runtime_error);
+    VariableType compileFuncCall () throw (runtime_error);
+    VariableType compileTypedSymbol () throw (runtime_error);
+    void compileIf () throw (runtime_error);
+    void compileWhile () throw (runtime_error);
+    void compileWrite () throw (runtime_error);
+    void compileRead () throw (runtime_error);
+    void compileRelationalExpression() throw (runtime_error);
+    void compileArithmeticExpression() throw (runtime_error);
 public:
     Parser(string) throw ();
-    void compile() throw (string);
+    void compile() throw (runtime_error);
 };
 
 #endif

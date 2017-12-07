@@ -23,8 +23,11 @@ int main()
         p.compile();
         cout << "Compile successful";
     }
-    catch (string& s) {
-        cout << s;
+    catch (runtime_error e) {
+        cout << e.what();
+    }
+    catch (...) {
+        cout << "O cheiro de merda eh forte";
     }
 
     return 0;

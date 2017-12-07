@@ -4,8 +4,12 @@
 #include <stack>
 #include <vector>
 
+#include <stdexcept>
+
 #include "Token.h"
 #include "Symbol.h"
+
+using namespace std;
 
 enum class ExpressionTokenType {
     BOOLEAN,
@@ -42,13 +46,15 @@ class ExpressionSolver {
 
         static bool isBalanced(const vector<ExpressionTokenType>&) throw ();
 
-        static vector<ExpressionTokenType> getPostfix(const vector<ExpressionTokenType>&) throw();
-        static VariableType getType(const vector<ExpressionTokenType>&) throw (string);
+        static vector<ExpressionTokenType> getPostfix(const vector<ExpressionTokenType>&) throw ();
+        static VariableType getType(const vector<ExpressionTokenType>&) throw ();
         static VariableType getType(const ExpressionTokenType&) throw ();
 
-        static ExpressionTokenType singleOperation(const ExpressionTokenType&, const ExpressionTokenType&, const ExpressionTokenType&) throw (string);
+        static ExpressionTokenType singleOperation(const ExpressionTokenType&,
+                                                   const ExpressionTokenType&,
+                                                   const ExpressionTokenType&) throw (runtime_error);
     public:
-        static VariableType evaluate(const vector<ExpressionTokenType>&) throw (string);
+        static VariableType evaluate(const vector<ExpressionTokenType>&) throw (runtime_error);
 };
 
 #endif // EXPRESSION_SOLVER_INCLUDED

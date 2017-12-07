@@ -6,14 +6,14 @@ var
 begin
 	a := 0;
 	b := 1;
-	#while n < 0
-	#begin
+	while n < 0 do
+	begin
 		#write(b);
 		b := a + b;
 		a := b;
-	#end;
+	end;
 end;
 
 begin
-	fib(10, c);
+	fib(10, true);
 end.
