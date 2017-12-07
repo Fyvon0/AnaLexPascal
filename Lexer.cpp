@@ -34,7 +34,7 @@ Lexer::Lexer(string fileName) throw (string)
             file.getline(s,256);
             c = '\n';
         }
-        if (isspace(c) && !word.empty())
+        else if (isspace(c) && !word.empty())
         {
             Token newToken(word, line);
             last = newToken;

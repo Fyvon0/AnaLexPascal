@@ -79,6 +79,23 @@ ExpressionTokenType Parser::toExpressionTokenType(const VariableType& v) throw()
     return ExpressionTokenType::UNDEFINED;
 }
 
+bool Parser::isTypedOrLiteral(const Token& t) throw () {
+    TokenType type = t.getType();
+    if (type == TokenType::INTEGER || type == TokenType::TRUE || type == TokenType::FALSE)
+        return true;
+
+    if (type == TokenType::IDENTIFIER) {
+        Symbol* s = this->st.getSymbol(t.getToken());
+
+        if (s == nullptr)
+            throwUndeclared(t.getToken(), t.getLine());
+
+        return s->getReturnType() != VariableType::VOID;
+    }
+
+    return false;
+}
+
 void Parser::throwExpected(TokenType expected, int line, TokenType found) throw (string) {
     throw string ("\"" + TokenTypeNames[(int)expected] +
                   "\" expected at line " +
@@ -509,8 +526,11 @@ VariableType Parser::compileFuncCall () throw (string) {
     {
         vector<Symbol> params = *(func->getParams());
 
-        // TODO: Refazer isso aqui
+        //int parenthesis = 0;
+
         for (auto i = params.cbegin(); i != params.cend(); i++) {
+            //if ()
+
             if (i->getReturnType() != this->compileTypedSymbol())
                 throwIncompatibleType(next.getLine());
 
@@ -519,7 +539,6 @@ VariableType Parser::compileFuncCall () throw (string) {
                 throwExpected(TokenType::COMMA, next.getLine(), next.getType());
         }
 
-        next = this->lex.nextToken();
         if (next.getType() != TokenType::RIGHT_PARENTHESIS)
             throwExpected(TokenType::RIGHT_PARENTHESIS, next.getLine(), next.getType());
     }
@@ -555,8 +574,21 @@ void Parser::compileAttr() throw (string) {
 VariableType Parser::compileTypedSymbol() throw (string) {
     vector <ExpressionTokenType> expTokens;
     Token next = this->lex.nextToken();
+
+    if (!isTypedOrLiteral(next))
+        throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+
+    int parenthesis = 0;
     while (toExpressionTokenType(next) != ExpressionTokenType::UNDEFINED)
     {
+        if (next.getType() == TokenType::RIGHT_PARENTHESIS) {
+            if (parenthesis == 0)
+                break;
+            parenthesis--;
+        }
+        else if (next.getType() == TokenType::LEFT_PARENTHESIS)
+            parenthesis++;
+
         if (next.getType() != TokenType::IDENTIFIER)
             expTokens.push_back(toExpressionTokenType(next));
         else {
