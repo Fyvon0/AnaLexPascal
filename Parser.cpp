@@ -20,8 +20,56 @@ std::string to_string(T value)
 	return os.str() ;
 }
 
-ExpressionTokenType Parser::toExpressionTokenType(const TokenType&) throw (string) {
+// ewww
+ExpressionTokenType Parser::toExpressionTokenType(const Token& t) throw (string) {
+    if (t.getType() == TokenType::LEFT_PARENTHESIS)
+        return ExpressionTokenType::LEFT_PARENTHESIS;
+    if (t.getType() == TokenType::RIGHT_PARENTHESIS)
+        return ExpressionTokenType::RIGHT_PARENTHESIS;
 
+    if (t.getType() == TokenType::INTEGER)
+        return ExpressionTokenType::INTEGER;
+    if (t.getType() == TokenType::TRUE || t.getType() == TokenType::FALSE)
+        return ExpressionTokenType::BOOLEAN;
+
+    if (t.getType() == TokenType::IDENTIFIER) {
+        Symbol* s = this->st.getSymbol(t.getToken());
+        if (s == nullptr)
+            throwUndeclared(t.getToken(), t.getLine());
+
+        if (s->getReturnType() == VariableType::INTEGER)
+            return ExpressionTokenType::INTEGER;
+        if (s->getReturnType() == VariableType::BOOLEAN)
+            return ExpressionTokenType::BOOLEAN;
+
+        throwIncompatibleType(t.getLine());
+    }
+
+    if (t.getType() == TokenType::MULTIPLICATION)
+        return ExpressionTokenType::MULTIPLICATION;
+    if (t.getType() == TokenType::DIVISION)
+        return ExpressionTokenType::DIVISION;
+    if (t.getType() == TokenType::MODULE)
+        return ExpressionTokenType::MODULE;
+    if (t.getType() == TokenType::SUM)
+        return ExpressionTokenType::SUM;
+    if (t.getType() == TokenType::SUBTRACTION)
+        return ExpressionTokenType::SUBTRACTION;
+
+    if (t.getType() == TokenType::SMALLER)
+        return ExpressionTokenType::SMALLER;
+    if (t.getType() == TokenType::SMALLER_EQUAL)
+        return ExpressionTokenType::SMALLER_EQUAL;
+    if (t.getType() == TokenType::EQUALS)
+        return ExpressionTokenType::EQUALS;
+    if (t.getType() == TokenType::DIFFERENT)
+        return ExpressionTokenType::DIFFERENT;
+    if (t.getType() == TokenType::BIGGER_EQUAL)
+        return ExpressionTokenType::BIGGER_EQUAL;
+    if (t.getType() == TokenType::BIGGER)
+        return ExpressionTokenType::BIGGER;
+
+    throwIncompatibleType(t.getLine());
 }
 
 void Parser::throwExpected(TokenType expected, int line, TokenType found) throw (string) {

@@ -12,6 +12,42 @@ const string TokenTypeNames[] = {"PROGRAM","VAR","BEGIN","END","IF","THEN","ELSE
                                  ">=","<=","NOT","OR","AND","XOR","(",")",".",",",";","WRITE","READ","TRUE","FALSE",
                                  "IDENTIFIER","CONSTANT","UNKNOWN"};
 
+static ExpressionTokenType toExpressionTokenType(const TokenType& t) throw () {
+    if (t == TokenType::LEFT_PARENTHESIS)
+        return ExpressionTokenType::LEFT_PARENTHESIS;
+    if (t == TokenType::RIGHT_PARENTHESIS)
+        return ExpressionTokenType::RIGHT_PARENTHESIS;
+
+    if (t == TokenType::INTEGER)
+        return ExpressionTokenType::INTEGER;
+    if (t == TokenType::TRUE || t == TokenType::FALSE)
+        return ExpressionTokenType::BOOLEAN;
+
+    if (t == TokenType::MULTIPLICATION)
+        return ExpressionTokenType::MULTIPLICATION;
+    if (t == TokenType::DIVISION)
+        return ExpressionTokenType::DIVISION;
+    if (t == TokenType::MODULE)
+        return ExpressionTokenType::MODULE;
+    if (t == TokenType::SUM)
+        return ExpressionTokenType::SUM;
+    if (t == TokenType::SUBTRACTION)
+        return ExpressionTokenType::SUBTRACTION;
+
+    if (t == TokenType::SMALLER)
+        return ExpressionTokenType::SMALLER;
+    if (t == TokenType::SMALLER_EQUAL)
+        return ExpressionTokenType::SMALLER_EQUAL;
+    if (t == TokenType::EQUALS)
+        return ExpressionTokenType::EQUALS;
+    if (t == TokenType::DIFFERENT)
+        return ExpressionTokenType::DIFFERENT;
+    if (t == TokenType::BIGGER_EQUAL)
+        return ExpressionTokenType::BIGGER_EQUAL;
+    if (t == TokenType::BIGGER)
+        return ExpressionTokenType::BIGGER;
+}
+
 int main()
 {
     cout << "Digite o nome do arquivo: ";
@@ -22,17 +58,19 @@ int main()
         Lexer lex (nomeArq);
 
         vector<TokenType> tokens;
+        vector<ExpressionTokenType> expTokens;
         while (lex.hasMoreTokens())
             tokens.push_back(lex.nextToken().getType());
 
-        for (auto it=tokens.cbegin(); it != tokens.cend(); it++)
+        for (auto it=tokens.cbegin(); it != tokens.cend(); it++) {
             cout << TokenTypeNames[(int)*it] << " ";
+            expTokens.push_back(toExpressionTokenType(*it));
+        }
 
-        vector<TokenType> v(ExpressionSolver::evaluate(tokens));
+        VariableType v(ExpressionSolver::evaluate(expTokens));
 
         cout << endl;
-        for (auto it=v.cbegin(); it != v.cend(); it++)
-            cout << TokenTypeNames[(int)*it] << " ";
+        cout << ((v == VariableType::BOOLEAN) ? "BOOL" : "INT");
 
         /* Parser p(nomeArq);
         p.compile();

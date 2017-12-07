@@ -5,13 +5,14 @@
 #include <vector>
 
 #include "Token.h"
+#include "Symbol.h"
 
 enum class ExpressionTokenType {
     BOOLEAN,
     INTEGER,
 
     MULTIPLICATION,
-    DIVISION, MODULE
+    DIVISION, MODULE,
 
     SUM,
     SUBTRACTION,
@@ -37,10 +38,15 @@ class ExpressionSolver {
 
         static char getPrecedence(const ExpressionTokenType&, const ExpressionTokenType&) throw ();
 
+        static bool isBalanced(const vector<ExpressionTokenType>&) throw ();
+
         static vector<ExpressionTokenType> getPostfix(const vector<ExpressionTokenType>&) throw();
-        VariableType getType(const vector<ExpressionTokenType>&) throw (string);
+        static VariableType getType(const vector<ExpressionTokenType>&) throw (string);
+        static VariableType getType(const ExpressionTokenType&) throw ();
+
+        static ExpressionTokenType singleOperation(const ExpressionTokenType&, const ExpressionTokenType&, const ExpressionTokenType&) throw (string);
     public:
-        static vector<ExpressionTokenType> evaluate(const vector<ExpressionTokenType>&) throw (string);
+        static VariableType evaluate(const vector<ExpressionTokenType>&) throw (string);
 };
 
 #endif // EXPRESSION_SOLVER_INCLUDED
