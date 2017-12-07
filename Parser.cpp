@@ -510,7 +510,7 @@ void Parser::compileCommand() throw (runtime_error) {
     }
     case TokenType::WRITE:
     {
-        //this->compileWrite();
+        this->compileWrite();
         break;
     }
     case TokenType::READ:
@@ -707,6 +707,34 @@ void Parser::compileRead() throw (runtime_error)
         this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }
 
+void Parser::compileWrite() throw (string)
+{
+    Token next(this->lex.nextToken());
+    if (next.getType() != TokenType::READ)
+        this->throwExpected(TokenType::READ, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::LEFT_PARENTHESIS)
+        this->throwExpected(TokenType::LEFT_PARENTHESIS, next.getLine(), next.getType());
+
+    while (true) {
+        if (VariableType::INTEGER != this->compileTypedSymbol())
+            throwIncompatibleType(next.getLine());
+
+        next = this->lex.nextToken();
+        if (next.getType() != TokenType::COMMA && next.getType() != TokenType::RIGHT_PARENTHESIS) // TODO: Virgula no final mas fodase
+            throwExpected(TokenType::COMMA, next.getLine(), next.getType());
+        if (next.getType() == TokenType::RIGHT_PARENTHESIS)
+            break;
+    }
+
+    if (next.getType() != TokenType::RIGHT_PARENTHESIS)
+        throwExpected(TokenType::RIGHT_PARENTHESIS, next.getLine(), next.getType());
+
+    next = this->lex.nextToken();
+    if (next.getType() != TokenType::SEMICOLON)
+        this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
+}
 
 /*void Parser::compileExpression() throw (string)
 {

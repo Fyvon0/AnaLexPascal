@@ -29,9 +29,9 @@ Program Prog1;
         End;
 
         If (a and b or c) Then
-            Write ('COTUCA')
+            Write (1)
         Else
-            Write ('UNICAMP');
+            Write (2);
     End;
 Begin
     a := 5;
