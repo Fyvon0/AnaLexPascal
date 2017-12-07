@@ -96,6 +96,13 @@ bool Parser::isTypedOrLiteral(const Token& t) throw () {
     return false;
 }
 
+bool Parser::isExpressionStartOperator(const Token& t) throw () {
+    return t.getType() == TokenType::LEFT_PARENTHESIS ||
+           t.getType() == TokenType::NOT ||
+           t.getType() == TokenType::SUM ||
+           t.getType() == TokenType::SUBTRACTION;
+}
+
 void Parser::throwExpected(TokenType expected, int line, TokenType found) throw (runtime_error) {
     throw runtime_error ("\"" + TokenTypeNames[(int)expected] +
                          "\" expected at line " +
@@ -231,6 +238,8 @@ void Parser::compileProcedureDeclaration () throw (runtime_error) {
     {
         if (next.getType() == TokenType::VARIABLE || next.getType() == TokenType::IDENTIFIER)
         {
+            if (next.getType() == TokenType::VARIABLE)
+                next = this->lex.nextToken();
             while (true)
             {
                 bool sameType = true;
@@ -322,8 +331,8 @@ void Parser::compileProcedureDeclaration () throw (runtime_error) {
 
 void Parser::compileFunctionDeclaration () throw (runtime_error) {
     Token next(this->lex.nextToken());
-    if (next.getType() != TokenType::PROCEDURE)
-        this->throwExpected(TokenType::PROCEDURE, next.getLine(), next.getType());
+    if (next.getType() != TokenType::FUNCTION)
+        this->throwExpected(TokenType::FUNCTION, next.getLine(), next.getType());
 
     next = this->lex.nextToken();
     if (next.getType() != TokenType::IDENTIFIER)
@@ -340,6 +349,8 @@ void Parser::compileFunctionDeclaration () throw (runtime_error) {
     {
         if (next.getType() == TokenType::VARIABLE || next.getType() == TokenType::IDENTIFIER)
         {
+            if (next.getType() == TokenType::VARIABLE)
+                next = this->lex.nextToken();
             while (true)
             {
                 bool sameType = true;
@@ -410,6 +421,7 @@ void Parser::compileFunctionDeclaration () throw (runtime_error) {
         this->throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 
     this->st.insertSymbol(Symbol(name, type, &params));
+    this->st.insertSymbol(Symbol("result", type, nullptr)); // RESULT É UMA PALAVRA MUITO RESERVADA
     for (auto it = params.cbegin(); it != params.cend(); it++)
         this->st.insertSymbol(*it);
 
@@ -460,6 +472,11 @@ void Parser::compileCommand() throw (runtime_error) {
     Token next = this->lex.peekToken();
     switch (next.getType())
     {
+    case TokenType::BEGIN:
+    {
+        this->compileCompoundCommand();
+        break;
+    }
     case TokenType::IDENTIFIER:
     {
         Symbol *s = this->st.getSymbol(next.getToken());
@@ -506,13 +523,12 @@ void Parser::compileCommand() throw (runtime_error) {
         break;
     }
 
-
     next = this->lex.nextToken();
     if (next.getType() != TokenType::SEMICOLON)
         throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
 }
 
-VariableType Parser::compileFuncCall () throw (runtime_error) {
+VariableType Parser::compileFuncCall() throw (runtime_error) {
     Token next(this->lex.nextToken());
     Symbol *func = this->st.getSymbol(next.getToken());
     if (func == nullptr)
@@ -575,7 +591,7 @@ VariableType Parser::compileTypedSymbol() throw (runtime_error) {
     vector <ExpressionTokenType> expTokens;
     Token next = this->lex.nextToken();
 
-    if (!isTypedOrLiteral(next))
+    if (!isTypedOrLiteral(next) && !isExpressionStartOperator(next))
         throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
 
     int parenthesis = 0;
@@ -626,6 +642,7 @@ void Parser::compileIf() throw (runtime_error) {
         throwExpected(TokenType::THEN, next.getLine(), next.getType());
 
     this->compileCommand();
+    this->lex.ungetToken(); // Não espera ponto e vírgula
 
     next = this->lex.peekToken();
     if (next.getType() == TokenType::ELSE) {
@@ -644,16 +661,8 @@ void Parser::compileWhile() throw (runtime_error) {
         if (next.getType() != TokenType::DO)
             throwExpected(TokenType::DO, next.getLine(), next.getType());
 
-        next = this->lex.peekToken();
-        if (next.getType() == TokenType::BEGIN) {
-            this->compileCompoundCommand();
-
-            next = this->lex.nextToken();
-            if (next.getType() != TokenType::SEMICOLON)
-                throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
-        }
-        else
-            this->compileCommand();
+        this->compileCommand();
+        this->lex.ungetToken(); // Não espera ponto e vírgula
     }
     else if (next.getType() == TokenType::REPEAT) {
         this->compileCommand();
@@ -664,10 +673,6 @@ void Parser::compileWhile() throw (runtime_error) {
 
         if (this->compileTypedSymbol() != VariableType::BOOLEAN)
             throwIncompatibleType(next.getLine());
-
-        next = this->lex.nextToken();
-        if (next.getType() != TokenType::SEMICOLON)
-            throwExpected(TokenType::SEMICOLON, next.getLine(), next.getType());
     }
     else
         throwWtf();

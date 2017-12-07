@@ -19,6 +19,7 @@ private:
     ExpressionTokenType toExpressionTokenType(const Token&) throw ();
     ExpressionTokenType toExpressionTokenType(const VariableType&) throw ();
     bool isTypedOrLiteral(const Token&) throw ();
+    bool isExpressionStartOperator(const Token&) throw ();
 
     void throwExpected(TokenType, int, TokenType) throw (runtime_error);
     void throwUndeclared(string, int) throw (runtime_error);

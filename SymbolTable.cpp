@@ -27,10 +27,16 @@ void SymbolTable::insertSymbol (const Symbol& s) throw (string)
 
 Symbol* SymbolTable::getSymbol (const string& name) const throw ()
 {
-    for (auto itScope = this->symbols.cbegin(); itScope != this->symbols.cend(); itScope++)
-        for (auto itSymb = (*itScope).cbegin(); itSymb != (*itScope).cend(); itSymb++)
-            if ((*itSymb)->getName() == name)
-                return new Symbol(*(*itSymb));
+    // Escopo local
+    for (auto itSymb = this->symbols.back().cbegin(); itSymb != this->symbols.back().cend(); itSymb++)
+        if ((*itSymb)->getName() == name)
+            return new Symbol(*(*itSymb));
+
+    // Escopo global
+    for (auto itSymb = this->symbols[0].cbegin(); itSymb != this->symbols[0].cend(); itSymb++)
+        if ((*itSymb)->getName() == name)
+            return new Symbol(*(*itSymb));
+
     return nullptr;
 }
 

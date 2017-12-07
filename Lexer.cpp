@@ -14,6 +14,14 @@ bool inline isSymbol(char c)
     return c == ':' || c == '+' || c == '-'  || c == '*' || c == '=' || c == '>' || c == '<' || c == '(' || c == ')' || c == '.' || c == ',' || c == ';';
 }
 
+inline bool isAlphaNumString (const std::string &str)
+{
+    for (int i = 0; i < (int)str.size(); i++)
+        if (!isalnum(str[i]))
+            return false;
+    return true;
+}
+
 Lexer::Lexer(string fileName) throw (string)
 {
     ifstream file(fileName);
@@ -41,7 +49,7 @@ Lexer::Lexer(string fileName) throw (string)
             this -> tokens.push_back(newToken);
             word.clear();
         }
-        else if (last.getType() != TokenType::IDENTIFIER && last.getType() != TokenType::NUMBER && !isalnum(c) && !word.empty())
+        else if (isAlphaNumString(word) && !isalnum(c) && !word.empty())
         {
             Token newToken(word, line);
             last = newToken;
@@ -73,7 +81,7 @@ Lexer::Lexer(string fileName) throw (string)
                 }
             }
         }
-        else if ((last.getType() == TokenType::IDENTIFIER || last.getType() == TokenType::NUMBER) && isalnum(c) && !word.empty())
+        else if (!isAlphaNumString(word) && isalnum(c) && !word.empty())
         {
             Token newToken(word, line);
             last = newToken;

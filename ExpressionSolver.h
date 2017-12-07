@@ -53,6 +53,9 @@ class ExpressionSolver {
         static ExpressionTokenType singleOperation(const ExpressionTokenType&,
                                                    const ExpressionTokenType&,
                                                    const ExpressionTokenType&) throw (runtime_error);
+
+        static ExpressionTokenType singleOperation(const ExpressionTokenType&,
+                                                   const ExpressionTokenType&) throw (runtime_error);
     public:
         static VariableType evaluate(const vector<ExpressionTokenType>&) throw (runtime_error);
 };

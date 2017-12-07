@@ -18,6 +18,13 @@ int main()
     string nomeArq;
     cin >> nomeArq;
 
+    /*
+    Lexer lex (nomeArq);
+    while (lex.hasMoreTokens())
+        cout << lex.currentToken().getLine() << ": " << TokenTypeNames[(int)lex.currentToken().getType()] << " - " <<  lex.nextToken().getToken() << endl;
+    */
+
+
     try {
         Parser p(nomeArq);
         p.compile();

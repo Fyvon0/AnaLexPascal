@@ -8,11 +8,11 @@ using namespace std;
 
 vector<string> Token::symbols = {"program","var","begin","end",
                                  "if","then", "else", "while","do","repeat","until",
-                                 "integer","boolean",":",":=","+","-","*","div",
-                                 "mod","procedure","function","=",
+                                 "integer","boolean",":",":=","+","-","*","/",
+                                 "%","procedure","function","=",
                                  "<>",">","<",">=","<=","not","or",
                                  "and","xor","(",")",".",
-                                 ",",";","writeln","readln","true","false"};
+                                 ",",";","write","read","true","false"};
 
 static bool isInteger (const string & s)
 {
@@ -25,7 +25,7 @@ static bool isInteger (const string & s)
     return (*p == 0);
 }
 
-bool isAlphaNumString (const std::string &str)
+inline bool isAlphaNumString (const std::string &str)
 {
     for (int i = 0; i < (int)str.size(); i++)
         if (!isalnum(str[i]))
