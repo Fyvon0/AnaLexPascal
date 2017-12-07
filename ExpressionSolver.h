@@ -25,7 +25,9 @@ enum class ExpressionTokenType {
     OR,
 
     LEFT_PARENTHESIS,
-    RIGHT_PARENTHESIS
+    RIGHT_PARENTHESIS,
+
+    UNDEFINED
 };
 
 class ExpressionSolver {

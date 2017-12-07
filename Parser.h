@@ -14,7 +14,8 @@ private:
     Lexer lex;
     SymbolTable st;
 
-    ExpressionTokenType toExpressionTokenType(const Token&) throw (string);
+    ExpressionTokenType toExpressionTokenType(const Token&) throw ();
+    ExpressionTokenType toExpressionTokenType(const VariableType&) throw ();
 
     void throwExpected(TokenType, int, TokenType) throw (string);
     void throwUndeclared(string, int) throw (string);

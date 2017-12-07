@@ -21,7 +21,7 @@ std::string to_string(T value)
 }
 
 // ewww
-ExpressionTokenType Parser::toExpressionTokenType(const Token& t) throw (string) {
+ExpressionTokenType Parser::toExpressionTokenType(const Token& t) throw () {
     if (t.getType() == TokenType::LEFT_PARENTHESIS)
         return ExpressionTokenType::LEFT_PARENTHESIS;
     if (t.getType() == TokenType::RIGHT_PARENTHESIS)
@@ -42,7 +42,7 @@ ExpressionTokenType Parser::toExpressionTokenType(const Token& t) throw (string)
         if (s->getReturnType() == VariableType::BOOLEAN)
             return ExpressionTokenType::BOOLEAN;
 
-        throwIncompatibleType(t.getLine());
+        return ExpressionTokenType::UNDEFINED;
     }
 
     if (t.getType() == TokenType::MULTIPLICATION)
@@ -69,7 +69,14 @@ ExpressionTokenType Parser::toExpressionTokenType(const Token& t) throw (string)
     if (t.getType() == TokenType::BIGGER)
         return ExpressionTokenType::BIGGER;
 
-    throwIncompatibleType(t.getLine());
+    return ExpressionTokenType::UNDEFINED;
+}
+
+ExpressionTokenType Parser::toExpressionTokenType(const VariableType& v) throw() {
+    if (v == VariableType::INTEGER) return ExpressionTokenType::INTEGER;
+    if (v == VariableType::BOOLEAN) return ExpressionTokenType::BOOLEAN;
+
+    return ExpressionTokenType::UNDEFINED;
 }
 
 void Parser::throwExpected(TokenType expected, int line, TokenType found) throw (string) {
@@ -100,12 +107,11 @@ void Parser::compile() throw (string) {
     {
         if (t.getType() == TokenType::VARIABLE)
             this->compileVariableDeclaration();
-        if (t.getType() == TokenType::PROCEDURE)
+        else if (t.getType() == TokenType::PROCEDURE)
             this->compileProcedureDeclaration();
-        if (t.getType() == TokenType::FUNCTION)
+        else if (t.getType() == TokenType::FUNCTION)
             this->compileFunctionDeclaration();
-
-        if (t.getType() == TokenType::BEGIN) {
+        else if (t.getType() == TokenType::BEGIN) {
             this->compileCompoundCommand();
             t = this->lex.nextToken();
 
@@ -501,7 +507,7 @@ VariableType Parser::compileFuncCall () throw (string) {
     next = this->lex.nextToken();
     if (next.getType() == TokenType::LEFT_PARENTHESIS)
     {
-        vector<Symbol> params = *func->getParams();
+        vector<Symbol> params = *(func->getParams());
 
         // TODO: Refazer isso aqui
         for (auto i = params.cbegin(); i != params.cend(); i++) {
@@ -509,7 +515,7 @@ VariableType Parser::compileFuncCall () throw (string) {
                 throwIncompatibleType(next.getLine());
 
             next = this->lex.nextToken();
-            if (next.getType() != TokenType::COMMA) // TODO: Virgula no final mas fodase
+            if (next.getType() != TokenType::COMMA && next.getType() != TokenType::RIGHT_PARENTHESIS) // TODO: Virgula no final mas fodase
                 throwExpected(TokenType::COMMA, next.getLine(), next.getType());
         }
 
@@ -545,26 +551,34 @@ void Parser::compileAttr() throw (string) {
         throwIncompatibleType(next.getLine());
 }
 
+// Ta nojento isso aq
 VariableType Parser::compileTypedSymbol() throw (string) {
-    Token next(this->lex.nextToken());
-    if (next.getType() == TokenType::TRUE || next.getType() == TokenType::FALSE)
-        return VariableType::BOOLEAN;
-    if (next.getType() == TokenType::INTEGER)
-        return VariableType::INTEGER;
+    vector <ExpressionTokenType> expTokens;
+    Token next = this->lex.nextToken();
+    while (toExpressionTokenType(next) != ExpressionTokenType::UNDEFINED)
+    {
+        if (next.getType() != TokenType::IDENTIFIER)
+            expTokens.push_back(toExpressionTokenType(next));
+        else {
+            Symbol* s = this->st.getSymbol(next.getToken());
+            if (s == nullptr)
+                throwUndeclared(next.getToken(), next.getLine());
+            if (s->getType() == SymbolType::FUNCTION) {
+                this->lex.ungetToken();
+                this->compileFuncCall();
+            }
 
-    if (next.getType() != TokenType::IDENTIFIER)
-        throwExpected(TokenType::IDENTIFIER, next.getLine(), next.getType());
+            ExpressionTokenType funcType = toExpressionTokenType(s->getReturnType());
+            if (funcType == ExpressionTokenType::UNDEFINED)
+                throwIncompatibleType(next.getLine());
+            expTokens.push_back(funcType);
+        }
 
-    Symbol* s = this->st.getSymbol(next.getToken());
-    if (s == nullptr)
-        throwUndeclared(next.getToken(), next.getLine());
-
-    if (s->getType() == SymbolType::FUNCTION) {
-        this->lex.ungetToken();
-        this->compileFuncCall();
+        next = this->lex.nextToken();
     }
+    this->lex.ungetToken();
 
-    return s->getReturnType();
+    return ExpressionSolver::evaluate(expTokens);
 }
 
 void Parser::compileIf() throw (string) {
@@ -572,7 +586,8 @@ void Parser::compileIf() throw (string) {
     if (next.getType() != TokenType::IF)
         throwWtf();
 
-    // this->compileRelationalExpression();
+    if (this->compileTypedSymbol() != VariableType::BOOLEAN)
+            throwIncompatibleType(next.getLine());
 
     next = this->lex.nextToken();
     if (next.getType() != TokenType::THEN)
@@ -590,7 +605,8 @@ void Parser::compileIf() throw (string) {
 void Parser::compileWhile() throw (string) {
     Token next(this->lex.nextToken());
     if (next.getType() == TokenType::WHILE) {
-        //this->compileRelationalExpression();
+        if (this->compileTypedSymbol() != VariableType::BOOLEAN)
+            throwIncompatibleType(next.getLine());
 
         next = this->lex.nextToken();
         if (next.getType() != TokenType::DO)
@@ -604,7 +620,9 @@ void Parser::compileWhile() throw (string) {
         next = this->lex.nextToken();
         if (next.getType() != TokenType::UNTIL)
             throwExpected(TokenType::UNTIL, next.getLine(), next.getType());
-        //this->compileRelationalExpression();
+
+        if (this->compileTypedSymbol() != VariableType::BOOLEAN)
+            throwIncompatibleType(next.getLine());
 
         next = this->lex.nextToken();
         if (next.getType() != TokenType::SEMICOLON)

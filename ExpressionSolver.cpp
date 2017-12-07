@@ -53,6 +53,7 @@ char ExpressionSolver::getPrecedence(const ExpressionTokenType& a, const Express
     return bp - ap;
 }
 
+// TODO: Falta operador unário
 vector<ExpressionTokenType> ExpressionSolver::getPostfix(const vector<ExpressionTokenType>& infix) throw () {
     stack<ExpressionTokenType> s;
     vector<ExpressionTokenType> postfix;
@@ -71,11 +72,13 @@ vector<ExpressionTokenType> ExpressionSolver::getPostfix(const vector<Expression
             }
         }
         else { // Is operator
-            ExpressionTokenType t = s.top();
-            while (getPrecedence(t, *it) >= 0) {
-                postfix.push_back(t);
-                s.pop();
-                t = s.top();
+            if (!s.empty()) {
+                ExpressionTokenType t = s.top();
+                while (getPrecedence(t, *it) >= 0) {
+                    postfix.push_back(t);
+                    s.pop();
+                    t = s.top();
+                }
             }
             s.push(*it);
         }
@@ -98,7 +101,7 @@ bool ExpressionSolver::isBalanced(const vector<ExpressionTokenType>& infix) thro
         if (*it == ExpressionTokenType::LEFT_PARENTHESIS)
             s.push(ExpressionTokenType::LEFT_PARENTHESIS);
         else if (*it == ExpressionTokenType::RIGHT_PARENTHESIS) {
-            if (s.top() != ExpressionTokenType::LEFT_PARENTHESIS)
+            if (s.empty() || s.top() != ExpressionTokenType::LEFT_PARENTHESIS)
                 return false;
             s.pop();
         }

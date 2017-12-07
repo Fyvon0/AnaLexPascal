@@ -79,8 +79,7 @@ vector<Symbol>* Symbol::getParams() const throw() {
     if (this->params == nullptr)
         return nullptr;
 
-    vector<Symbol> v(*this->params);
-    return &v;
+    return new vector<Symbol>(*(this->params));
 }
 
 bool Symbol::operator!=(const Symbol& other) const throw () {
